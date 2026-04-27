@@ -8539,7 +8539,7 @@ window.submitNewsletter = async function() {
 
     // Rate limiting — max 3 attempts per hour
     if (!nlCheckRateLimit()) {
-        errorEl.textContent = '⚠ Too many attempts. Please try again later.';
+        errorEl.textContent = '⚠ Rate limit hit. Open browser console and run: localStorage.removeItem(\'rdt_nl_attempts\')';
         errorEl.style.display = 'block';
         return;
     }
@@ -8569,7 +8569,7 @@ window.submitNewsletter = async function() {
     } catch(e) {
         submitEl.disabled = false;
         submitEl.textContent = 'SUBSCRIBE →';
-        errorEl.textContent = '⚠ Something went wrong. Please try again.';
+        errorEl.textContent = '⚠ ' + (e.message || 'Something went wrong. Please try again.');
         errorEl.style.display = 'block';
     }
 };
