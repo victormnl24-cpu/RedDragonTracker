@@ -246,7 +246,7 @@
         #chat-toggle { top: 50% !important; transform: translateY(-50%) !important; }
 
         #panel {
-            position: fixed; top: 88px; right: 88px; width: 360px; height: calc(100vh - 88px);
+            position: fixed; top: 102px; right: 88px; width: 360px; height: calc(100vh - 102px);
             background: rgba(4,4,8,0.97);
             border-left: 1px solid rgba(180,0,0,0.3);
             border-right: 1px solid rgba(180,0,0,0.08);
@@ -314,19 +314,18 @@
         /* Live ticker tape bar (below header, always visible) */
         #market-ticker-bar {
             position: fixed; top: 56px; left: 0; right: 0; z-index: 95;
-            height: 32px; overflow: hidden;
-            background: rgba(0,0,0,0.88);
+            height: 46px; overflow: hidden;
+            background: rgba(0,0,0,0.92);
             border-bottom: 1px solid rgba(180,0,0,0.18);
             backdrop-filter: blur(6px);
         }
         #market-ticker-bar iframe {
-            transform: scale(0.82);
-            transform-origin: 0 0;
-            width: calc(100% / 0.82) !important;
-            height: calc(32px / 0.82) !important;
+            width: 100% !important;
+            height: 46px !important;
+            transform: none;
         }
         #market-ticker-bar .tradingview-widget-container,
-        #market-ticker-bar .tradingview-widget-container__widget { height: 32px !important; }
+        #market-ticker-bar .tradingview-widget-container__widget { height: 46px !important; }
 
         /* TradingView panel widget containers */
         .tv-chart-wrap {
@@ -497,7 +496,7 @@
 
         /* ── Chat panel (left side) ────────────────────── */
         #chat-panel {
-            position: fixed; top: 88px; left: 0; width: 290px; height: calc(100vh - 88px);
+            position: fixed; top: 102px; left: 0; width: 290px; height: calc(100vh - 102px);
             background: rgba(4,4,8,0.97); border-right: 1px solid rgba(180,0,0,0.2);
             transform: translateX(-110%);
             opacity: 0; visibility: hidden;
@@ -690,7 +689,7 @@
 
         /* ── Left intelligence panel ─────────────────────── */
         #intel-panel {
-            position: fixed; left: 16px; top: 100px; z-index: 60;
+            position: fixed; left: 16px; top: 114px; z-index: 60;
             width: 240px;
             pointer-events: none;
         }
@@ -972,6 +971,53 @@
             .dock-label { font-size: 6px; letter-spacing: 0.5px; }
             .kpi-value { font-size: 14px; }
         }
+
+        /* ── Mini news ticker (bottom-right) ─────────────── */
+        #news-mini-bar {
+            position: fixed; bottom: 26px; right: 96px; z-index: 55;
+            width: 260px;
+            background: rgba(4,4,8,0.88);
+            border: 1px solid rgba(180,0,0,0.25);
+            border-left: 2px solid #CC0000;
+            backdrop-filter: blur(10px);
+            padding: 10px 12px 8px;
+        }
+        #news-mini-hdr {
+            display: flex; align-items: center; gap: 6px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 2px; color: #CC0000;
+            text-transform: uppercase; margin-bottom: 8px;
+        }
+        .news-mini-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: #CC0000; flex-shrink: 0;
+            animation: blink 1.5s step-end infinite;
+        }
+        .news-mini-item {
+            display: flex; gap: 8px; align-items: baseline;
+            padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+            cursor: pointer;
+        }
+        .news-mini-item:last-of-type { border-bottom: none; }
+        .news-mini-time {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; color: #CC0000; flex-shrink: 0; min-width: 28px;
+        }
+        .news-mini-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; color: #bbb; line-height: 1.4;
+            transition: color 0.15s;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .news-mini-item:hover .news-mini-title { color: #fff; }
+        #news-mini-more {
+            margin-top: 7px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; color: #CC0000; letter-spacing: 1px;
+            cursor: pointer; text-align: right; transition: color 0.15s;
+        }
+        #news-mini-more:hover { color: #FF4444; }
+        @media (max-width: 640px) { #news-mini-bar { display: none; } }
     </style>
 </head>
 <body>
@@ -996,7 +1042,10 @@
                 <span id="tension-score">0.0</span>
             </div>
             <div id="tension-bar-track"><div id="tension-bar-fill"></div></div>
-            <div id="tension-status">NOMINAL</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-top:3px">
+                <div id="tension-status">NOMINAL</div>
+                <canvas id="tension-spark" width="60" height="16" style="opacity:0.7"></canvas>
+            </div>
         </div>
         <div class="hdr-stat">
             <span class="hdr-stat-label">System</span>
@@ -1062,7 +1111,7 @@
 </div>
 
 <!-- Alert banner -->
-<div id="tension-alert" style="display:none;position:fixed;top:88px;left:0;right:88px;z-index:98;
+<div id="tension-alert" style="display:none;position:fixed;top:102px;left:0;right:88px;z-index:98;
     background:rgba(180,0,0,0.92);border-bottom:2px solid #FF2222;padding:7px 20px;
     display:none;align-items:center;gap:12px;backdrop-filter:blur(8px);">
     <span style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#fff;letter-spacing:3px;">! TENSION ALERT</span>
@@ -1168,6 +1217,15 @@
     <button id="all-btn" title="Show all layers at once">
         <span class="dot"></span>ALL
     </button>
+</div>
+
+<!-- Mini news ticker — bottom right, always visible -->
+<div id="news-mini-bar">
+    <div id="news-mini-hdr">
+        <span class="news-mini-dot"></span>LATEST INTEL
+    </div>
+    <div id="news-mini-list"></div>
+    <div id="news-mini-more" onclick="document.getElementById('news-btn').click()">VIEW ALL NEWS &rsaquo;</div>
 </div>
 
 <div id="status-bar">
@@ -1709,6 +1767,31 @@ function loadProvinces(urls) {
         })
         .catch(e => { clearTimeout(timer); return rest.length ? loadProvinces(rest) : Promise.reject(e); });
 }
+// GDP heatmap: rank → { color hex, opacity }
+function provHeatColor(rank) {
+    if (!rank)         return { color: 0x8844CC, opacity: 0.22 }; // disputed/SAR → purple
+    if (rank <= 3)     return { color: 0xFF8800, opacity: 0.40 };
+    if (rank <= 7)     return { color: 0xDD3300, opacity: 0.33 };
+    if (rank <= 15)    return { color: 0xAA1800, opacity: 0.26 };
+    if (rank <= 24)    return { color: 0x771000, opacity: 0.19 };
+    return             { color: 0x440800, opacity: 0.13 };
+}
+
+// Fan-triangulate a lon/lat ring onto the sphere surface
+function addProvFill(coords, hexColor, opacity) {
+    if (coords.length < 3) return;
+    const pts = coords.map(([lon, lat]) => ll2v(lat, lon, 1.001));
+    const pos = [];
+    for (let i = 1; i < pts.length - 1; i++) {
+        pos.push(...pts[0].toArray(), ...pts[i].toArray(), ...pts[i + 1].toArray());
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    provincesGroup.add(new THREE.Mesh(geo,
+        new THREE.MeshBasicMaterial({ color: hexColor, transparent: true, opacity, side: THREE.DoubleSide, depthWrite: false })
+    ));
+}
+
 loadProvinces(PROVINCE_URLS)
     .then(geo => {
         provinceFeatures = geo.features || [];
@@ -1716,6 +1799,13 @@ loadProvinces(PROVINCE_URLS)
             const name = f.properties?.name || '';
             const enName = PROV_EN[name] || name;
             const g = f.geometry;
+            const pData = PROV_DATA[name];
+            const { color: hColor, opacity: hOpacity } = provHeatColor(pData?.rank ?? null);
+
+            // GDP fill meshes
+            function addFill(coords) { addProvFill(coords, hColor, hOpacity); }
+            if (g.type === 'Polygon') g.coordinates.forEach(addFill);
+            else if (g.type === 'MultiPolygon') g.coordinates.forEach(p => p.forEach(addFill));
 
             // Draw border lines
             function addProvBorder(coords) {
@@ -1839,6 +1929,52 @@ BRI.forEach(route => {
         dot.position.copy(ll2v(lat, lon, 1.018));
         briGroup.add(dot);
     });
+});
+
+// ── Export Shipping Lanes (always-on) ─────────────────────────────────
+// Major China export sea lanes — animated cyan dots, independent of BRI toggle
+const SHIP_LANES = [
+    // China → Europe via Suez
+    [[31.2,121.5],[1.35,103.8],[5.5,80.0],[12.6,43.9],[31.1,32.3],[36.8,10.2],[51.5,-0.1]],
+    // China → US West Coast
+    [[31.2,121.5],[22.3,114.2],[-8.0,-80.0],[33.7,-118.2]],
+    // China → Middle East / Persian Gulf
+    [[22.3,114.2],[1.35,103.8],[23.6,58.5],[26.2,50.6]],
+    // China → East Africa
+    [[22.3,114.2],[1.35,103.8],[-4.0,39.7],[-25.9,32.6]],
+    // China → South Korea / Japan (short hop)
+    [[31.2,121.5],[35.1,129.0],[35.4,139.6]],
+];
+const shippingGroup = new THREE.Group();
+globeGroup.add(shippingGroup);
+const shipParticles = [];
+
+function makeShipDot() {
+    const S = 32, cv = document.createElement('canvas');
+    cv.width = cv.height = S;
+    const ctx = cv.getContext('2d');
+    const g2 = ctx.createRadialGradient(S/2,S/2,0,S/2,S/2,S/2);
+    g2.addColorStop(0,   'rgba(255,255,255,1)');
+    g2.addColorStop(0.2, 'rgba(80,220,255,1)');
+    g2.addColorStop(0.55,'rgba(0,160,200,0.5)');
+    g2.addColorStop(1,   'rgba(0,100,160,0)');
+    ctx.fillStyle = g2;
+    ctx.fillRect(0,0,S,S);
+    return new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(cv), depthTest: false, transparent: true, blending: THREE.AdditiveBlending });
+}
+
+SHIP_LANES.forEach(wps => {
+    for (let seg = 0; seg < wps.length - 1; seg++) {
+        const pts = greatArc(wps[seg][0], wps[seg][1], wps[seg+1][0], wps[seg+1][1], 1.014, 120);
+        const pathObj = { pts, speed: 0.00035 };
+        // 3 particles per segment, staggered
+        for (let p = 0; p < 3; p++) {
+            const sp = new THREE.Sprite(makeShipDot());
+            sp.scale.setScalar(0.028);
+            shippingGroup.add(sp);
+            shipParticles.push({ sprite: sp, path: pathObj, t: p / 3 });
+        }
+    }
 });
 
 // ── Military Bases (OSINT) ──────────────────────────────────────────────
@@ -3356,6 +3492,26 @@ function renderIntelPanel() {
     }).join('');
 }
 
+// ── Mini news ticker ─────────────────────────────────────────────────
+let miniTickerOffset = 0;
+function renderMiniTicker() {
+    const list = document.getElementById('news-mini-list');
+    if (!list || !newsCache.length) return;
+    const items = newsCache.slice(miniTickerOffset, miniTickerOffset + 4);
+    list.innerHTML = items.map(a =>
+        `<div class="news-mini-item" onclick="window.open(${JSON.stringify(a.link)},'_blank')">
+            <span class="news-mini-time">${newsTimeAgo(a.date)}</span>
+            <span class="news-mini-title">${a.title}</span>
+        </div>`
+    ).join('');
+}
+// Cycle every 8 seconds
+setInterval(() => {
+    if (!newsCache.length) return;
+    miniTickerOffset = (miniTickerOffset + 4) % Math.max(newsCache.length, 1);
+    renderMiniTicker();
+}, 8000);
+
 // ── VIEW ALL button ────────────────────────────────────────────────────
 const allBtn = document.getElementById('all-btn');
 let allLayersActive = false;
@@ -3997,6 +4153,15 @@ function animate() {
         });
     }
 
+    // ── Animate shipping particles (always on) ──────────
+    shipParticles.forEach(p => {
+        p.t = (p.t + p.path.speed) % 1;
+        const raw = p.t * (p.path.pts.length - 1);
+        const i0 = Math.floor(raw), i1 = Math.min(i0 + 1, p.path.pts.length - 1);
+        p.sprite.position.lerpVectors(p.path.pts[i0], p.path.pts[i1], raw - i0);
+        p.sprite.material.opacity = Math.min(p.t * 8, (1 - p.t) * 8, 1) * 0.65;
+    });
+
     starsMat.opacity = 0.32 + Math.sin(time * 2) * 0.08;
     controls.update();
     renderer.render(scene, camera);
@@ -4019,6 +4184,30 @@ window.addEventListener('keydown', e => {
     if (e.code === 'KeyR') controls.reset();
 });
 
+// ── Swipe gestures (mobile panel cycling) ─────────────────────────────
+const PANEL_ORDER = ['routes','military','aircraft','economy','stock','leaders','ports','cables','beidou'];
+let swipeTouchX = 0, swipeTouchY = 0;
+document.addEventListener('touchstart', e => {
+    swipeTouchX = e.touches[0].clientX;
+    swipeTouchY = e.touches[0].clientY;
+}, { passive: true });
+document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - swipeTouchX;
+    const dy = e.changedTouches[0].clientY - swipeTouchY;
+    // Only fire on clear horizontal swipes (> 55px, 2x more horizontal than vertical)
+    if (Math.abs(dx) < 55 || Math.abs(dx) < Math.abs(dy) * 2) return;
+    const cur = PANEL_ORDER.indexOf(activePanel);
+    if (dx < 0) {
+        // Swipe left → next panel
+        const next = cur < 0 ? 0 : (cur + 1) % PANEL_ORDER.length;
+        openPanel(PANEL_ORDER[next]);
+    } else {
+        // Swipe right → prev panel / close
+        if (cur <= 0) closePanel();
+        else openPanel(PANEL_ORDER[cur - 1]);
+    }
+}, { passive: true });
+
 // ── Live China News Feed ────────────────────────────────────────────────
 const NEWS_FEEDS = [
     { name: 'BBC',      url: 'https://feeds.bbci.co.uk/news/world/asia/china/rss.xml',    color: '#CC1111', chinaOnly: true  },
@@ -4030,6 +4219,7 @@ const NEWS_FEEDS = [
 
 let newsCache  = [];
 let newsLastFetch = 0;
+const tensionHistory = [];
 
 async function fetchChineseNews(force = false) {
     const now = Date.now();
@@ -4065,6 +4255,7 @@ async function fetchChineseNews(force = false) {
     newsLastFetch = Date.now();
     updateTensionMeter(articles);
     renderIntelPanel();
+    renderMiniTicker();
     return articles;
 }
 
@@ -4178,6 +4369,33 @@ function updateTensionMeter(articles) {
     fillEl.style.boxShadow  = `0 0 8px ${col}`;
     statusEl.textContent    = label;
     statusEl.style.color    = col;
+
+    // ── Sparkline history ──────────────────────────────
+    tensionHistory.push(score);
+    if (tensionHistory.length > 24) tensionHistory.shift();
+    const spark = document.getElementById('tension-spark');
+    if (spark) {
+        const ctx = spark.getContext('2d');
+        const W = spark.width, H = spark.height;
+        ctx.clearRect(0, 0, W, H);
+        if (tensionHistory.length > 1) {
+            const min = 0, max = 10;
+            ctx.beginPath();
+            tensionHistory.forEach((v, i) => {
+                const x = (i / (tensionHistory.length - 1)) * W;
+                const y = H - ((v - min) / (max - min)) * H;
+                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            });
+            ctx.strokeStyle = col;
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+            // Fill under line
+            ctx.lineTo(W, H); ctx.lineTo(0, H);
+            ctx.closePath();
+            ctx.fillStyle = col.replace(')', ',0.15)').replace('rgb', 'rgba');
+            ctx.fill();
+        }
+    }
 
     // Alert threshold check (default 6.0)
     const ALERT_THRESHOLD = 6.0;
