@@ -994,7 +994,6 @@
 
 <!-- Chat toggle tab -->
 <button id="chat-toggle" title="Open / Close Chat">
-    <span class="chat-icon">💬</span>
     CHAT
     <span id="chat-unread"></span>
 </button>
@@ -1566,8 +1565,24 @@ function polyCenter(coords) {
 
 let provinceFeatures = [];  // stored for click detection
 
-fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json')
-    .then(r => r.json())
+// Province data: try primary CDN (fast in China), fall back to jsDelivr mirror
+const PROVINCE_URLS = [
+    'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
+    'https://cdn.jsdelivr.net/gh/echarts-maps/echarts-china-provinces-js@master/china-provinces.json'
+];
+function loadProvinces(urls) {
+    const [url, ...rest] = urls;
+    return fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(8000) : undefined })
+        .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+        .then(geo => {
+            // Normalize: echarts-china uses different GeoJSON structure, aliyun uses standard features array
+            if (geo.features) return geo;
+            if (geo.type === 'FeatureCollection') return geo;
+            throw new Error('Unexpected format');
+        })
+        .catch(e => rest.length ? loadProvinces(rest) : Promise.reject(e));
+}
+loadProvinces(PROVINCE_URLS)
     .then(geo => {
         provinceFeatures = geo.features || [];
         provinceFeatures.forEach(f => {
@@ -1615,7 +1630,7 @@ fetch('https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json')
             provincesGroup.add(sprite);
         });
     })
-    .catch(() => console.warn('Province load failed'));
+    .catch(e => console.warn('Province load failed (all sources):', e));
 
 // ── BRI Routes ─────────────────────────────────────────────────────────
 const BRI = [
@@ -2514,10 +2529,15 @@ function buildAllyHTML(d, liveLeader) {
     return `
         <!-- Leader -->
         <div style="display:flex;gap:14px;align-items:flex-start;padding-bottom:14px;border-bottom:1px solid rgba(204,68,255,0.15);margin-bottom:14px">
-            ${leaderPhoto
-                ? `<img id="ally-leader-img" src="${leaderPhoto}" alt="${leaderName}" style="width:70px;height:82px;object-fit:cover;object-position:center top;border:2px solid rgba(204,68,255,0.6);flex-shrink:0;filter:sepia(0.1) contrast(1.05)" onerror="this.style.display='none'">`
-                : `<div id="ally-leader-img" style="width:70px;height:82px;background:rgba(204,68,255,0.1);border:2px solid rgba(204,68,255,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:26px">${d.flag}</div>`
-            }
+            <div id="ally-leader-img" style="width:70px;height:82px;flex-shrink:0;position:relative;">
+                ${leaderPhoto
+                    ? `<img src="${leaderPhoto}" alt="${leaderName}" referrerpolicy="no-referrer" crossorigin="anonymous"
+                           style="width:70px;height:82px;object-fit:cover;object-position:center top;border:2px solid rgba(204,68,255,0.6);display:block;filter:sepia(0.1) contrast(1.05);position:absolute;top:0;left:0;"
+                           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+                    : ''
+                }
+                <div style="width:70px;height:82px;background:rgba(204,68,255,0.1);border:2px solid rgba(204,68,255,0.3);display:${leaderPhoto ? 'none' : 'flex'};align-items:center;justify-content:center;font-size:26px;position:absolute;top:0;left:0;">${d.flag}</div>
+            </div>
             <div style="flex:1;padding-top:4px">
                 <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:2px" id="ally-leader-name">${leaderName}${liveTag}</div>
                 <div style="font-size:11px;color:#CC44FF;margin-bottom:6px;letter-spacing:0.5px" id="ally-leader-title">${leaderTitle}</div>
@@ -2602,9 +2622,19 @@ function openAllyPanel(d) {
             }
             // Only update if this panel is still the active one
             if (activePanel !== 'ally_' + d.name) return;
-            const img = document.getElementById('ally-leader-img');
-            if (img && live.photo && img.tagName === 'IMG') {
-                img.src = live.photo;
+            const wrap = document.getElementById('ally-leader-img');
+            if (wrap && live.photo) {
+                const existing = wrap.querySelector('img');
+                if (existing) {
+                    existing.src = live.photo;
+                } else {
+                    const newImg = document.createElement('img');
+                    newImg.src = live.photo;
+                    newImg.setAttribute('referrerpolicy','no-referrer');
+                    newImg.style.cssText = 'width:70px;height:82px;object-fit:cover;object-position:center top;border:2px solid rgba(204,68,255,0.6);display:block;filter:sepia(0.1) contrast(1.05);position:absolute;top:0;left:0;';
+                    newImg.onerror = function() { this.style.display='none'; };
+                    wrap.insertBefore(newImg, wrap.firstChild);
+                }
             }
             const bioEl = document.getElementById('ally-leader-bio');
             if (bioEl && live.bio) {
