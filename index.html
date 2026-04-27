@@ -2037,6 +2037,23 @@
 </div>
 </div>
 
+<!-- DEBUG: catch any JS error and show it on-screen so we can see it without DevTools -->
+<script>
+window.addEventListener('error', function(e) {
+    var d = document.getElementById('_debug_err');
+    if (!d) { d = document.createElement('div'); d.id = '_debug_err';
+        d.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#f00;color:#fff;font:13px monospace;padding:8px;white-space:pre-wrap;max-height:40vh;overflow:auto;';
+        document.body.appendChild(d); }
+    d.textContent += (e.filename||'') + ':' + e.lineno + ' — ' + e.message + '\n';
+});
+window.addEventListener('unhandledrejection', function(e) {
+    var d = document.getElementById('_debug_err');
+    if (!d) { d = document.createElement('div'); d.id = '_debug_err';
+        d.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:99999;background:#a00;color:#fff;font:13px monospace;padding:8px;white-space:pre-wrap;max-height:40vh;overflow:auto;';
+        document.body.appendChild(d); }
+    d.textContent += 'PROMISE: ' + (e.reason?.stack || e.reason) + '\n';
+});
+</script>
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
