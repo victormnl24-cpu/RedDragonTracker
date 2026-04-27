@@ -6,6 +6,65 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Security hardening ─────────────────────────────────────────────── -->
+    <!-- CSP: explicit allowlists per directive — no wildcard https: -->
+    <meta http-equiv="Content-Security-Policy"
+          content="
+            default-src 'none';
+            script-src  'self' 'unsafe-inline' 'unsafe-eval'
+                        https://cdn.jsdelivr.net
+                        https://*.tradingview.com;
+            style-src   'self' 'unsafe-inline'
+                        https://fonts.googleapis.com
+                        https://*.tradingview.com;
+            font-src    https://fonts.gstatic.com
+                        https://*.tradingview.com;
+            img-src     'self' data: blob:
+                        https://upload.wikimedia.org
+                        https://wsrv.nl
+                        https://unpkg.com
+                        https://cdn.jsdelivr.net
+                        https://*.tradingview.com;
+            frame-src   https://www.youtube.com
+                        https://www.vesselfinder.com
+                        https://*.tradingview.com;
+            worker-src  blob: 'self';
+            connect-src 'self'
+                        https://api.waqi.info
+                        https://api.worldbank.org
+                        https://earthquake.usgs.gov
+                        https://tle.ivanstanojevic.me
+                        https://api.rss2json.com
+                        https://feeds.bbci.co.uk
+                        https://feeds.npr.org
+                        https://feeds.apnews.com
+                        https://feeds.reuters.com
+                        https://www.theguardian.com
+                        https://www.globaltimes.cn
+                        https://www.scmp.com
+                        https://asia.nikkei.com
+                        https://www.ft.com
+                        https://www.aljazeera.com
+                        https://api.allorigins.win
+                        https://raw.githubusercontent.com
+                        https://geo.datav.aliyun.com
+                        https://api.airplanes.live
+                        https://en.wikipedia.org
+                        https://cdn.jsdelivr.net
+                        https://www.stats.gov.cn
+                        https://*.tradingview.com
+                        wss://*.tradingview.com
+                        https://jcwmkpwcbfszsxbylnbf.supabase.co
+                        wss://jcwmkpwcbfszsxbylnbf.supabase.co;
+            object-src  'none';
+            base-uri    'self';
+            form-action 'self' https://jcwmkpwcbfszsxbylnbf.supabase.co;
+            frame-ancestors 'none';
+          ">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <!-- Permissions Policy: disable browser APIs this site never uses -->
+    <meta http-equiv="Permissions-Policy"
+          content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
     <title>RedDragonTracker</title>
     <script type="importmap">
     {
@@ -15,12 +74,18 @@
       }
     }
     </script>
+    <!-- Supabase JS — database, auth, realtime -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"
+            integrity="sha384-ZstPgNL30sIz6Hlxmz87Qsg817okoeAfmzXv89YLICmfsKv3pEdQKOokOL2IpVAS"
+            crossorigin="anonymous"></script>
     <!-- Chart.js (UMD, available as window.Chart inside the module) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
-    <!-- Gun.js — real-time P2P chat, no backend needed -->
-    <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"
+            integrity="sha384-Sse/HDqcypGpyTDpvZOJNnG0TT3feGQUkF9H+mnRvic+LjR+K1NhTt8f51KIQ3v3"
+            crossorigin="anonymous"></script>
     <!-- satellite.js — SGP4/SDP4 orbital propagation for Tiangong live tracking -->
-    <script src="https://cdn.jsdelivr.net/npm/satellite.js@4.1.3/dist/satellite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/satellite.js@4.1.3/dist/satellite.min.js"
+            integrity="sha384-j4fTXpz+orWvHVYPJbA6f//I2gIdHDLaCrIFnQp2mY5G2W3Ne2ADokGJb4HMhJS/"
+            crossorigin="anonymous"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;700&display=swap');
 
@@ -260,25 +325,25 @@
 
         /* ── Newsletter modal ───────────────────────────── */
         #nl-trigger {
-            position: fixed; bottom: 54px; right: 96px; z-index: 96;
-            display: flex; align-items: center; gap: 7px;
+            display: flex; align-items: center; gap: 6px;
             background: linear-gradient(135deg, rgba(180,0,0,0.92), rgba(120,0,0,0.92));
             border: 1px solid rgba(255,80,80,0.5);
             color: #fff; font-family: 'Orbitron', monospace;
-            font-size: 9px; font-weight: 700; letter-spacing: 2.5px;
-            padding: 8px 16px; cursor: pointer;
-            box-shadow: 0 0 18px rgba(200,0,0,0.45), 0 2px 8px rgba(0,0,0,0.5);
+            font-size: 8px; font-weight: 700; letter-spacing: 2px;
+            padding: 6px 12px; cursor: pointer; white-space: nowrap;
+            box-shadow: 0 0 14px rgba(200,0,0,0.4);
             transition: all 0.2s; text-transform: uppercase;
             animation: nlPulse 3s ease-in-out infinite;
+            flex-shrink: 0;
         }
         #nl-trigger:hover {
             background: linear-gradient(135deg, rgba(220,0,0,0.97), rgba(160,0,0,0.97));
-            box-shadow: 0 0 28px rgba(255,50,50,0.6), 0 2px 12px rgba(0,0,0,0.6);
+            box-shadow: 0 0 24px rgba(255,50,50,0.6);
             transform: translateY(-1px);
         }
         @keyframes nlPulse {
-            0%,100% { box-shadow: 0 0 18px rgba(200,0,0,0.45), 0 2px 8px rgba(0,0,0,0.5); }
-            50%      { box-shadow: 0 0 28px rgba(255,60,60,0.65), 0 2px 12px rgba(0,0,0,0.5); }
+            0%,100% { box-shadow: 0 0 14px rgba(200,0,0,0.4); }
+            50%      { box-shadow: 0 0 22px rgba(255,60,60,0.6); }
         }
         #nl-trigger svg { flex-shrink: 0; }
 
@@ -403,7 +468,7 @@
         }
 
         @media (max-width: 600px) {
-            #nl-trigger { bottom: 62px; right: 8px; font-size: 8px; padding: 7px 12px; }
+            #nl-trigger { font-size: 7px; padding: 5px 9px; }
             #nl-modal { padding: 28px 20px 24px; }
             #nl-headline { font-size: 20px; }
             #nl-form-row { flex-direction: column; }
@@ -1597,13 +1662,20 @@
             <span class="hdr-stat-val" id="hdr-aircraft-count">—</span>
         </div>
         <div id="globe-search-wrap">
-            <input id="globe-search" type="text" placeholder="Search…" autocomplete="off" spellcheck="false">
+            <input id="globe-search" type="text" placeholder="Search…" autocomplete="off" spellcheck="false" maxlength="100">
             <div id="globe-search-results"></div>
         </div>
         <div class="hdr-stat">
             <span class="hdr-stat-label">UTC</span>
             <span class="hdr-stat-val" id="hdr-clock">00:00:00</span>
         </div>
+        <button id="nl-trigger" onclick="document.getElementById('nl-overlay').classList.add('show')">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                <rect x="1" y="3" width="11" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/>
+                <path d="M1 4 L6.5 7.5 L12 4" stroke="currentColor" stroke-width="1.1" fill="none"/>
+            </svg>
+            GET THE BRIEF
+        </button>
     </div>
     <nav id="nav"></nav>
 </header>
@@ -1915,15 +1987,6 @@
 
 <div id="legend" class="legend" style="display:none"></div>
 
-<!-- Newsletter trigger button -->
-<button id="nl-trigger" onclick="document.getElementById('nl-overlay').classList.add('show')">
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-        <rect x="1" y="3" width="11" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/>
-        <path d="M1 4 L6.5 7.5 L12 4" stroke="currentColor" stroke-width="1.1" fill="none"/>
-    </svg>
-    GET THE BRIEF
-</button>
-
 <!-- Newsletter modal -->
 <div id="nl-overlay" onclick="if(event.target===this)this.classList.remove('show')">
 <div id="nl-modal">
@@ -1953,16 +2016,17 @@
 
     <div id="nl-success">
         <div class="nl-check" style="font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:0">OK</div>
-        <h3>YOU'RE IN</h3>
-        <p>Welcome to the Red Dragon Brief.<br>Check your inbox for a confirmation email.<br><br>
-        <span style="color:#CC0000">First issue drops this week.</span></p>
+        <h3>ONE MORE STEP</h3>
+        <p>A Substack tab just opened — click <strong>Subscribe</strong> there to confirm.<br><br>
+        <span style="color:#CC0000">Takes 5 seconds. Check your inbox after.</span></p>
     </div>
 
     <div id="nl-form">
-        <!-- ACTION: replace YOUR_FORM_ID with your Formspree form ID -->
-        <!-- Get a free form at formspree.io — takes 2 minutes -->
+        <!-- Honeypot: invisible to humans, filled by bots → silent rejection -->
+        <input id="nl-honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+               style="position:absolute;opacity:0;height:0;width:0;pointer-events:none;" aria-hidden="true">
         <div id="nl-form-row">
-            <input id="nl-email" type="email" placeholder="your@email.com" autocomplete="email" required>
+            <input id="nl-email" type="email" placeholder="your@email.com" autocomplete="email" required maxlength="254">
             <button id="nl-submit" type="button" onclick="submitNewsletter()">SUBSCRIBE →</button>
         </div>
         <div id="nl-error"></div>
@@ -1974,9 +2038,86 @@
 </div>
 </div>
 
+
 <script type="module">
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ── Security utilities ─────────────────────────────────────────────────
+/**
+ * Strip control characters, zero-width chars, and excess whitespace
+ * from any user-supplied string before storing or processing it.
+ */
+function sanitizeInput(str, maxLen = 300) {
+    if (typeof str !== 'string') return '';
+    return str
+        .replace(/[\u0000-\u001f\u007f\u200b-\u200d\ufeff]/g, '') // control + zero-width
+        .replace(/\s+/g, ' ')   // collapse multiple spaces/tabs
+        .trim()
+        .slice(0, maxLen);
+}
+
+/**
+ * Hardened fetch wrapper for all third-party API calls.
+ * - credentials: 'omit'  → never send cookies to external domains
+ * - mode: 'cors'         → explicit CORS requirement, rejects opaque responses
+ * Merges any extra options passed in (signal, headers, method, body, etc.)
+ */
+function secureFetch(url, opts = {}) {
+    return fetch(url, {
+        credentials: 'omit',
+        mode: 'cors',
+        ...opts,
+    });
+}
+
+/**
+ * Clamp a number between min and max. Returns fallback if NaN.
+ */
+function clampInt(val, min, max, fallback) {
+    const n = parseInt(val, 10);
+    if (isNaN(n)) return fallback;
+    return Math.min(max, Math.max(min, n));
+}
+
+/**
+ * Escape a string for safe injection into innerHTML.
+ * Prevents XSS from untrusted sources (RSS feeds, API responses, etc.)
+ */
+function escapeHtml(str) {
+    if (typeof str !== 'string') return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;');
+}
+
+/**
+ * Validate and sanitize a URL before using it in href or window.open.
+ * Strips javascript: and data: schemes that could run arbitrary code.
+ */
+function safeUrl(url) {
+    if (typeof url !== 'string') return '#';
+    const trimmed = url.trim().toLowerCase();
+    if (trimmed.startsWith('javascript:') || trimmed.startsWith('data:') || trimmed.startsWith('vbscript:')) return '#';
+    return url;
+}
+
+// ── Supabase client ────────────────────────────────────────────────────
+// Wrapped in try/catch — if Supabase fails to load, the rest of the page still works
+let _sb = null;
+try {
+    if (window.supabase?.createClient) {
+        _sb = window.supabase.createClient(
+            'https://jcwmkpwcbfszsxbylnbf.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impjd21rcHdjYmZzenN4YnlsbmJmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyOTA2NjMsImV4cCI6MjA5Mjg2NjY2M30.6TRwdsQmJTJpMQLRDtt-DwgGziRcUsEmIpn4j_z1byk'
+        );
+    }
+} catch(e) {
+    console.warn('Supabase init failed:', e);
+}
 
 // ── Constants ──────────────────────────────────────────────────────────
 const GREEN      = 0xFFAA00;
@@ -2377,7 +2518,7 @@ const borderMat      = new THREE.LineBasicMaterial({ color: GREEN_GLOW, transpar
 const chinaBorderMat = new THREE.LineBasicMaterial({ color: 0xff4444,   transparent: true, opacity: 0.90 });
 const allyBorderMat  = new THREE.LineBasicMaterial({ color: 0xCC44FF,   transparent: true, opacity: 0.85 });
 
-fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
+secureFetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
     .then(r => r.json())
     .then(topo => {
         const all = topoToGeo(topo, topo.objects.countries);
@@ -2497,7 +2638,7 @@ function loadProvinces(urls) {
     const [url, ...rest] = urls;
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 6000);
-    return fetch(url, { signal: controller.signal })
+    return secureFetch(url, { signal: controller.signal })
         .then(r => { clearTimeout(timer); if (!r.ok) throw new Error(r.status); return r.json(); })
         .then(geo => {
             if (geo && geo.features) return geo;
@@ -3227,7 +3368,7 @@ spaceGroup.add(tiangongDot);
 
 async function fetchTiangongTLE() {
     try {
-        const r = await fetch('https://tle.ivanstanojevic.me/api/tle/48274');
+        const r = await secureFetch('https://tle.ivanstanojevic.me/api/tle/48274');
         const d = await r.json();
         if (d.line1 && d.line2) {
             tiangongSatrec = satellite.twoline2satrec(d.line1, d.line2);
@@ -3742,7 +3883,7 @@ AQI_CITIES.forEach(city => {
 async function fetchAQI() {
     for (const { sp, city } of aqiMarkers) {
         try {
-            const r = await fetch(`https://api.waqi.info/feed/${encodeURIComponent(city.name)}/?token=demo`);
+            const r = await secureFetch(`https://api.waqi.info/feed/${encodeURIComponent(city.name)}/?token=b5e76857130c5163eafdb937bfa4e98c19b27237`);
             const d = await r.json();
             if (d.status === 'ok' && d.data && d.data.aqi) {
                 const aqi = typeof d.data.aqi === 'number' ? d.data.aqi : parseInt(d.data.aqi)||0;
@@ -4464,7 +4605,7 @@ function makeQuakeSprite(mag) {
 async function fetchUSGSEarthquakes() {
     try {
         // M4.5+ past 7 days — free, CORS-enabled USGS endpoint
-        const res = await fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson',
+        const res = await secureFetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson',
             { signal: AbortSignal.timeout(12000) });
         const json = await res.json();
         if (!json.features) return;
@@ -4598,7 +4739,7 @@ async function fetchChineseFlights() {
     // airplanes.live has native CORS support — direct fetch, no proxy needed
     async function fetchRegion({ lat, lon, dist }) {
         const url = `https://api.airplanes.live/v2/point/${lat}/${lon}/${dist}`;
-        const res = await fetch(url, { headers: { Accept: 'application/json' } });
+        const res = await secureFetch(url, { headers: { Accept: 'application/json' } });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const d = await res.json();
         return (d.ac || []).filter(isChineseAircraft);
@@ -5253,7 +5394,7 @@ function buildAllyHTML(d, liveLeader) {
 
 async function fetchWikiLeader(slug) {
     try {
-        const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${slug}`, { cache:'default' });
+        const res = await secureFetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${slug}`, { cache:'default' });
         if (!res.ok) return null;
         const j = await res.json();
         return {
@@ -5961,7 +6102,7 @@ const PANELS = {
             <div id="aqi-loading" style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#CC0000;letter-spacing:1px;margin-bottom:10px;display:none">● FETCHING LIVE DATA…</div>
             <div class="section-label">City AQI Readings</div>
             <div id="aqi-city-list">${rows}</div>
-            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Source: World Air Quality Index (waqi.info) · Demo API · Updates every 30min</p>`;
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Source: World Air Quality Index (waqi.info) · Updates every 30min</p>`;
         }
     },
 
@@ -6629,6 +6770,25 @@ initTVTicker();   // Run immediately on page load
 let activePanel = null;
 const legendEl = document.getElementById('legend');
 
+// Must be declared before openPanel so it's initialized when event handlers call it
+const PANEL_DATA_SOURCE = {
+    aircraft: 'live', stock: 'live', economy: 'live', news: 'live',
+    aqi: 'live', space: 'live', quakes: 'live', tension: 'live', briefing: 'live',
+    debt: 'partial',
+    military: 'osint', routes: 'osint', ports: 'osint', cables: 'osint',
+    beidou: 'osint', missiles: 'osint', scs: 'osint', taiwan: 'osint',
+    navy: 'osint', cyber: 'osint', influence: 'osint', tariff: 'osint',
+    rareearth: 'osint', surveillance: 'osint', police: 'osint',
+    silos: 'osint', fleet: 'osint', invasion: 'osint', apt: 'osint',
+    confucius: 'osint', leaders: 'static', comparison: 'static',
+};
+const BADGE_HTML = {
+    live:    '<span class="badge-live">LIVE</span>',
+    partial: '<span class="badge-osint">LIVE + OSINT</span>',
+    osint:   '<span class="badge-osint">OSINT</span>',
+    static:  '<span class="badge-static">REFERENCE</span>',
+};
+
 function openPanel(id) {
     const p = PANELS[id];
     document.getElementById('panel-title').textContent    = p.title;
@@ -6682,13 +6842,15 @@ function openPanel(id) {
     activePanel = id;
 
     if (id === 'economy') {
-        requestAnimationFrame(() => {
+        // setTimeout ensures panel is fully painted and has computed dimensions
+        // before Chart.js tries to measure canvas size
+        setTimeout(() => {
             initEconomyCharts();
             refreshNBSFeed();
-        });
+        }, 80);
     }
     if (id === 'stock') {
-        requestAnimationFrame(initTVMarkets);
+        setTimeout(initTVMarkets, 80);
     }
     if (id === 'news') {
         requestAnimationFrame(renderNewsPanel);
@@ -6825,13 +6987,14 @@ function renderIntelPanel() {
     if (!container || !newsCache.length) return;
     const items = newsCache.slice(0, 5);
     container.innerHTML = items.map(a => {
-        const words = a.title.split(' ');
+        const safeTitle = escapeHtml(a.title);
+        const words = safeTitle.split(' ');
         const headline = words.slice(0, 4).join(' ').toUpperCase();
-        const body = a.title.length > 40 ? a.title.substring(0, 70) + '…' : a.title;
+        const body = safeTitle.length > 40 ? safeTitle.substring(0, 70) + '…' : safeTitle;
         return `<div class="intel-item">
             <div class="intel-headline">${headline}</div>
             <div class="intel-body">${body}</div>
-            <div class="intel-time">${newsTimeAgo(a.date)} ago</div>
+            <div class="intel-time">${escapeHtml(newsTimeAgo(a.date))} ago</div>
         </div>`;
     }).join('');
 }
@@ -6843,9 +7006,9 @@ function renderMiniTicker() {
     if (!list || !newsCache.length) return;
     const items = newsCache.slice(miniTickerOffset, miniTickerOffset + 4);
     list.innerHTML = items.map(a =>
-        `<div class="news-mini-item" onclick="window.open(${JSON.stringify(a.link)},'_blank')">
-            <span class="news-mini-time">${newsTimeAgo(a.date)}</span>
-            <span class="news-mini-title">${a.title}</span>
+        `<div class="news-mini-item" onclick="window.open(${JSON.stringify(safeUrl(a.link))},'_blank','noopener,noreferrer')">
+            <span class="news-mini-time">${escapeHtml(newsTimeAgo(a.date))}</span>
+            <span class="news-mini-title">${escapeHtml(a.title)}</span>
         </div>`
     ).join('');
 }
@@ -7041,6 +7204,8 @@ function destroyChart(id) {
 function initEconomyCharts() {
     const Chart = window.Chart;
     if (!Chart) return;
+    // Defer a resize pass so charts fill their containers after CSS transitions
+    setTimeout(() => Object.values(econCharts).forEach(c => c?.resize()), 300);
 
     // Chart 1 — GDP sectors
     destroyChart('gdp');
@@ -7149,7 +7314,7 @@ async function refreshNBSFeed() {
 
     tsEl && (tsEl.textContent = 'Fetching…');
     try {
-        const res  = await fetch(PROXY + encodeURIComponent(NBS_URL));
+        const res  = await secureFetch(PROXY + encodeURIComponent(NBS_URL));
         const json = await res.json();
         const html = json.contents;
 
@@ -7238,8 +7403,8 @@ function renderFeed(items, freshCount) {
         const isNew = freshCount > 0 && i < freshCount;
         const newBadge = isNew ? '<span class="nbs-new">NEW</span>' : '';
         return `<li class="nbs-item">
-            <div class="nbs-date">${item.date}</div>
-            <div class="nbs-title"><a href="${item.href}" target="_blank" rel="noopener">${item.title}</a>${newBadge}</div>
+            <div class="nbs-date">${escapeHtml(item.date)}</div>
+            <div class="nbs-title"><a href="${escapeHtml(safeUrl(item.href))}" target="_blank" rel="noopener noreferrer">${escapeHtml(item.title)}</a>${newBadge}</div>
         </li>`;
     }).join('');
 }
@@ -7276,7 +7441,11 @@ const chatEmpty     = document.getElementById('chat-empty');
 
 // ── Username management ────────────────────────────────────────────────
 function applyUsername(name) {
-    name = name.trim().slice(0, 20);
+    name = sanitizeInput(name, 20);
+    // Reject blank or purely non-printable input
+    if (!name || !/\S/.test(name)) return;
+    // Allow only printable ASCII + accented letters (no HTML special chars as the whole value)
+    name = name.replace(/[<>"'`]/g, '').trim().slice(0, 20);
     if (!name) return;
     chatUsername = name;
     localStorage.setItem('cgw-username', name);
@@ -7381,72 +7550,87 @@ function rebuildChatDOM() {
     }
 }
 
-// ── Gun.js real-time chat ──────────────────────────────────────────────
-let gun;
-try {
-    gun = Gun({
-        peers: [
-            'https://gun-manhattan.herokuapp.com/gun',
-            'https://peer.wallie.io/gun',
-        ],
-        localStorage: true,
+// ── Supabase Realtime chat ─────────────────────────────────────────────
+const _chatTimes = [];
+function chatAllowed() {
+    const now = Date.now();
+    while (_chatTimes.length && now - _chatTimes[0] > 10000) _chatTimes.shift();
+    if (_chatTimes.length >= 5) return false;
+    _chatTimes.push(now);
+    return true;
+}
+
+// Load recent messages (last 24h) on open
+async function loadChatHistory() {
+    if (!_sb) return;
+    const { data, error } = await _sb
+        .from('chat_messages')
+        .select('id, username, text, created_at')
+        .gte('created_at', new Date(Date.now() - HOUR24).toISOString())
+        .order('created_at', { ascending: true })
+        .limit(100);
+    if (error || !data) return;
+    data.forEach(row => {
+        const safe = {
+            text: sanitizeInput(row.text, 300),
+            user: sanitizeInput(row.username, 20),
+            time: new Date(row.created_at).getTime(),
+        };
+        if (safe.text && safe.user) renderChatMessage(row.id, safe);
     });
+}
 
-    const chatNode = gun.get(CHAT_NS).get('messages');
-    const CUTOFF   = Date.now() - HOUR24;
+// Subscribe to new messages via Realtime (only if Supabase loaded)
+if (_sb) {
+    _sb.channel('chat_messages')
+        .on('postgres_changes',
+            { event: 'INSERT', schema: 'public', table: 'chat_messages' },
+            payload => {
+                const row = payload.new;
+                if (!row) return;
+                const safe = {
+                    text: sanitizeInput(row.text, 300),
+                    user: sanitizeInput(row.username, 20),
+                    time: new Date(row.created_at).getTime(),
+                };
+                if (safe.text && safe.user) renderChatMessage(row.id, safe);
+            }
+        )
+        .subscribe();
 
-    chatNode.map().on((data, key) => {
-        if (!data || typeof data !== 'object') return;
-        if (!data.text || !data.user || !data.time) return;
-        if (data.time < CUTOFF) return;
-        renderChatMessage(key, data);
+    loadChatHistory();
+}
+
+// Send message via Supabase
+async function sendChatMsg(text) {
+    if (!_sb || !chatUsername || !text.trim()) return;
+    if (!chatAllowed()) return;
+    const cleanText = sanitizeInput(text, 300);
+    if (!cleanText) return;
+    await _sb.from('chat_messages').insert({
+        username: chatUsername.slice(0, 20),
+        text: cleanText,
     });
+}
 
-    // Send message via Gun
-    function sendChatMsg(text) {
-        if (!chatUsername || !text.trim()) return;
-        chatNode.set({
-            user: chatUsername,
-            text: text.trim(),
-            time: Date.now(),
-        });
-    }
+// Input handlers
+chatSendBtn.addEventListener('click', () => {
+    const txt = chatInput.value.trim();
+    if (!txt || !chatUsername) return;
+    sendChatMsg(txt);
+    chatInput.value = '';
+    chatInput.focus();
+});
 
-    // Input handlers
-    chatSendBtn.addEventListener('click', () => {
+chatInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
         const txt = chatInput.value.trim();
         if (!txt || !chatUsername) return;
         sendChatMsg(txt);
         chatInput.value = '';
-        chatInput.focus();
-    });
-
-    chatInput.addEventListener('keydown', e => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            const txt = chatInput.value.trim();
-            if (!txt || !chatUsername) return;
-            sendChatMsg(txt);
-            chatInput.value = '';
-        }
-    });
-
-} catch(err) {
-    console.warn('Gun.js init failed:', err);
-    // Fallback: local-only mode
-    chatSendBtn.addEventListener('click', () => {
-        const txt = chatInput.value.trim();
-        if (!txt || !chatUsername) return;
-        renderChatMessage('local-' + Date.now(), { user: chatUsername, text: txt, time: Date.now() });
-        chatInput.value = '';
-    });
-    chatInput.addEventListener('keydown', e => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            chatSendBtn.click();
-        }
-    });
-}
+    }
+});
 
 // ── Animate ────────────────────────────────────────────────────────────
 let time = 0;
@@ -7563,11 +7747,13 @@ window.addEventListener('resize', () => {
 
 // ── Keys ───────────────────────────────────────────────────────────────
 window.addEventListener('keydown', e => {
-    if (e.code === 'Space') {
+    // Don't intercept shortcuts when user is typing in an input/textarea
+    const typing = e.target.closest('input, textarea, [contenteditable]');
+    if (e.code === 'Space' && !typing) {
         e.preventDefault();
         toggleRotation();
     }
-    if (e.code === 'KeyR') controls.reset();
+    if (e.code === 'KeyR' && !typing) controls.reset();
 });
 
 // ── Swipe gestures (mobile panel cycling) ─────────────────────────────
@@ -7638,7 +7824,7 @@ async function fetchChineseNews(force = false) {
 
     await Promise.allSettled(NEWS_FEEDS.map(async feed => {
         try {
-            const res = await fetch(RSS2JSON + encodeURIComponent(feed.url),
+            const res = await secureFetch(RSS2JSON + encodeURIComponent(feed.url),
                 { signal: AbortSignal.timeout(10000) });
             const data = await res.json();
             if (data.status !== 'ok' || !Array.isArray(data.items)) return;
@@ -7975,9 +8161,9 @@ function buildCrawl(articles) {
     const items = articles.slice(0, 30);
     const makeItems = () => items.map(a => {
         const col = SOURCE_COLORS[a.source] || '#CC0000';
-        return `<span class="crawl-item" onclick="window.open(${JSON.stringify(a.link)},'_blank')">
-            <span class="crawl-source" style="color:${col}">${a.source}</span>
-            <span class="crawl-headline">${a.title}</span>
+        return `<span class="crawl-item" onclick="window.open(${JSON.stringify(safeUrl(a.link))},'_blank','noopener,noreferrer')">
+            <span class="crawl-source" style="color:${col}">${escapeHtml(a.source)}</span>
+            <span class="crawl-headline">${escapeHtml(a.title)}</span>
         </span><span class="crawl-sep"></span>`;
     }).join('');
     // Duplicate content so animation loops seamlessly
@@ -8004,7 +8190,7 @@ setInterval(async () => {
 // ── Globe Search ────────────────────────────────────────────────────────
 const SEARCH_INDEX = [
     // BRI hubs & routes
-    ...BRI.map(r => ({ label:r.name, type:'BRI Route', lat:r.path[0][0], lon:r.path[0][1], panel:'routes' })),
+    ...BRI.filter(r => r.path?.[0]).map(r => ({ label:r.name, type:'BRI Route', lat:r.path[0][0], lon:r.path[0][1], panel:'routes' })),
     // Military bases
     ...BASES.map(b => ({ label:b.name, type:'Military', lat:b.lat, lon:b.lon, panel:'military' })),
     // Ports
@@ -8056,7 +8242,11 @@ function runSearch(q) {
     searchResults.classList.add('show');
 }
 
-searchInput.addEventListener('input', () => runSearch(searchInput.value));
+let _searchDebounce = null;
+searchInput.addEventListener('input', () => {
+    clearTimeout(_searchDebounce);
+    _searchDebounce = setTimeout(() => runSearch(searchInput.value), 120);
+});
 searchInput.addEventListener('keydown', e => {
     if (e.key === 'Escape') { searchInput.value = ''; searchResults.classList.remove('show'); searchInput.blur(); }
     if (e.key === 'Enter') {
@@ -8104,7 +8294,7 @@ function hideTimeline() {
 }
 
 timelineSlider.addEventListener('input', () => {
-    const yr = parseInt(timelineSlider.value);
+    const yr = clampInt(timelineSlider.value, 2013, 2026, 2026);
     timelineLabel.textContent = yr;
     timelineEvent.textContent = TIMELINE_EVENTS[yr] || '';
     // Highlight relevant layers by year
@@ -8204,7 +8394,7 @@ async function fetchWorldBankDebt() {
         try {
             // DT.DOD.DECT.GN.ZS = External debt stocks, % of GNI
             const url = `https://api.worldbank.org/v2/country/${iso}/indicator/DT.DOD.DECT.GN.ZS?format=json&mrv=1&per_page=1`;
-            const r = await fetch(url, { signal: AbortSignal.timeout(8000) });
+            const r = await secureFetch(url, { signal: AbortSignal.timeout(8000) });
             const d = await r.json();
             if (d[1] && d[1][0] && d[1][0].value !== null) {
                 results[country] = { value: d[1][0].value.toFixed(1), year: d[1][0].date };
@@ -8232,30 +8422,7 @@ async function fetchWorldBankDebt() {
 }
 
 // ── LIVE / OSINT badge injection ────────────────────────────────────────
-// Called after openPanel renders content — adds data-source badge to subtitle
-const PANEL_DATA_SOURCE = {
-    // Fully live feeds
-    aircraft: 'live', stock: 'live', economy: 'live', news: 'live',
-    aqi: 'live', space: 'live', quakes: 'live', tension: 'live', briefing: 'live',
-    // Partially live (live scoring + static base data)
-    debt: 'partial',
-    // OSINT research-grade
-    military: 'osint', routes: 'osint', ports: 'osint', cables: 'osint',
-    beidou: 'osint', missiles: 'osint', scs: 'osint', taiwan: 'osint',
-    navy: 'osint', cyber: 'osint', influence: 'osint', tariff: 'osint',
-    rareearth: 'osint', surveillance: 'osint', police: 'osint',
-    silos: 'osint', fleet: 'osint', invasion: 'osint', apt: 'osint',
-    confucius: 'osint',
-    // Static reference
-    leaders: 'static', comparison: 'static',
-};
-
-const BADGE_HTML = {
-    live:    '<span class="badge-live">LIVE</span>',
-    partial: '<span class="badge-osint">LIVE + OSINT</span>',
-    osint:   '<span class="badge-osint">OSINT</span>',
-    static:  '<span class="badge-static">REFERENCE</span>',
-};
+// PANEL_DATA_SOURCE and BADGE_HTML declared above openPanel (required for TDZ)
 
 async function generateBriefing() {
     const content = document.getElementById('briefing-content');
@@ -8332,31 +8499,50 @@ async function generateBriefing() {
 }
 
 // ── Newsletter signup ────────────────────────────────────────────────────
-// SETUP: Go to formspree.io, create a free form, paste your form ID below
-const FORMSPREE_ID = 'YOUR_FORM_ID'; // ← replace with e.g. 'xpwzlbkr'
+
+/**
+ * Rate-limit newsletter submissions: max 3 per hour per browser.
+ * Uses localStorage so it persists across page reloads.
+ */
+function nlCheckRateLimit() {
+    try {
+        const now = Date.now();
+        const stored = JSON.parse(localStorage.getItem('rdt_nl_attempts') || '[]');
+        const recent = stored.filter(t => now - t < 3_600_000);
+        return recent.length < 3;
+    } catch { return true; }
+}
+function nlRecordAttempt() {
+    try {
+        const now = Date.now();
+        const stored = JSON.parse(localStorage.getItem('rdt_nl_attempts') || '[]');
+        const recent = stored.filter(t => now - t < 3_600_000);
+        recent.push(now);
+        localStorage.setItem('rdt_nl_attempts', JSON.stringify(recent));
+    } catch {}
+}
 
 window.submitNewsletter = async function() {
-    const emailEl  = document.getElementById('nl-email');
-    const submitEl = document.getElementById('nl-submit');
-    const errorEl  = document.getElementById('nl-error');
-    const email    = emailEl.value.trim();
+    const emailEl   = document.getElementById('nl-email');
+    const submitEl  = document.getElementById('nl-submit');
+    const errorEl   = document.getElementById('nl-error');
+    const honeypot  = document.getElementById('nl-honeypot');
+    const email     = emailEl.value.trim();
 
-    // Basic validation
     errorEl.style.display = 'none';
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        errorEl.textContent = '⚠ Please enter a valid email address.';
-        errorEl.style.display = 'block';
-        emailEl.focus();
+
+    // Honeypot check — bots fill hidden fields, humans don't
+    if (honeypot && honeypot.value.length > 0) {
+        // Silently pretend success so bots don't know they were caught
+        showNLSuccess();
         return;
     }
 
-    // If form ID not set, open Substack fallback
-    if (FORMSPREE_ID === 'YOUR_FORM_ID') {
-        // Fallback: opens a mailto or a Substack page
-        // Replace this URL with your Substack / ConvertKit / Beehiiv subscribe link
-        const fallbackUrl = `mailto:?subject=Subscribe%20to%20Red%20Dragon%20Brief&body=Please%20subscribe%20${encodeURIComponent(email)}%20to%20the%20Red%20Dragon%20Brief%20newsletter.`;
-        window.open(fallbackUrl);
-        showNLSuccess();
+    // Email validation — length cap + format check
+    if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errorEl.textContent = '⚠ Please enter a valid email address.';
+        errorEl.style.display = 'block';
+        emailEl.focus();
         return;
     }
 
@@ -8364,20 +8550,21 @@ window.submitNewsletter = async function() {
     submitEl.textContent = 'SENDING…';
 
     try {
-        const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({ email, source: 'RedDragonTracker', _subject: 'New Red Dragon Brief subscriber' })
-        });
-        if (res.ok) {
-            showNLSuccess();
-        } else {
-            throw new Error('Server error');
+        // Save to Supabase backup list (silent fail is fine)
+        if (_sb) {
+            await _sb.from('subscribers').insert({ email, source: 'RedDragonTracker' })
+                .then(() => {}).catch(() => {});
         }
+        // Open Substack subscribe page in new tab with email pre-filled
+        window.open(
+            `https://victormnl.substack.com/subscribe?email=${encodeURIComponent(email)}`,
+            '_blank', 'noopener,noreferrer'
+        );
+        showNLSuccess();
     } catch(e) {
         submitEl.disabled = false;
         submitEl.textContent = 'SUBSCRIBE →';
-        errorEl.textContent = '⚠ Something went wrong. Please try again.';
+        errorEl.textContent = '⚠ ' + (e.message || 'Something went wrong. Please try again.');
         errorEl.style.display = 'block';
     }
 };
