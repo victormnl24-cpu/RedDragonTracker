@@ -2527,11 +2527,19 @@ function openProvincePanel(zhName, enName, d) {
     activePanel = 'province_' + zhName;
 }
 
+// ── Image proxy helper (bypasses Wikimedia hotlink blocks) ─────────────
+function proxyImg(url) {
+    if (!url) return url;
+    // Strip protocol, pass to wsrv.nl which fetches server-side
+    const stripped = url.replace(/^https?:\/\//, '');
+    return `https://wsrv.nl/?url=${encodeURIComponent(stripped)}&w=140&h=164&fit=cover&a=top`;
+}
+
 // ── Ally country panel ─────────────────────────────────────────────────
 function buildAllyHTML(d, liveLeader) {
     const leaderName  = liveLeader ? liveLeader.name  : d.leader.name;
     const leaderTitle = liveLeader ? liveLeader.title : d.leader.title;
-    const leaderPhoto = liveLeader ? liveLeader.photo : d.leader.photo;
+    const leaderPhoto = proxyImg(liveLeader ? liveLeader.photo : d.leader.photo);
     const leaderBio   = liveLeader ? liveLeader.bio   : '';
     const liveTag     = liveLeader
         ? `<span style="font-size:9px;background:#00cc66;color:#000;padding:1px 5px;border-radius:2px;font-weight:700;vertical-align:middle;margin-left:6px">● LIVE</span>`
@@ -2635,13 +2643,13 @@ function openAllyPanel(d) {
             if (activePanel !== 'ally_' + d.name) return;
             const wrap = document.getElementById('ally-leader-img');
             if (wrap && live.photo) {
+                const proxied = proxyImg(live.photo);
                 const existing = wrap.querySelector('img');
                 if (existing) {
-                    existing.src = live.photo;
+                    existing.src = proxied;
                 } else {
                     const newImg = document.createElement('img');
-                    newImg.src = live.photo;
-                    newImg.setAttribute('referrerpolicy', 'no-referrer');
+                    newImg.src = proxied;
                     newImg.style.cssText = 'width:70px;height:82px;object-fit:cover;object-position:center top;border:2px solid rgba(204,68,255,0.6);display:block;filter:sepia(0.1) contrast(1.05);position:absolute;top:0;left:0;';
                     newImg.onerror = function() { this.style.display='none'; };
                     wrap.insertBefore(newImg, wrap.firstChild);
