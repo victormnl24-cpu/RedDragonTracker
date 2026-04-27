@@ -1379,13 +1379,15 @@
             <button class="vchan-btn active" data-channel="cgtn" data-title="CGTN LIVE">CGTN</button>
             <button class="vchan-btn" data-channel="aljazeera" data-title="AL JAZEERA">AJ</button>
             <button class="vchan-btn" data-channel="bloomberg" data-title="BLOOMBERG">BTV</button>
-            <button class="vchan-btn" data-channel="wion" data-title="WION LIVE">WION</button>
+            <button class="vchan-btn" data-channel="dw" data-title="DW NEWS">DW</button>
         </div>
         <div id="video-collapse-btn" title="Collapse">▾</div>
     </div>
     <div id="video-screen">
         <iframe id="video-iframe" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         <div id="video-mute-overlay">MUTED · CLICK TO UNMUTE</div>
+        <div id="video-reload-btn" onclick="event.stopPropagation();loadVideoChannel(currentChannel)" title="Reload stream"
+            style="position:absolute;bottom:6px;left:6px;z-index:2;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);color:#555;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px;padding:3px 7px;cursor:pointer;border-radius:2px;">↺ RELOAD</div>
     </div>
 </div>
 
@@ -4930,10 +4932,10 @@ setInterval(() => {
 
 // ── Live video player ──────────────────────────────────────────────────
 const VIDEO_CHANNELS = {
-    cgtn:      { url: 'https://www.youtube.com/embed/8HktCVpfCaA?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1', title: 'CGTN LIVE' },
-    aljazeera: { url: 'https://www.youtube.com/embed/rnl5LqetKo4?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1', title: 'AL JAZEERA' },
-    bloomberg: { url: 'https://www.youtube.com/embed/dp8PhLsUcFE?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1', title: 'BLOOMBERG' },
-    wion:      { url: 'https://www.youtube.com/embed/IFB6BqWgWKw?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1', title: 'WION LIVE' },
+    cgtn:      { url: 'https://www.youtube.com/embed/BOy2xDU1LC8?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1', title: 'CGTN LIVE' },
+    aljazeera: { url: 'https://www.youtube.com/embed/gCNeDWCI0vo?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1', title: 'AL JAZEERA' },
+    bloomberg: { url: 'https://www.youtube.com/embed/f39oHo6vFLg?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1', title: 'BLOOMBERG' },
+    dw:        { url: 'https://www.youtube.com/embed/GfWoRUBaE0Q?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1', title: 'DW NEWS' },
 };
 
 let videoMuted = true;
