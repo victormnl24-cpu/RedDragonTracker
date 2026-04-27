@@ -8507,12 +8507,18 @@ function nlCheckRateLimit() {
     try {
         const now = Date.now();
         const stored = JSON.parse(localStorage.getItem('rdt_nl_attempts') || '[]');
-        const recent = stored.filter(t => now - t < 3_600_000); // last 60 minutes
-        if (recent.length >= 3) return false;
+        const recent = stored.filter(t => now - t < 3_600_000);
+        return recent.length < 3;
+    } catch { return true; }
+}
+function nlRecordAttempt() {
+    try {
+        const now = Date.now();
+        const stored = JSON.parse(localStorage.getItem('rdt_nl_attempts') || '[]');
+        const recent = stored.filter(t => now - t < 3_600_000);
         recent.push(now);
         localStorage.setItem('rdt_nl_attempts', JSON.stringify(recent));
-        return true;
-    } catch { return true; } // if localStorage is blocked, don't punish the user
+    } catch {}
 }
 
 window.submitNewsletter = async function() {
@@ -8557,6 +8563,8 @@ window.submitNewsletter = async function() {
 
         // 23505 = unique violation (already subscribed) — treat as success
         if (error && error.code !== '23505') throw new Error(error.message);
+        // Only count successful (or duplicate) submissions toward rate limit
+        nlRecordAttempt();
         showNLSuccess();
     } catch(e) {
         submitEl.disabled = false;
