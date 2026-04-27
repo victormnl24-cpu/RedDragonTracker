@@ -202,6 +202,62 @@
         .cmp-bar-cn { height:100%;background:#CC0000;position:absolute;right:50%;border-radius:3px 0 0 3px; }
         .cmp-bar-us { height:100%;background:#2255FF;position:absolute;left:50%;border-radius:0 3px 3px 0; }
 
+        /* ── Police stations panel ─────────────────────── */
+        .police-item { display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04); }
+        .police-dot { width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px; }
+        .police-country { font-size:9px;color:#888;font-family:'Share Tech Mono',monospace;letter-spacing:1px; }
+        .police-name { font-size:10px;color:#ddd;margin-bottom:2px; }
+        .police-status { font-size:8px;font-family:'Share Tech Mono',monospace;letter-spacing:1px; }
+
+        /* ── Debt trap panel ────────────────────────────── */
+        .debt-item { display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04); }
+        .debt-flag { font-size:14px;flex-shrink:0;width:20px;text-align:center; }
+        .debt-country { font-size:11px;color:#FFD700;font-family:'Share Tech Mono',monospace;margin-bottom:3px; }
+        .debt-amount { font-size:10px;color:#FF8800;font-family:'Orbitron',monospace;font-weight:700; }
+        .debt-detail { font-size:9px;color:#555;line-height:1.5; }
+
+        /* ── Silo fields panel ──────────────────────────── */
+        .silo-field { padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04); }
+        .silo-name { font-family:'Orbitron',monospace;font-size:11px;color:#FF4444;margin-bottom:3px; }
+        .silo-count { font-family:'Share Tech Mono',monospace;font-size:10px;color:#FFD700;margin-bottom:3px; }
+        .silo-desc { font-size:9px;color:#555;line-height:1.5; }
+
+        /* ── PLAN fleet panel ───────────────────────────── */
+        .fleet-carrier { padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05); }
+        .fleet-name { font-family:'Orbitron',monospace;font-size:11px;color:#2299FF;margin-bottom:4px; }
+        .fleet-stats { display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px; }
+        .fleet-stat { background:rgba(34,153,255,0.08);border:1px solid rgba(34,153,255,0.2);padding:2px 8px;font-family:'Share Tech Mono',monospace;font-size:8px;color:#4488CC;letter-spacing:1px; }
+        .fleet-desc { font-size:9px;color:#555;line-height:1.5; }
+
+        /* ── Invasion scenarios panel ───────────────────── */
+        .invasion-scenario { padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04); }
+        .invasion-tag { font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2px;padding:2px 7px;display:inline-block;margin-bottom:5px; }
+        .invasion-title { font-size:11px;color:#FFDD00;margin-bottom:3px; }
+        .invasion-desc { font-size:9px;color:#555;line-height:1.5; }
+
+        /* ── APT panel ──────────────────────────────────── */
+        .apt-group { padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04); }
+        .apt-name { font-family:'Orbitron',monospace;font-size:10px;color:#FF4444;margin-bottom:3px; }
+        .apt-alias { font-family:'Share Tech Mono',monospace;font-size:8px;color:#555;letter-spacing:1px;margin-bottom:4px; }
+        .apt-bar-wrap { height:3px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:4px; }
+        .apt-bar { height:3px;background:#FF4444;border-radius:2px; }
+        .apt-targets { font-size:9px;color:#888;line-height:1.5; }
+
+        /* ── Confucius institutes panel ─────────────────── */
+        .ci-country { display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04); }
+        .ci-name { font-size:10px;color:#ddd;flex:1; }
+        .ci-open { font-family:'Orbitron',monospace;font-size:10px;color:#4499FF; }
+        .ci-closed { font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;text-decoration:line-through; }
+
+        /* ── Tension meter panel ────────────────────────── */
+        .tension-zone { padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04); }
+        .tension-name { display:flex;justify-content:space-between;align-items:center;margin-bottom:5px; }
+        .tension-label { font-family:'Share Tech Mono',monospace;font-size:9px;color:#ccc;letter-spacing:1.5px; }
+        .tension-score { font-family:'Orbitron',monospace;font-size:12px;font-weight:700; }
+        .tension-bar-bg { height:4px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:4px; }
+        .tension-bar-fill { height:4px;border-radius:2px;transition:width 0.8s ease; }
+        .tension-detail { font-size:9px;color:#444;line-height:1.5; }
+
         /* ── Header nav (top-level features) ───────────── */
         #header-nav {
             display: flex; align-items: center; gap: 8px;
@@ -1471,6 +1527,39 @@
     <button class="dock-btn" data-panel="comparison" data-tip="China vs USA Military">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="3" width="4.5" height="8" rx="0.5" stroke="currentColor" stroke-width="1.1"/><rect x="8" y="5.5" width="4.5" height="5.5" rx="0.5" stroke="currentColor" stroke-width="1.1" opacity="0.6"/><line x1="7" y1="1" x2="7" y2="13" stroke="currentColor" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.4"/></svg></span>
         <span class="dock-label">VS</span>
+    </button>
+    <div class="dock-divider"></div>
+    <button class="dock-btn" data-panel="police" data-tip="CCP Overseas Police Stations">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M3 13 Q3 9 7 9 Q11 9 11 13" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="5" y1="6.5" x2="9" y2="6.5" stroke="currentColor" stroke-width="1" opacity="0.5"/><path d="M2 3 L5 1 L7 2.5 L9 1 L12 3" stroke="currentColor" stroke-width="0.9" fill="none" opacity="0.6"/></svg></span>
+        <span class="dock-label">POL</span>
+    </button>
+    <button class="dock-btn" data-panel="debt" data-tip="BRI Debt Trap Countries">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M7 3.5 L7 7.5 L9.5 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="7" y1="3" x2="7" y2="2" stroke="currentColor" stroke-width="1.1"/><line x1="10.9" y1="4.1" x2="11.6" y2="3.4" stroke="currentColor" stroke-width="1"/><line x1="12" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="1.1"/></svg></span>
+        <span class="dock-label">DEBT</span>
+    </button>
+    <button class="dock-btn" data-panel="silos" data-tip="New ICBM Silo Fields · 2021">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1" stroke-dasharray="2 1.5"/><circle cx="7" cy="7" r="3" stroke="currentColor" stroke-width="1" opacity="0.6"/><circle cx="7" cy="7" r="1" fill="currentColor"/><line x1="7" y1="1.5" x2="7" y2="12.5" stroke="currentColor" stroke-width="0.8" opacity="0.3"/><line x1="1.5" y1="7" x2="12.5" y2="7" stroke="currentColor" stroke-width="0.8" opacity="0.3"/></svg></span>
+        <span class="dock-label">SILO</span>
+    </button>
+    <button class="dock-btn" data-panel="fleet" data-tip="PLAN Carrier Strike Groups">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 8.5 L4.5 6 L9 6.5 L13 5.5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M3.5 6 L3.5 3.5 L7 3.5 L8.5 2 L8.5 6" stroke="currentColor" stroke-width="1" fill="none"/><path d="M0.5 9.5 Q3.5 11.5 7 11 Q10.5 10.5 13.5 9.5" stroke="currentColor" stroke-width="0.9" fill="none" opacity="0.5"/><circle cx="5.5" cy="4.5" r="0.7" fill="currentColor" opacity="0.7"/></svg></span>
+        <span class="dock-label">FLEET</span>
+    </button>
+    <button class="dock-btn" data-panel="invasion" data-tip="Taiwan Invasion Scenarios">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="5" y="2" width="4" height="7" rx="0.5" stroke="currentColor" stroke-width="1.1" stroke-dasharray="1.5 1"/><path d="M2 12 L5 9 L7 11 L9 9 L12 12" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="7" y1="9" x2="7" y2="7" stroke="currentColor" stroke-width="1.1"/><polyline points="5,3.5 7,1.5 9,3.5" stroke="currentColor" stroke-width="1" fill="none"/></svg></span>
+        <span class="dock-label">TWN2</span>
+    </button>
+    <button class="dock-btn" data-panel="apt" data-tip="APT Hacking Groups · Attribution">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2.5" y="3" width="9" height="7" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M5 3 L5 1.5 L9 1.5 L9 3" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="4.5" y1="5.5" x2="9.5" y2="5.5" stroke="currentColor" stroke-width="1" opacity="0.8"/><line x1="4.5" y1="7" x2="7" y2="7" stroke="currentColor" stroke-width="1" opacity="0.6"/><circle cx="11" cy="2.5" r="1.5" fill="#CC0000"/><line x1="10.3" y1="1.8" x2="11.7" y2="3.2" stroke="white" stroke-width="1.2"/><line x1="11.7" y1="1.8" x2="10.3" y2="3.2" stroke="white" stroke-width="1.2"/></svg></span>
+        <span class="dock-label">APT</span>
+    </button>
+    <button class="dock-btn" data-panel="confucius" data-tip="Confucius Institute Network">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5 L12 4.5 L12 9 Q12 12.5 7 13.5 Q2 12.5 2 9 L2 4.5 Z" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="4.5" y1="7" x2="9.5" y2="7" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="4.5" x2="7" y2="9.5" stroke="currentColor" stroke-width="1.2"/></svg></span>
+        <span class="dock-label">CI</span>
+    </button>
+    <button class="dock-btn" data-panel="tension" data-tip="Geopolitical Tension Meter">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11 A5.5 5.5 0 0 1 12 11" stroke="currentColor" stroke-width="1.2" fill="none"/><line x1="7" y1="5.5" x2="10.5" y2="9" stroke="#CC0000" stroke-width="1.4"/><circle cx="7" cy="11" r="1" fill="currentColor"/><line x1="4" y1="10" x2="2.5" y2="8" stroke="currentColor" stroke-width="0.9" opacity="0.5"/><line x1="7" y1="5.5" x2="7" y2="3.5" stroke="currentColor" stroke-width="0.9" opacity="0.5"/><line x1="10" y1="10" x2="11.5" y2="8" stroke="currentColor" stroke-width="0.9" opacity="0.5"/></svg></span>
+        <span class="dock-label">TENS</span>
     </button>
     </div><!-- end #dock-wheel -->
 </div>
@@ -3546,6 +3635,558 @@ SRV_SITES.forEach(site => {
     srvGroup.add(sp); srvMarkers.push(sp);
 });
 
+// ── Overseas Police Stations ──────────────────────────────────────────
+const policeGroup = new THREE.Group();
+policeGroup.visible = false;
+globeGroup.add(policeGroup);
+
+const POLICE_STATIONS = [
+    // Americas
+    { name:'New York (Fuzhou Assoc.)', country:'USA', lat:40.71, lon:-74.01, status:'ACTIVE', col:0xFF2222, desc:'Reported by Safeguard Defenders 2022. 107 Huai\'an Road Fujianese Assoc. · Targets overseas dissidents and Uyghurs' },
+    { name:'New York (Shandong Assoc.)', country:'USA', lat:40.73, lon:-73.99, status:'ACTIVE', col:0xFF2222, desc:'Second documented NYC station · Linked to Chinese pro-government community groups' },
+    { name:'Toronto', country:'Canada', lat:43.65, lon:-79.38, status:'CLOSED', col:0xFF8800, desc:'Shut following RCMP investigation 2023. Used to coerce diaspora members to return to China' },
+    { name:'Vancouver', country:'Canada', lat:49.25, lon:-123.12, status:'ACTIVE', col:0xFF2222, desc:'Large Mandarin-speaking diaspora targeted. Reported coercion of Falun Gong and HK activists' },
+    { name:'Buenos Aires', country:'Argentina', lat:-34.60, lon:-58.44, status:'ACTIVE', col:0xFF2222, desc:'Largest Chinese diaspora in South America. Reported since 2022' },
+    { name:'São Paulo', country:'Brazil', lat:-23.55, lon:-46.63, status:'ACTIVE', col:0xFF2222, desc:'Brazil investigation launched 2023 by PGR. Linked to Chinese embassy activities' },
+    // Europe
+    { name:'London', country:'UK', lat:51.51, lon:-0.13, status:'CLOSED', col:0xFF8800, desc:'Met Police investigation 2022–23. Two men charged under National Security Act 2023 — first prosecution under new law' },
+    { name:'Amsterdam', country:'Netherlands', lat:52.37, lon:4.90, status:'CLOSED', col:0xFF8800, desc:'Dutch AIVD investigation. Station ordered closed Nov 2022. Remained on Zeedijk street for months' },
+    { name:'Rotterdam', country:'Netherlands', lat:51.92, lon:4.48, status:'CLOSED', col:0xFF8800, desc:'Second Dutch station. AIVD confirmed both Dutch stations had no legal right to operate' },
+    { name:'Paris', country:'France', lat:48.86, lon:2.35, status:'ACTIVE', col:0xFF2222, desc:'DGSI monitoring. Linked to Wenzhou Chamber of Commerce front groups. French Senate inquiry 2023' },
+    { name:'Madrid', country:'Spain', lat:40.42, lon:-3.70, status:'ACTIVE', col:0xFF2222, desc:'Spain home to most documented stations outside China. Multiple Qingtian/Wenzhou diaspora connections' },
+    { name:'Barcelona', country:'Spain', lat:41.39, lon:2.16, status:'ACTIVE', col:0xFF2222, desc:'Part of extensive Spanish network. SpyCNI investigation ongoing 2024' },
+    { name:'Dublin', country:'Ireland', lat:53.33, lon:-6.25, status:'CLOSED', col:0xFF8800, desc:'Irish police confirmed station in 2022. Chinese embassy denied all knowledge. Operator later arrested' },
+    { name:'Lisbon', country:'Portugal', lat:38.72, lon:-9.14, status:'ACTIVE', col:0xFF2222, desc:'Reported by Portuguese news outlet Observador 2022. Large Wenzhounese community' },
+    { name:'Glasgow', country:'UK', lat:55.86, lon:-4.25, status:'CLOSED', col:0xFF8800, desc:'Second UK location confirmed by Sunday Mail. Part of broader UK National Security Act investigation' },
+    { name:'Prague', country:'Czech Republic', lat:50.07, lon:14.44, status:'ACTIVE', col:0xFF2222, desc:'Czech intelligence BIS flagged in 2023 annual report. Targets Chinese students at Czech universities' },
+    { name:'Budapest', country:'Hungary', lat:47.50, lon:19.04, status:'ACTIVE', col:0xFF2222, desc:'Hungary — China\'s friendliest EU partner. Station reported operating openly near Chinese Cultural Center' },
+    // Africa / Asia-Pacific
+    { name:'Johannesburg', country:'South Africa', lat:-26.20, lon:28.04, status:'ACTIVE', col:0xFF2222, desc:'Reported by Daily Maverick 2023. South Africa hosts third-largest African Chinese diaspora' },
+    { name:'Cape Town', country:'South Africa', lat:-33.93, lon:18.42, status:'ACTIVE', col:0xFF2222, desc:'Second confirmed South African station. South African SSA investigation ongoing' },
+    { name:'Sydney', country:'Australia', lat:-33.87, lon:151.21, status:'CLOSED', col:0xFF8800, desc:'ASIO investigation. DFAT confirmed Chinese officials threatened to shutter Sydney station 2023' },
+    { name:'Melbourne', country:'Australia', lat:-37.81, lon:144.96, status:'CLOSED', col:0xFF8800, desc:'Second Australian station. Both shut following ASIO pressure and parliamentary inquiry' },
+    { name:'Tokyo', country:'Japan', lat:35.68, lon:139.69, status:'ACTIVE', col:0xFF2222, desc:'Reported by Asahi Shimbun 2023. Japan NPA investigation — linked to pro-Beijing lobbying' },
+    { name:'Seoul', country:'South Korea', lat:37.57, lon:126.98, status:'ACTIVE', col:0xFF2222, desc:'NIS investigation 2023. Operates via Korean-Chinese business associations' },
+];
+
+function makePoliceDot(col, closed=false) {
+    const S=28, cv=document.createElement('canvas'); cv.width=cv.height=S;
+    const ctx=cv.getContext('2d');
+    const r=(col>>16)&255,g=(col>>8)&255,b=col&255;
+    ctx.clearRect(0,0,S,S);
+    if (closed) {
+        ctx.strokeStyle=`rgba(${r},${g},${b},0.4)`; ctx.lineWidth=1.2;
+        ctx.beginPath(); ctx.arc(14,14,8,0,Math.PI*2); ctx.stroke();
+        ctx.strokeStyle=`rgba(${r},${g},${b},0.3)`; ctx.lineWidth=1;
+        ctx.moveTo(8,8); ctx.lineTo(20,20); ctx.moveTo(20,8); ctx.lineTo(8,20); ctx.stroke();
+    } else {
+        const grd=ctx.createRadialGradient(14,14,2,14,14,12);
+        grd.addColorStop(0,`rgba(${r},${g},${b},0.9)`);
+        grd.addColorStop(0.5,`rgba(${r},${g},${b},0.3)`);
+        grd.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(14,14,12,0,Math.PI*2); ctx.fill();
+        // Badge icon (shield shape)
+        ctx.strokeStyle=`rgb(${r},${g},${b})`; ctx.lineWidth=1.3; ctx.fillStyle='none';
+        ctx.beginPath(); ctx.moveTo(14,6); ctx.lineTo(20,9); ctx.lineTo(20,15); ctx.bezierCurveTo(20,19,14,22,14,22); ctx.bezierCurveTo(14,22,8,19,8,15); ctx.lineTo(8,9); ctx.closePath(); ctx.stroke();
+        ctx.fillStyle=`rgba(${r},${g},${b},0.5)`; ctx.fill();
+    }
+    return new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false,transparent:true});
+}
+
+const policeMarkers=[];
+POLICE_STATIONS.forEach(s => {
+    const closed=s.status==='CLOSED';
+    const sp=new THREE.Sprite(makePoliceDot(s.col,closed));
+    sp.scale.setScalar(0.048); sp.position.copy(ll2v(s.lat,s.lon,1.012));
+    sp.userData={type:'police',...s};
+    policeGroup.add(sp); policeMarkers.push(sp);
+});
+
+// ── BRI Debt Trap Countries ────────────────────────────────────────────
+const debtGroup = new THREE.Group();
+debtGroup.visible = false;
+globeGroup.add(debtGroup);
+
+const DEBT_TRAPS = [
+    { name:'Sri Lanka',    flag:'🇱🇰', lat:7.87,   lon:80.77,  debt:'$7.4B',  col:0xFF8800, collateral:'Hambantota Port (99-yr lease)', status:'CRITICAL', desc:'Hambantota port handed to China Merchants Port 2017 after Sri Lanka defaulted. Set precedent for "debt-trap diplomacy." Total default declared 2022.' },
+    { name:'Pakistan',     flag:'🇵🇰', lat:30.38,  lon:69.35,  debt:'$62B',   col:0xFF4444, collateral:'CPEC energy/transport corridor', status:'DISTRESS', desc:'China-Pakistan Economic Corridor. Energy projects charge inflated rates billed to Pakistani consumers. IMF rescue packages repeatedly needed.' },
+    { name:'Zambia',       flag:'🇿🇲', lat:-13.13, lon:27.85,  debt:'$6.4B',  col:0xFF4444, collateral:'ZESCO power utility (reported)', status:'DEFAULT', desc:'First African nation to default during COVID (2020). China initially blocked IMF debt restructuring deal, slowing relief for 2+ years.' },
+    { name:'Djibouti',     flag:'🇩🇯', lat:11.83,  lon:42.59,  debt:'~77% GDP',col:0xFF6600, collateral:'Doraleh Multipurpose Port', status:'DISTRESS', desc:'China Merchants seized full control of Doraleh port 2018. PLA military base 500m away. Strategic chokepoint for Red Sea traffic.' },
+    { name:'Laos',         flag:'🇱🇦', lat:19.85,  lon:102.49, debt:'45% GDP', col:0xFF6600, collateral:'National power grid (reported)', status:'DISTRESS', desc:'$5.9B railway that Laos cannot afford. Chinese consortium received 25-yr operating rights. Power grid reported as collateral in 2020.' },
+    { name:'Montenegro',   flag:'🇲🇪', lat:42.71,  lon:19.37,  debt:'€944M',  col:0xFF8800, collateral:'Motorway Bar-Boljare', status:'RESTRUCTURED', desc:'Contracted EXIM Bank for highway with contract clause allowing China to seize land if Montenegro defaults. EU eventually provided rescue loan 2021.' },
+    { name:'Ecuador',      flag:'🇪🇨', lat:-1.83,  lon:-78.18, debt:'$18B',   col:0xFF8800, collateral:'Oil barrels pre-sold', status:'RESTRUCTURED', desc:'Oil-backed loans exchanged for Chinese workers doing Chinese projects. Coca Codo hydropower dam (China built) plagued by cracks and environmental damage.' },
+    { name:'Kenya',        flag:'🇰🇪', lat:-0.02,  lon:37.91,  debt:'$9.8B',  col:0xFF6600, collateral:'Mombasa Port (reported clause)', status:'DISTRESS', desc:'Nairobi-Mombasa SGR railway: lease terms allow China to take Mombasa port if Kenya defaults. Railway losing $100M+ per year. Kenya parliament rejected disclosure of contract terms.' },
+    { name:'Ethiopia',     flag:'🇪🇹', lat:9.15,   lon:40.49,  debt:'$14B',   col:0xFF6600, collateral:'Infrastructure assets', status:'RESTRUCTURED', desc:'Addis Ababa–Djibouti Railway ($4B) operational but expensive. Ethiopia restructured Chinese debt in 2023 amid broader debt crisis and civil war.' },
+    { name:'Myanmar',      flag:'🇲🇲', lat:17.11,  lon:96.19,  debt:'$3.6B',  col:0xFF8800, collateral:'Kyaukpyu deep-sea port', status:'ACTIVE', desc:'Chinese leased 70% stake in Kyaukpyu port for 50 years. Military coup 2021 gives China more leverage. Pipeline carries oil directly from Indian Ocean to Yunnan.' },
+    { name:'Malaysia',     flag:'🇲🇾', lat:3.14,   lon:108.35, debt:'$22B',   col:0xFFAA00, collateral:'ECRL railway rights', status:'RENEGOTIATED', desc:'PM Mahathir canceled then renegotiated ECRL in 2019, saving $11B. "China can build, but we want equity and technology transfer."' },
+    { name:'Angola',       flag:'🇦🇴', lat:-11.20, lon:17.87,  debt:'$25B',   col:0xFF6600, collateral:'Oil supply agreements', status:'DISTRESS', desc:'China\'s largest African debtor. Oil-backed loans financed Chinese-built infrastructure with limited local employment. Severe debt restructuring 2023.' },
+];
+
+function makeDebtDot(col) {
+    const S=32,cv=document.createElement('canvas'); cv.width=cv.height=S;
+    const ctx=cv.getContext('2d');
+    const r=(col>>16)&255,g=(col>>8)&255,b=col&255;
+    ctx.clearRect(0,0,S,S);
+    const grd=ctx.createRadialGradient(16,16,2,16,16,13);
+    grd.addColorStop(0,`rgba(${r},${g},${b},0.9)`);
+    grd.addColorStop(0.5,`rgba(${r},${g},${b},0.25)`);
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(16,16,13,0,Math.PI*2); ctx.fill();
+    // Dollar sign
+    ctx.strokeStyle=`rgb(${r},${g},${b})`; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(16,16,4,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle=`rgb(${r},${g},${b})`;
+    ctx.beginPath(); ctx.arc(16,16,2,0,Math.PI*2); ctx.fill();
+    return new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false,transparent:true});
+}
+
+const debtMarkers=[];
+DEBT_TRAPS.forEach(d => {
+    // Line from Beijing to victim country
+    const src=ll2v(39.9,116.4,1.01);
+    const tgt=ll2v(d.lat,d.lon,1.01);
+    const mid=src.clone().add(tgt).normalize().multiplyScalar(1.15);
+    const curve=new THREE.QuadraticBezierCurve3(src,mid,tgt);
+    const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(50)),
+        new THREE.LineBasicMaterial({color:d.col,transparent:true,opacity:0.2}));
+    debtGroup.add(line);
+    const sp=new THREE.Sprite(makeDebtDot(d.col));
+    sp.scale.setScalar(0.055); sp.position.copy(ll2v(d.lat,d.lon,1.012));
+    sp.userData={type:'debt',...d};
+    debtGroup.add(sp); debtMarkers.push(sp);
+});
+
+// ── ICBM Silo Fields ───────────────────────────────────────────────────
+const silosGroup = new THREE.Group();
+silosGroup.visible = false;
+globeGroup.add(silosGroup);
+
+const SILO_FIELDS = [
+    { name:'Yumen Silo Field',  lat:40.35, lon:96.62, silos:119, col:0xFF2222,
+      desc:'Discovered by MIIS/NPS satellite analysis July 2021. "Wagon wheel" silo layout matching DF-41 dimensions. Construction began ~2020. Largest of the three new fields. Gansu Province.' },
+    { name:'Hami Silo Field',   lat:43.12, lon:94.10, silos:110, col:0xFF4444,
+      desc:'Reported by FAS (Federation of American Scientists) Aug 2021. Xinjiang Province. 110 silos in similar wagon-wheel pattern. Grid spacing matches intercontinental ballistic missile silo specifications.' },
+    { name:'Ordos Silo Field',  lat:38.54, lon:107.82, silos:30, col:0xFF8800,
+      desc:'Third field identified in Inner Mongolia. Smaller cluster of ~30 silos. May be operationally active given proximity to existing DF-31 units based nearby.' },
+    { name:'Jilantai Training', lat:39.05, lon:105.78, silos:16, col:0xFFAA00,
+      desc:'Known training/testing site for silo operations. Reference facility used to calibrate analysis of the three new fields. DF-5B variants tested here.' },
+];
+
+const siloMarkers=[];
+SILO_FIELDS.forEach(f => {
+    // Draw range circle
+    const earthR=6371, angR=800/earthR;
+    const origin=ll2v(f.lat,f.lon,1.0).normalize();
+    const right=new THREE.Vector3(0,1,0).cross(origin).normalize();
+    const up=origin.clone().cross(right).normalize();
+    const rpts=[];
+    for(let i=0;i<=64;i++){
+        const a=(i/64)*Math.PI*2;
+        const p=origin.clone().multiplyScalar(Math.cos(angR))
+            .addScaledVector(right,Math.sin(angR)*Math.cos(a))
+            .addScaledVector(up,Math.sin(angR)*Math.sin(a));
+        rpts.push(p.normalize().multiplyScalar(1.003));
+    }
+    silosGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(rpts),
+        new THREE.LineBasicMaterial({color:f.col,transparent:true,opacity:0.35})));
+
+    const S=40,cv=document.createElement('canvas'); cv.width=cv.height=S;
+    const ctx=cv.getContext('2d');
+    const r=(f.col>>16)&255,g=(f.col>>8)&255,b=f.col&255;
+    ctx.clearRect(0,0,S,S);
+    const grd=ctx.createRadialGradient(20,20,2,20,20,16);
+    grd.addColorStop(0,`rgba(${r},${g},${b},0.9)`);
+    grd.addColorStop(0.6,`rgba(${r},${g},${b},0.2)`);
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(20,20,16,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=`rgb(${r},${g},${b})`; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.arc(20,20,5,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle=`rgb(${r},${g},${b})`;
+    // Cross-hair
+    ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(20,14); ctx.lineTo(20,26); ctx.moveTo(14,20); ctx.lineTo(26,20); ctx.stroke();
+    const mat=new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false,transparent:true});
+    const sp=new THREE.Sprite(mat);
+    sp.scale.setScalar(0.07); sp.position.copy(ll2v(f.lat,f.lon,1.013));
+    sp.userData={type:'silo',...f};
+    silosGroup.add(sp); siloMarkers.push(sp);
+});
+
+// ── PLAN Fleet / Carrier Groups ────────────────────────────────────────
+const fleetGroup = new THREE.Group();
+fleetGroup.visible = false;
+globeGroup.add(fleetGroup);
+
+const CARRIERS = [
+    { name:'CV-16 Liaoning', hull:'Kuznetsov-class STOBAR', lat:36.10, lon:120.31, homeport:'Qingdao', col:0x2299FF,
+      escorts:['2× Type 052D destroyers','1× Type 054A frigate','1× Type 093 submarine (estimated)'],
+      desc:'China\'s first carrier, refurbished Ukrainian hull. Commissioned 2012. Primarily training role. Qingdao North Sea Fleet. Deployed to W. Pacific and Taiwan Strait regularly.' },
+    { name:'CV-17 Shandong', hull:'Type 001A STOBAR', lat:18.22, lon:109.51, homeport:'Sanya', col:0x0099DD,
+      escorts:['2× Type 052D destroyers','1× Type 055 cruiser','1× Type 054A frigate'],
+      desc:'First domestically built carrier. Commissioned 2019. South Sea Fleet based at Yulin naval base, Hainan. Deployed multiple times near Taiwan and Guam. STOBAR with ski-jump.' },
+    { name:'CV-18 Fujian', hull:'Type 003 CATOBAR', lat:31.35, lon:121.50, homeport:'Shanghai', col:0x44CCFF,
+      escorts:['2× Type 055 cruisers','2× Type 052D destroyers','1× Type 903A replenishment'],
+      desc:'China\'s most advanced carrier — first with electromagnetic catapults (EMALS). Commissioned 2024. East Sea Fleet. Comparable to Gerald R. Ford class in launch capability. Carries J-15T and future J-35 fighters.' },
+];
+
+const PATROL_ZONES = [
+    { name:'W. Pacific Patrol',  lat:20.0, lon:137.0, radius:600, col:0x2299FF, note:'Regular PLAN naval exercises and freedom of navigation assertions east of first island chain' },
+    { name:'SCS Carrier Ops',    lat:12.5, lon:115.0, radius:500, col:0x0099DD, note:'South China Sea carrier strike group operations · disputed waters claimed by PRC' },
+    { name:'Taiwan Strait Watch',lat:24.5, lon:122.0, radius:200, col:0xFF6644, note:'Continuous PLAN presence monitoring Taiwan Strait · carrier groups rotate through' },
+    { name:'Indian Ocean Escort', lat:12.0, lon:62.0,  radius:400, col:0x44CCFF, note:'Counter-piracy missions provide pretext for Indian Ocean naval presence expansion' },
+];
+
+const fleetMarkers=[];
+CARRIERS.forEach(c => {
+    const S=44,cv=document.createElement('canvas'); cv.width=cv.height=S;
+    const ctx=cv.getContext('2d');
+    const r=(c.col>>16)&255,g=(c.col>>8)&255,b=c.col&255;
+    ctx.clearRect(0,0,S,S);
+    const grd=ctx.createRadialGradient(22,22,3,22,22,18);
+    grd.addColorStop(0,`rgba(${r},${g},${b},0.95)`);
+    grd.addColorStop(0.5,`rgba(${r},${g},${b},0.3)`);
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(22,22,18,0,Math.PI*2); ctx.fill();
+    // Ship silhouette
+    ctx.strokeStyle=`rgb(${r},${g},${b})`; ctx.lineWidth=1.5; ctx.fillStyle=`rgba(${r},${g},${b},0.7)`;
+    ctx.beginPath(); ctx.moveTo(8,26); ctx.lineTo(14,20); ctx.lineTo(30,20); ctx.lineTo(36,26); ctx.lineTo(28,30); ctx.lineTo(14,30); ctx.closePath(); ctx.fill(); ctx.stroke();
+    // Control tower
+    ctx.beginPath(); ctx.rect(24,14,6,8); ctx.fill(); ctx.stroke();
+    const mat=new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false,transparent:true});
+    const sp=new THREE.Sprite(mat);
+    sp.scale.setScalar(0.07); sp.position.copy(ll2v(c.lat,c.lon,1.013));
+    sp.userData={type:'carrier',...c};
+    fleetGroup.add(sp); fleetMarkers.push(sp);
+});
+PATROL_ZONES.forEach(z => {
+    const earthR=6371, angR=z.radius/earthR;
+    const origin=ll2v(z.lat,z.lon,1.0).normalize();
+    const right=new THREE.Vector3(0,1,0).cross(origin).normalize();
+    const up=origin.clone().cross(right).normalize();
+    const pts=[];
+    for(let i=0;i<=64;i++){
+        const a=(i/64)*Math.PI*2;
+        const p=origin.clone().multiplyScalar(Math.cos(angR))
+            .addScaledVector(right,Math.sin(angR)*Math.cos(a))
+            .addScaledVector(up,Math.sin(angR)*Math.sin(a));
+        pts.push(p.normalize().multiplyScalar(1.003));
+    }
+    const r=(z.col>>16)&255,g=(z.col>>8)&255,b=z.col&255;
+    fleetGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineBasicMaterial({color:z.col,transparent:true,opacity:0.25})));
+});
+
+// ── Taiwan Invasion Scenarios ──────────────────────────────────────────
+const invasionGroup = new THREE.Group();
+invasionGroup.visible = false;
+globeGroup.add(invasionGroup);
+
+// August 2022 PLA exercise zones (after Pelosi visit — publicly documented)
+const PLA_EXERCISE_ZONES_2022 = [
+    { id:'Z1', label:'Zone I · NE Coast',  pts:[[26.5,121.5],[26.5,123.0],[24.5,123.0],[24.5,121.5]], col:0xFF2222 },
+    { id:'Z2', label:'Zone II · North',    pts:[[25.5,119.5],[25.5,121.5],[24.0,121.5],[24.0,119.5]], col:0xFF4444 },
+    { id:'Z3', label:'Zone III · West',    pts:[[24.5,119.0],[24.5,121.0],[22.0,121.0],[22.0,119.0]], col:0xFF2222 },
+    { id:'Z4', label:'Zone IV · SW',       pts:[[22.5,119.0],[22.5,121.5],[20.5,121.5],[20.5,119.0]], col:0xFF4444 },
+    { id:'Z5', label:'Zone V · East',      pts:[[25.0,123.5],[25.0,126.0],[22.5,126.0],[22.5,123.5]], col:0xFF6666 },
+    { id:'Z6', label:'Zone VI · NE',       pts:[[27.5,122.5],[27.5,125.5],[25.0,125.5],[25.0,122.5]], col:0xFF6666 },
+];
+
+PLA_EXERCISE_ZONES_2022.forEach(zone => {
+    const pts3D=zone.pts.map(([la,lo])=>ll2v(la,lo,1.005));
+    pts3D.push(pts3D[0]); // close
+    const r=(zone.col>>16)&255,g=(zone.col>>8)&255,b=zone.col&255;
+    invasionGroup.add(new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(pts3D),
+        new THREE.LineBasicMaterial({color:zone.col,transparent:true,opacity:0.55})));
+    // Zone fill (fan triangles from center)
+    const center=new THREE.Vector3();
+    pts3D.slice(0,-1).forEach(p=>center.add(p));
+    center.divideScalar(pts3D.length-1).normalize().multiplyScalar(1.003);
+    const verts=[];
+    for(let i=0;i<pts3D.length-1;i++){
+        verts.push(center.x,center.y,center.z,pts3D[i].x,pts3D[i].y,pts3D[i].z,pts3D[i+1].x,pts3D[i+1].y,pts3D[i+1].z);
+    }
+    const fillGeo=new THREE.BufferGeometry();
+    fillGeo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
+    invasionGroup.add(new THREE.Mesh(fillGeo,new THREE.MeshBasicMaterial({color:zone.col,transparent:true,opacity:0.06,side:THREE.DoubleSide})));
+});
+
+// Landing beach markers
+const LANDING_ZONES = [
+    { name:'Taichung Plains', lat:24.15, lon:120.55, col:0xFFDD00, type:'LANDING', desc:'Flattest western coastline. Low gradient beaches ideal for amphibious landing. 70km from mainland China. Primary beach assault target in most wargames.' },
+    { name:'Tainan Coast',    lat:23.00, lon:120.20, col:0xFFDD00, type:'LANDING', desc:'Wide flat beaches. Key population center and air base nearby. Second priority landing zone in CSIS wargame analysis (2023).' },
+    { name:'Keelung Defense', lat:25.13, lon:121.74, col:0x44FFCC, type:'DEFENSE', desc:'Northern port city. Taiwan\'s largest military garrison. Rocky coastline favors defenders. Significant anti-air and coastal defense missiles.' },
+    { name:'Hengchun Air Base',lat:22.01, lon:120.73, col:0x44FFCC, type:'DEFENSE', desc:'Southernmost ROC Air Force base. Key refueling/staging point. Protected by Patriot PAC-3 and THAAD equivalent.' },
+    { name:'USS Reagan CSG', lat:14.0, lon:132.0, col:0x2255FF, type:'US_ASSET', desc:'USS Ronald Reagan Carrier Strike Group homeported Yokosuka. Estimated 72h transit to Taiwan Strait in crisis. Flanked by Aegis destroyers.' },
+    { name:'Guam Air Power Hub', lat:13.45, lon:144.79, col:0x2255FF, type:'US_ASSET', desc:'Andersen AFB and Apra Naval Station. B-2, B-52, B-21 forward deployment base. ~2,800km from Taiwan. Key for first-strike response.' },
+    { name:'Okinawa Bases', lat:26.34, lon:127.80, col:0x2255FF, type:'US_ASSET', desc:'Kadena AFB (largest US air base in Asia) + III MEF Marines. 650km from Taiwan. F-22, F-35 sorties in 90 minutes. Vulnerable to DF-21D.' },
+];
+
+const invasionMarkers=[];
+LANDING_ZONES.forEach(z => {
+    const S=32,cv=document.createElement('canvas'); cv.width=cv.height=S;
+    const ctx=cv.getContext('2d');
+    const r=(z.col>>16)&255,g=(z.col>>8)&255,b=z.col&255;
+    ctx.clearRect(0,0,S,S);
+    const grd=ctx.createRadialGradient(16,16,1,16,16,12);
+    grd.addColorStop(0,`rgba(${r},${g},${b},0.9)`);
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(16,16,12,0,Math.PI*2); ctx.fill();
+    if(z.type==='LANDING'){
+        // Arrow pointing inward
+        ctx.strokeStyle=`rgb(${r},${g},${b})`; ctx.lineWidth=1.5;
+        ctx.beginPath(); ctx.moveTo(10,16); ctx.lineTo(22,16); ctx.moveTo(19,12); ctx.lineTo(22,16); ctx.lineTo(19,20); ctx.stroke();
+    } else if(z.type==='DEFENSE'){
+        ctx.strokeStyle=`rgb(${r},${g},${b})`; ctx.lineWidth=1.3;
+        ctx.beginPath(); ctx.arc(16,16,5,0,Math.PI*2); ctx.stroke();
+        ctx.fillStyle=`rgb(${r},${g},${b})`; ctx.beginPath(); ctx.arc(16,16,2,0,Math.PI*2); ctx.fill();
+    } else {
+        // Star for US asset
+        ctx.fillStyle=`rgb(${r},${g},${b})`;
+        ctx.beginPath(); for(let i=0;i<5;i++){const a=i*Math.PI*2/5-Math.PI/2;const a2=a+Math.PI/5;ctx.lineTo(16+Math.cos(a)*6,16+Math.sin(a)*6);ctx.lineTo(16+Math.cos(a2)*2.5,16+Math.sin(a2)*2.5);} ctx.closePath(); ctx.fill();
+    }
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false,transparent:true}));
+    sp.scale.setScalar(0.055); sp.position.copy(ll2v(z.lat,z.lon,1.013));
+    sp.userData={type:'invasion',...z};
+    invasionGroup.add(sp); invasionMarkers.push(sp);
+});
+
+// ── APT Hacking Groups ─────────────────────────────────────────────────
+const aptGroup = new THREE.Group();
+aptGroup.visible = false;
+globeGroup.add(aptGroup);
+
+const APT_GROUPS = [
+    { name:'APT1 / Comment Crew',  alias:'PLA Unit 61398', lat:31.29, lon:121.48, col:0xFF2222, activity:95,
+      targets:[{ lat:39.7, lon:-104.9 },{ lat:51.5, lon:-0.1 },{ lat:48.9, lon:2.3 }],
+      sectors:'US Defense, Aerospace, Energy, Telecom · 20+ industries · 141 companies',
+      desc:'Mandiant exposed 2013. Located in a 12-story building on Datong Road, Shanghai. Most documented Chinese APT. Stole terabytes of IP including jet engine designs and satellite plans.' },
+    { name:'APT10 / Stone Panda',  alias:'MSS · Tianjin',  lat:39.13, lon:117.18, col:0xFF4444, activity:80,
+      targets:[{ lat:35.7, lon:139.7 },{ lat:35.7, lon:-78.6 },{ lat:51.5, lon:-0.2 }],
+      sectors:'Managed Service Providers (MSPs) · Healthcare · Government cloud · 45+ countries',
+      desc:'"Cloud Hopper" campaign 2016-18 compromised 12+ MSPs giving access to their clients worldwide. US DOJ indicted two PLA officers 2018. Tied to MSS Tianjin State Security Bureau.' },
+    { name:'APT40 / Bronze Mohawk', alias:'MSS Hainan · CNTIC', lat:20.04, lon:110.32, col:0xFF6600, activity:85,
+      targets:[{ lat:14.1, lon:100.5 },{ lat:22.3, lon:114.2 },{ lat:-33.9, lon:151.2 }],
+      sectors:'Maritime, Naval Defense, Aviation, R&D · Operates from Hainan Island',
+      desc:'US DOJ indicted 4 members 2021. Front company Hainan Xiandun Technology. Maritime focus reflects PLA Navy interest. Operated during COVID stealing vaccine research (2020).' },
+    { name:'APT41 / Winnti',       alias:'Double Dragon · Chengdu',lat:30.66, lon:104.06, col:0xFFAA00, activity:90,
+      targets:[{ lat:37.6, lon:-122.1 },{ lat:35.7, lon:139.7 },{ lat:-6.2, lon:106.8 }],
+      sectors:'Gaming/IP Theft + Government Espionage (dual mandate) · 14 countries · Healthcare',
+      desc:'Unique group conducting state espionage AND financially-motivated attacks simultaneously. DOJ indicted 5 Chengdu 404 Co. employees 2020. COVID vaccine developers targeted 2020–21.' },
+    { name:'Volt Typhoon',         alias:'BRONZE SILHOUETTE', lat:39.92, lon:116.39, col:0xFF2255, activity:75,
+      targets:[{ lat:21.3, lon:-157.8 },{ lat:37.7, lon:-122.4 },{ lat:41.3, lon:-72.9 }],
+      sectors:'US Critical Infrastructure: Power grids, water, ports, pipelines, telecom',
+      desc:'Named by Microsoft/CISA 2023. Pre-positioning in US critical infrastructure — not for espionage but for potential disruption if conflict erupts over Taiwan. Classified as existential threat.' },
+    { name:'Salt Typhoon',         alias:'GhostEmperor · FamousSparrow', lat:39.95, lon:116.28, col:0xDD2277, activity:70,
+      targets:[{ lat:40.7, lon:-74.0 },{ lat:37.3, lon:-122.1 },{ lat:38.9, lon:-77.0 }],
+      sectors:'US Telecoms: AT&T, Verizon, Lumen · Wiretap systems · Lawful intercept infrastructure',
+      desc:'Confirmed by FBI/CISA Oct 2024. Infiltrated US telecom lawful intercept systems — the same systems used by FBI. Accessed call records including senior government officials. Considered most serious telecom breach ever.' },
+    { name:'APT3 / Gothic Panda',  alias:'UPS / Pirpi',    lat:23.12, lon:113.32, col:0xFF8844, activity:60,
+      targets:[{ lat:51.5, lon:-0.1 },{ lat:22.3, lon:114.2 },{ lat:37.7, lon:-122.4 }],
+      sectors:'US/UK/HK Defense Contractors, Aerospace · Zero-days in IE, Firefox, Flash',
+      desc:'Linked to MSS Guangdong. Known for rapid weaponization of zero-day exploits — sometimes within days of public disclosure. Exposed by NCSC UK 2021 as APT40 overlap exists.' },
+    { name:'APT31 / Judgment Panda',alias:'Zirconium · MSS Hubei', lat:30.59, lon:114.30, col:0xFFDD00, activity:65,
+      targets:[{ lat:48.9, lon:2.3 },{ lat:52.5, lon:13.4 },{ lat:55.7, lon:37.6 }],
+      sectors:'European Government · Politicians · Journalists · Biden campaign (2020)',
+      desc:'US DOJ/UK NCSC/EU ENISA coordinated attribution 2024. Targeted EU parliament, French politicians, German parliament. Finnish parliament breach 2021. Linked to Wuhan Xiaoruizhi Science Co.' },
+];
+
+const aptSourceMarkers=[];
+APT_GROUPS.forEach(g => {
+    const S=36,cv=document.createElement('canvas'); cv.width=cv.height=S;
+    const ctx=cv.getContext('2d');
+    const r=(g.col>>16)&255,ge=(g.col>>8)&255,b=g.col&255;
+    ctx.clearRect(0,0,S,S);
+    const grd=ctx.createRadialGradient(18,18,2,18,18,15);
+    grd.addColorStop(0,`rgba(${r},${ge},${b},0.9)`);
+    grd.addColorStop(0.5,`rgba(${r},${ge},${b},0.3)`);
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(18,18,15,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=`rgb(${r},${ge},${b})`; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.arc(18,18,5,0,Math.PI*2); ctx.stroke();
+    // Bug/skull icon center
+    ctx.fillStyle=`rgb(${r},${ge},${b})`;
+    ctx.beginPath(); ctx.arc(18,18,2.5,0,Math.PI*2); ctx.fill();
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false,transparent:true}));
+    sp.scale.setScalar(0.062); sp.position.copy(ll2v(g.lat,g.lon,1.013));
+    sp.userData={type:'apt',...g};
+    aptGroup.add(sp); aptSourceMarkers.push(sp);
+    // Draw attack arcs to target regions
+    g.targets.forEach(t => {
+        const src=ll2v(g.lat,g.lon,1.01);
+        const tgt=ll2v(t.lat,t.lon,1.01);
+        const mid=src.clone().add(tgt).normalize().multiplyScalar(1.12);
+        const curve=new THREE.QuadraticBezierCurve3(src,mid,tgt);
+        aptGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(curve.getPoints(50)),
+            new THREE.LineBasicMaterial({color:g.col,transparent:true,opacity:0.18})));
+    });
+});
+
+// ── Confucius Institutes ───────────────────────────────────────────────
+const confuciusGroup = new THREE.Group();
+confuciusGroup.visible = false;
+globeGroup.add(confuciusGroup);
+
+const CI_INSTITUTES = [
+    // USA — many closed
+    { name:'Columbia U', country:'USA', lat:40.81, lon:-73.96, open:false },
+    { name:'U of Chicago', country:'USA', lat:41.79, lon:-87.60, open:false },
+    { name:'Stanford', country:'USA', lat:37.43, lon:-122.17, open:false },
+    { name:'UC San Diego', country:'USA', lat:32.88, lon:-117.23, open:false },
+    { name:'U of Michigan', country:'USA', lat:42.28, lon:-83.74, open:false },
+    { name:'George Mason U', country:'USA', lat:38.83, lon:-77.31, open:false },
+    { name:'U of Minnesota', country:'USA', lat:44.97, lon:-93.23, open:false },
+    { name:'U of North Carolina', country:'USA', lat:35.90, lon:-79.05, open:false },
+    { name:'Ohio State U', country:'USA', lat:40.00, lon:-83.02, open:false },
+    { name:'Arizona State U', country:'USA', lat:33.42, lon:-111.93, open:false },
+    { name:'U of Houston', country:'USA', lat:29.72, lon:-95.34, open:false },
+    { name:'U of Oregon', country:'USA', lat:44.05, lon:-123.07, open:false },
+    { name:'Georgia Tech', country:'USA', lat:33.78, lon:-84.40, open:false },
+    { name:'Michigan State U', country:'USA', lat:42.73, lon:-84.48, open:false },
+    { name:'Penn State U', country:'USA', lat:40.80, lon:-77.86, open:false },
+    // USA — remaining open (few)
+    { name:'Troy U', country:'USA', lat:31.81, lon:-86.00, open:true },
+    { name:'Keene State College', country:'USA', lat:42.93, lon:-72.29, open:true },
+    // Canada
+    { name:'U of Waterloo', country:'Canada', lat:43.47, lon:-80.54, open:false },
+    { name:'McMaster U', country:'Canada', lat:43.26, lon:-79.92, open:true },
+    { name:'U of Alberta', country:'Canada', lat:53.52, lon:-113.53, open:true },
+    { name:'York U Toronto', country:'Canada', lat:43.77, lon:-79.50, open:true },
+    { name:'U of British Columbia', country:'Canada', lat:49.26, lon:-123.25, open:false },
+    // UK
+    { name:'U of Edinburgh', country:'UK', lat:55.95, lon:-3.19, open:false },
+    { name:'U of Manchester', country:'UK', lat:53.47, lon:-2.23, open:false },
+    { name:'King\'s College London', country:'UK', lat:51.51, lon:-0.11, open:false },
+    { name:'U of Sheffield', country:'UK', lat:53.38, lon:-1.48, open:true },
+    { name:'U of Liverpool', country:'UK', lat:53.41, lon:-2.97, open:true },
+    // Australia — most closed
+    { name:'U of Sydney', country:'Australia', lat:-33.89, lon:151.19, open:false },
+    { name:'U of Melbourne', country:'Australia', lat:-37.80, lon:144.96, open:false },
+    { name:'ANU Canberra', country:'Australia', lat:-35.28, lon:149.12, open:false },
+    { name:'Monash U', country:'Australia', lat:-37.91, lon:145.13, open:false },
+    // Germany
+    { name:'Humboldt U Berlin', country:'Germany', lat:52.51, lon:13.39, open:true },
+    { name:'U of Duisburg-Essen', country:'Germany', lat:51.45, lon:6.99, open:true },
+    { name:'Goethe U Frankfurt', country:'Germany', lat:50.12, lon:8.63, open:true },
+    { name:'LMU Munich', country:'Germany', lat:48.15, lon:11.58, open:true },
+    // France
+    { name:'Sciences Po Paris', country:'France', lat:48.85, lon:2.33, open:false },
+    { name:'U of Lyon', country:'France', lat:45.75, lon:4.85, open:true },
+    { name:'U of Strasbourg', country:'France', lat:48.58, lon:7.75, open:true },
+    // Asia
+    { name:'Seoul National U', country:'South Korea', lat:37.46, lon:126.95, open:true },
+    { name:'Waseda U', country:'Japan', lat:35.71, lon:139.72, open:true },
+    { name:'NUS Singapore', country:'Singapore', lat:1.30, lon:103.78, open:true },
+    { name:'U of Hong Kong', country:'Hong Kong', lat:22.28, lon:114.13, open:true },
+    // Latin America
+    { name:'UNAM Mexico', country:'Mexico', lat:19.33, lon:-99.19, open:true },
+    { name:'U of Chile', country:'Chile', lat:-33.46, lon:-70.66, open:true },
+    { name:'U of São Paulo', country:'Brazil', lat:-23.56, lon:-46.73, open:true },
+    // Africa
+    { name:'U of Nairobi', country:'Kenya', lat:-1.28, lon:36.82, open:true },
+    { name:'U of Pretoria', country:'South Africa', lat:-25.75, lon:28.23, open:true },
+    { name:'Cairo U', country:'Egypt', lat:30.03, lon:31.21, open:true },
+];
+
+const ciMarkers=[];
+CI_INSTITUTES.forEach(ci => {
+    const col=ci.open?0x4499FF:0x444466;
+    const S=24,cv=document.createElement('canvas'); cv.width=cv.height=S;
+    const ctx=cv.getContext('2d');
+    ctx.clearRect(0,0,S,S);
+    const r=(col>>16)&255,g=(col>>8)&255,b=col&255;
+    if(ci.open){
+        const grd=ctx.createRadialGradient(12,12,1,12,12,10);
+        grd.addColorStop(0,`rgba(${r},${g},${b},0.8)`);
+        grd.addColorStop(1,'rgba(0,0,0,0)');
+        ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(12,12,10,0,Math.PI*2); ctx.fill();
+        ctx.fillStyle=`rgb(${r},${g},${b})`; ctx.beginPath(); ctx.arc(12,12,2.5,0,Math.PI*2); ctx.fill();
+    } else {
+        ctx.strokeStyle=`rgba(${r},${g},${b},0.5)`; ctx.lineWidth=1;
+        ctx.beginPath(); ctx.arc(12,12,6,0,Math.PI*2); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(8,8); ctx.lineTo(16,16); ctx.moveTo(16,8); ctx.lineTo(8,16); ctx.stroke();
+    }
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false,transparent:true}));
+    sp.scale.setScalar(ci.open?0.04:0.032); sp.position.copy(ll2v(ci.lat,ci.lon,1.012));
+    sp.userData={type:'ci',...ci,col};
+    confuciusGroup.add(sp); ciMarkers.push(sp);
+});
+
+// ── Geopolitical Tension Meter ─────────────────────────────────────────
+const tensionGroup = new THREE.Group();
+tensionGroup.visible = false;
+globeGroup.add(tensionGroup);
+
+const TENSION_ZONES_DATA = [
+    { name:'Taiwan Strait',   lat:24.5,  lon:122.0, col:0xFF2222, baseScore:85,
+      keywords:['Taiwan','ADIZ','PLA','strait','invasion','blockade','Taipei','ROC'],
+      detail:'Regular PLAN exercises · ADIZ violations · Ongoing missile tests · CVN deployments' },
+    { name:'South China Sea', lat:12.0,  lon:114.0, col:0xFF6600, baseScore:75,
+      keywords:['South China Sea','Spratly','Scarborough','Philippines','reef','territorial'],
+      detail:'Philippine confrontations · Water cannon incidents · Disputed reefs · UNCLOS violations' },
+    { name:'East China Sea',  lat:29.0,  lon:126.0, col:0xFFAA00, baseScore:60,
+      keywords:['Senkaku','Diaoyu','East China Sea','Japan','Air Defense Identification Zone'],
+      detail:'Senkaku/Diaoyu dispute · Daily PLAN/PLAAF incursions · Japan GSDF scrambles' },
+    { name:'India-China LAC', lat:33.5,  lon:79.0,  col:0xFFDD00, baseScore:55,
+      keywords:['India','Ladakh','LAC','Galwan','Arunachal','border','clash','Himalaya'],
+      detail:'Galwan Valley legacy tension · Ongoing road construction · Troop face-offs · Doklam' },
+    { name:'Korean Peninsula',lat:38.5,  lon:127.0, col:0xFF8800, baseScore:65,
+      keywords:['North Korea','Kim','ICBM','missile','nuclear','Seoul','DPRK'],
+      detail:'North Korean ICBM tests · China-backed DPRK · US-ROK exercises · Xi-Kim alliance' },
+    { name:'Myanmar/Burma',   lat:20.0,  lon:96.0,  col:0xAA4400, baseScore:40,
+      keywords:['Myanmar','Burma','junta','coup','civil war','Tatmadaw','resistance'],
+      detail:'Post-coup civil war · China backing military junta · Pipeline/border security interests' },
+];
+
+const tensionScores = {}; // updated by news scoring
+const tensionMarkers=[];
+
+TENSION_ZONES_DATA.forEach(z => {
+    tensionScores[z.name] = z.baseScore;
+    const earthR=6371, angR=250/earthR;
+    const origin=ll2v(z.lat,z.lon,1.0).normalize();
+    const right=new THREE.Vector3(0,1,0).cross(origin).normalize();
+    const up=origin.clone().cross(right).normalize();
+    const pts=[];
+    for(let i=0;i<=64;i++){
+        const a=(i/64)*Math.PI*2;
+        const p=origin.clone().multiplyScalar(Math.cos(angR))
+            .addScaledVector(right,Math.sin(angR)*Math.cos(a))
+            .addScaledVector(up,Math.sin(angR)*Math.sin(a));
+        pts.push(p.normalize().multiplyScalar(1.003));
+    }
+    const r=(z.col>>16)&255,g=(z.col>>8)&255,b=z.col&255;
+    const ring=new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineBasicMaterial({color:z.col,transparent:true,opacity:0.6}));
+    ring.userData={tensionZone:z.name};
+    tensionGroup.add(ring);
+    // Center marker
+    const S=40,cv=document.createElement('canvas'); cv.width=cv.height=S;
+    const ctx=cv.getContext('2d');
+    ctx.clearRect(0,0,S,S);
+    const grd=ctx.createRadialGradient(20,20,3,20,20,17);
+    grd.addColorStop(0,`rgba(${r},${g},${b},0.8)`);
+    grd.addColorStop(0.4,`rgba(${r},${g},${b},0.2)`);
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(20,20,17,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=`rgb(${r},${g},${b})`; ctx.beginPath(); ctx.arc(20,20,3,0,Math.PI*2); ctx.fill();
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(cv),depthTest:false,transparent:true}));
+    sp.scale.setScalar(0.065); sp.position.copy(ll2v(z.lat,z.lon,1.013));
+    sp.userData={type:'tension',...z};
+    tensionGroup.add(sp); tensionMarkers.push(sp);
+});
+
+// Score tension zones from live news
+function scoreTensionFromNews(articles) {
+    TENSION_ZONES_DATA.forEach(z => {
+        const hits = articles.filter(a => {
+            const text=(a.title+' '+(a.desc||'')).toLowerCase();
+            return z.keywords.some(k=>text.includes(k.toLowerCase()));
+        }).length;
+        // Blend base score with live signal (0–100)
+        tensionScores[z.name] = Math.min(100, z.baseScore + hits * 4);
+    });
+}
+
 // ── Aircraft Tracking ──────────────────────────────────────────────────
 // Chinese airline ICAO callsign prefixes (3-letter designators)
 const CHINESE_AIRLINE_PFXS = new Set([
@@ -3871,6 +4512,126 @@ renderer.domElement.addEventListener('mousemove', e => {
             tooltip.style.top  = (e.clientY - 8)  + 'px';
             tooltip.classList.add('show');
             return;
+        }
+    }
+
+    // ── Overseas police stations ──────────────────────
+    if (policeGroup.visible) {
+        const phits = raycaster.intersectObjects(policeMarkers, false);
+        if (phits.length) {
+            const d = phits[0].object.userData;
+            const col = d.status==='ACTIVE'?'#FF2222':'#888';
+            tooltip.innerHTML = `<strong style="color:${col}">${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">${d.country.toUpperCase()} · OVERSEAS POLICE STATION · ${d.status}</span><br>
+                <span style="font-size:10px;color:#aaa;line-height:1.4;display:block;margin-top:4px">${d.desc}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── BRI Debt traps ────────────────────────────────
+    if (debtGroup.visible) {
+        const dhits = raycaster.intersectObjects(debtMarkers, false);
+        if (dhits.length) {
+            const d = dhits[0].object.userData;
+            const col = d.status==='DEFAULT'||d.status==='CRITICAL'?'#FF2222':'#FF8800';
+            tooltip.innerHTML = `<strong style="color:${col}">${d.flag} ${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">BRI DEBT · ${d.status}</span><br>
+                <span style="font-size:12px;color:#FFD700;font-family:'Orbitron',monospace;display:block;margin-top:3px">${d.debt}</span>
+                <span style="font-size:9px;color:#FF6600;display:block;margin-top:2px">⚠ ${d.collateral}</span>
+                <span style="font-size:9px;color:#aaa;line-height:1.4;display:block;margin-top:3px">${d.desc.substring(0,100)}…</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── ICBM silo fields ──────────────────────────────
+    if (silosGroup.visible) {
+        const shits = raycaster.intersectObjects(siloMarkers, false);
+        if (shits.length) {
+            const d = shits[0].object.userData;
+            tooltip.innerHTML = `<strong style="color:#FF2222">☢ ${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">ICBM SILO FIELD · SATELLITE VERIFIED</span><br>
+                <span style="font-size:12px;color:#FFD700;font-family:'Orbitron',monospace;display:block;margin-top:3px">${d.silos} SILOS</span>
+                <span style="font-size:9px;color:#aaa;line-height:1.4;display:block;margin-top:3px">${d.desc.substring(0,120)}…</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── PLAN fleet ────────────────────────────────────
+    if (fleetGroup.visible) {
+        const fhits = raycaster.intersectObjects(fleetMarkers, false);
+        if (fhits.length) {
+            const d = fhits[0].object.userData;
+            const col = '#' + d.col.toString(16).padStart(6,'0');
+            tooltip.innerHTML = `<strong style="color:${col}">⚓ ${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">PLAN CARRIER · ${d.hull}</span><br>
+                <span style="font-size:10px;color:#FFD700;display:block;margin-top:3px">HOME: ${d.homeport}</span>
+                <span style="font-size:9px;color:#aaa;line-height:1.4;display:block;margin-top:3px">${d.desc.substring(0,120)}…</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── Invasion scenarios ────────────────────────────
+    if (invasionGroup.visible) {
+        const ihits = raycaster.intersectObjects(invasionMarkers, false);
+        if (ihits.length) {
+            const d = ihits[0].object.userData;
+            const cols={LANDING:'#FFDD00',DEFENSE:'#44FFCC',US_ASSET:'#2255FF'};
+            const labs={LANDING:'AMPHIBIOUS LANDING ZONE',DEFENSE:'TAIWAN DEFENSE',US_ASSET:'US / ALLIED ASSET'};
+            const col=cols[d.type]||'#aaa';
+            tooltip.innerHTML = `<strong style="color:${col}">${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">${labs[d.type]||''}</span><br>
+                <span style="font-size:9px;color:#aaa;line-height:1.4;display:block;margin-top:4px">${d.desc.substring(0,130)}…</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── APT groups ────────────────────────────────────
+    if (aptGroup.visible) {
+        const ahits = raycaster.intersectObjects(aptSourceMarkers, false);
+        if (ahits.length) {
+            const d = ahits[0].object.userData;
+            const col = '#' + (d.col||0xFF4444).toString(16).padStart(6,'0');
+            tooltip.innerHTML = `<strong style="color:${col}">${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">${d.alias}</span><br>
+                <span style="font-size:10px;color:#FF8800;display:block;margin-top:3px">Activity: ${d.activity}%</span>
+                <span style="font-size:9px;color:#aaa;line-height:1.4;display:block;margin-top:3px">${d.sectors}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── Confucius institutes ──────────────────────────
+    if (confuciusGroup.visible) {
+        const chits = raycaster.intersectObjects(ciMarkers, false);
+        if (chits.length) {
+            const d = chits[0].object.userData;
+            const col = d.open ? '#4499FF' : '#666';
+            const status = d.open ? 'ACTIVE' : 'CLOSED';
+            tooltip.innerHTML = `<strong style="color:${col}">孔 ${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">${d.country.toUpperCase()} · CONFUCIUS INSTITUTE · ${status}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── Tension zones ─────────────────────────────────
+    if (tensionGroup.visible) {
+        const thits = raycaster.intersectObjects(tensionMarkers, false);
+        if (thits.length) {
+            const d = thits[0].object.userData;
+            const score = tensionScores[d.name] || d.baseScore;
+            const col = score>=80?'#FF2222':score>=60?'#FF8800':score>=40?'#FFDD00':'#44FF88';
+            tooltip.innerHTML = `<strong style="color:${col}">${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">TENSION SCORE</span><br>
+                <span style="font-size:18px;font-family:'Orbitron',monospace;color:${col};display:block;margin-top:2px">${score}</span>
+                <span style="font-size:9px;color:#aaa;line-height:1.4;display:block;margin-top:3px">${d.detail}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
         }
     }
 
@@ -4991,6 +5752,321 @@ const PANELS = {
         }
     },
 
+    police: {
+        title: 'CCP Overseas Police Stations',
+        subtitle: 'Safeguard Defenders · 53 Countries · 102+ Confirmed Stations',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#FF2222"></div>Active station</div>
+            <div class="legend-item"><div class="lp" style="background:#FF8800;opacity:0.5"></div>Closed / shut down</div>
+        `,
+        html() {
+            const active=POLICE_STATIONS.filter(s=>s.status==='ACTIVE');
+            const closed=POLICE_STATIONS.filter(s=>s.status!=='ACTIVE');
+            const card=s=>{
+                const col=s.status==='ACTIVE'?'#FF2222':'#666';
+                const badge=s.status==='ACTIVE'?'background:rgba(255,34,34,0.15);color:#FF2222;border:1px solid rgba(255,34,34,0.3)':'background:rgba(100,100,100,0.1);color:#555;border:1px solid rgba(100,100,100,0.2)';
+                return `<div class="police-item">
+                    <div class="police-dot" style="background:${col}"></div>
+                    <div style="flex:1">
+                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px">
+                            <div class="police-name">${s.name}</div>
+                            <span class="police-status" style="${badge};padding:1px 5px;letter-spacing:1px">${s.status}</span>
+                        </div>
+                        <div class="police-country">${s.country} · ${Math.abs(s.lat).toFixed(1)}°${s.lat>=0?'N':'S'} ${Math.abs(s.lon).toFixed(1)}°${s.lon>=0?'E':'W'}</div>
+                        <div class="srv-desc" style="margin-top:3px">${s.desc}</div>
+                    </div>
+                </div>`;
+            };
+            return `
+            <p class="intro-text">First documented by Safeguard Defenders (Madrid NGO) in September 2022. These "service stations" run by Chinese diaspora groups on behalf of the Ministry of Public Security coerce overseas Chinese to return to China, silence dissidents, and gather intelligence.</p>
+            <div style="display:flex;gap:10px;margin-bottom:12px">
+                <div style="background:rgba(255,34,34,0.1);border:1px solid rgba(255,34,34,0.2);padding:8px 14px;text-align:center">
+                    <div style="font-family:'Orbitron',monospace;font-size:18px;color:#FF2222">${active.length}</div>
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#666;letter-spacing:1px">ACTIVE</div>
+                </div>
+                <div style="background:rgba(100,100,100,0.08);border:1px solid rgba(100,100,100,0.15);padding:8px 14px;text-align:center">
+                    <div style="font-family:'Orbitron',monospace;font-size:18px;color:#666">${closed.length}</div>
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:1px">CLOSED</div>
+                </div>
+                <div style="background:rgba(255,150,0,0.08);border:1px solid rgba(255,150,0,0.15);padding:8px 14px;text-align:center">
+                    <div style="font-family:'Orbitron',monospace;font-size:18px;color:#FF8800">53</div>
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#555;letter-spacing:1px">COUNTRIES</div>
+                </div>
+            </div>
+            <div class="section-label">Active Stations</div>
+            ${active.map(card).join('')}
+            <div class="section-label" style="margin-top:12px">Shut Down After Investigation</div>
+            ${closed.map(card).join('')}
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Source: Safeguard Defenders "110 Overseas" report 2022 · Updated 2024</p>`;
+        }
+    },
+
+    debt: {
+        title: 'BRI Debt Trap Tracker',
+        subtitle: 'Belt & Road Debt Distress · Collateral & Defaults',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#FF4444"></div>Default / critical</div>
+            <div class="legend-item"><div class="lp" style="background:#FF8800"></div>Distress / restructured</div>
+            <div class="legend-item"><div class="ld" style="background:#FF6600"></div>Chinese loan line</div>
+        `,
+        html() {
+            const statusCol={CRITICAL:'#FF2222',DEFAULT:'#FF2222',DISTRESS:'#FF8800',RESTRUCTURED:'#FFD700',ACTIVE:'#FF6600',RENEGOTIATED:'#FFDD44'};
+            return `
+            <p class="intro-text">China's Belt & Road Initiative loans often come with opaque terms, secret "cross-default" clauses, and collateral arrangements involving sovereign assets. When countries can't repay, China gains strategic leverage.</p>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+                ${[{l:'Countries in Distress',v:'10+',c:'#FF4444'},{l:'Total Debt at Risk',v:'$200B+',c:'#FFD700'},{l:'Asset Seizures',v:'3+',c:'#FF8800'}].map(s=>`
+                <div style="flex:1;min-width:70px;background:rgba(${s.c==='#FF4444'?'255,68,68':'255,215,0'},0.08);border:1px solid rgba(${s.c==='#FF4444'?'255,68,68':'255,215,0'},0.2);padding:8px;text-align:center">
+                    <div style="font-family:'Orbitron',monospace;font-size:14px;color:${s.c}">${s.v}</div>
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#444;letter-spacing:1px;margin-top:2px">${s.l}</div>
+                </div>`).join('')}
+            </div>
+            ${DEBT_TRAPS.map(d=>{
+                const col=statusCol[d.status]||'#888';
+                return `<div class="debt-item">
+                    <div class="debt-flag">${d.flag}</div>
+                    <div style="flex:1">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px">
+                            <div class="debt-country">${d.name}</div>
+                            <span style="font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:1.5px;padding:1px 6px;background:rgba(${col==='#FF2222'?'255,34,34':'255,150,0'},0.12);color:${col};border:1px solid ${col}44">${d.status}</span>
+                        </div>
+                        <div class="debt-amount">${d.debt}</div>
+                        <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#FF4444;margin:3px 0;letter-spacing:0.5px">⚠ ${d.collateral}</div>
+                        <div class="debt-detail">${d.desc}</div>
+                    </div>
+                </div>`;
+            }).join('')}
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Sources: AidData, Rhodium Group, IMF, Reuters · Data current to 2025</p>`;
+        }
+    },
+
+    silos: {
+        title: 'New ICBM Silo Fields',
+        subtitle: 'Satellite-Verified · 250+ Silos · MIIS / FAS / Planet Labs',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#FF2222"></div>Yumen field (~119 silos)</div>
+            <div class="legend-item"><div class="lp" style="background:#FF4444"></div>Hami field (~110 silos)</div>
+            <div class="legend-item"><div class="lp" style="background:#FF8800"></div>Ordos field (~30 silos)</div>
+        `,
+        html() { return `
+            <p class="intro-text">Three massive ICBM silo fields were detected via commercial satellite imagery in 2021, revealing China's fastest nuclear expansion since the 1960s. The "wagon wheel" construction pattern exactly matches existing DF-5 silo dimensions.</p>
+            <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+                ${[{l:'New Silos (est.)',v:'250+',c:'#FF2222'},{l:'Construction Start',v:'~2020',c:'#FFD700'},{l:'Completion Est.',v:'2025–27',c:'#FF8800'}].map(s=>`
+                <div style="flex:1;min-width:70px;background:rgba(255,34,34,0.08);border:1px solid rgba(255,34,34,0.2);padding:8px;text-align:center">
+                    <div style="font-family:'Orbitron',monospace;font-size:14px;color:${s.c}">${s.v}</div>
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#444;letter-spacing:1px;margin-top:2px">${s.l}</div>
+                </div>`).join('')}
+            </div>
+            ${SILO_FIELDS.map(f=>`<div class="silo-field">
+                <div class="silo-name">${f.name}</div>
+                <div class="silo-count">⬡ ${f.silos} SILOS IDENTIFIED</div>
+                <div style="height:3px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:6px"><div style="height:3px;background:#FF2222;width:${(f.silos/120)*100}%;border-radius:2px"></div></div>
+                <div class="silo-desc">${f.desc}</div>
+            </div>`).join('')}
+            <div class="section-label" style="margin-top:12px">Strategic Implications</div>
+            ${[
+                {t:'Warhead multiplier',d:'If loaded with MIRVed DF-41s (3–10 warheads each), 250 silos = potential 750–2,500 warheads — approaching US stockpile'},
+                {t:'"Shell game" deception',d:'Many silos may be empty decoys, forcing adversaries to target all of them — exhausting interceptors and raising cost of any first strike'},
+                {t:'Timeline: Triad completion',d:'Combined with JL-3 SSBN submarines and H-20 stealth bomber, China aims for a complete nuclear triad by 2030'},
+                {t:'Nuclear posture shift',d:'China moving from minimal deterrence (~250 warheads) toward launch-on-warning capability — a fundamental posture change'},
+            ].map(i=>`<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#FF8800;margin-bottom:3px;letter-spacing:1px">${i.t}</div>
+                <div style="font-size:9px;color:#555;line-height:1.5">${i.d}</div>
+            </div>`).join('')}
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Sources: MIIS/NPS Geospatial Technologies Project · FAS Nuclear Notebook · Planet Labs imagery</p>`; }
+    },
+
+    fleet: {
+        title: 'PLAN Carrier Strike Groups',
+        subtitle: 'People\'s Liberation Army Navy · 3 Carriers · Pacific Presence',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#2299FF"></div>Carrier strike group</div>
+            <div class="legend-item"><div class="ld" style="background:#2299FF"></div>Patrol / exercise zone</div>
+        `,
+        html() { return `
+            <p class="intro-text">The PLAN now operates three aircraft carriers and is building more. China's fleet-in-being strategy aims to deny US access to the western Pacific (A2/AD) and project power throughout the Indo-Pacific.</p>
+            ${CARRIERS.map(c=>`<div class="fleet-carrier">
+                <div class="fleet-name">${c.name}</div>
+                <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:1.5px;margin-bottom:6px">${c.hull}</div>
+                <div class="fleet-stats">
+                    <span class="fleet-stat">HOME: ${c.homeport}</span>
+                    ${c.escorts.map(e=>`<span class="fleet-stat">${e}</span>`).join('')}
+                </div>
+                <div class="fleet-desc">${c.desc}</div>
+            </div>`).join('')}
+            <div class="section-label">Patrol & Exercise Zones</div>
+            ${PATROL_ZONES.map(z=>`<div style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#2299FF;margin-bottom:2px;letter-spacing:1px">${z.name}</div>
+                <div style="font-size:9px;color:#555">${z.note}</div>
+            </div>`).join('')}
+            <div class="section-label" style="margin-top:12px">Fleet Comparison (2026 est.)</div>
+            ${[
+                {m:'Aircraft Carriers',    cn:'3 (+ 2 building)',us:'11'},
+                {m:'Destroyers',           cn:'~50',             us:'~70'},
+                {m:'Frigates',             cn:'~60',             us:'~20'},
+                {m:'Submarines (total)',   cn:'~60',             us:'~68'},
+                {m:'Submarines (nuclear)', cn:'~12',             us:'~50'},
+                {m:'Total hulls',          cn:'~355',            us:'~280'},
+            ].map(r=>`<div style="display:flex;gap:8px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.03)">
+                <div style="width:130px;font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:0.5px">${r.m}</div>
+                <div style="font-family:'Orbitron',monospace;font-size:10px;color:#CC0000;min-width:90px">${r.cn}</div>
+                <div style="font-family:'Orbitron',monospace;font-size:10px;color:#2255FF">${r.us}</div>
+            </div>`).join('')}
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Sources: IISS Military Balance 2026 · US DoD China Military Power Report</p>`; }
+    },
+
+    invasion: {
+        title: 'Taiwan Invasion Scenarios',
+        subtitle: 'RAND · CSIS Wargames · PLA 2022 Exercise Zones',
+        legend: `
+            <div class="legend-item"><div class="ld" style="background:#FF2222"></div>PLA Aug 2022 exercise zones</div>
+            <div class="legend-item"><div class="lp" style="background:#FFDD00"></div>Amphibious landing zone</div>
+            <div class="legend-item"><div class="lp" style="background:#44FFCC"></div>Taiwan defense position</div>
+            <div class="legend-item"><div class="lp" style="background:#2255FF"></div>US/allied asset</div>
+        `,
+        html() { return `
+            <p class="intro-text">Based on declassified RAND Corporation, CSIS (2023), and US Indo-Pacific Command wargame analysis. The August 2022 PLA exercises demonstrated a dress rehearsal for a full blockade and invasion.</p>
+            <div class="section-label">2022 PLA Live-Fire Zones (Documented)</div>
+            ${PLA_EXERCISE_ZONES_2022.map(z=>`<div style="padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#FF4444;letter-spacing:1px">${z.label}</div>
+                <div style="font-size:8px;color:#444;font-family:'Share Tech Mono',monospace;margin-top:2px">${z.pts.map(([la,lo])=>la+'°N '+lo+'°E').join(' → ')}</div>
+            </div>`).join('')}
+            <div class="section-label" style="margin-top:10px">Wargame Key Positions</div>
+            ${LANDING_ZONES.map(z=>{
+                const cols={LANDING:'#FFDD00',DEFENSE:'#44FFCC',US_ASSET:'#2255FF'};
+                const labs={LANDING:'LANDING ZONE',DEFENSE:'DEFENSE POSITION',US_ASSET:'US / ALLIED ASSET'};
+                return `<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                    <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+                        <div style="width:7px;height:7px;border-radius:50%;background:${cols[z.type]};flex-shrink:0"></div>
+                        <div style="font-size:10px;color:${cols[z.type]}">${z.name}</div>
+                        <span style="font-family:'Share Tech Mono',monospace;font-size:7px;color:${cols[z.type]};opacity:0.7;letter-spacing:1px">${labs[z.type]}</span>
+                    </div>
+                    <div style="font-size:9px;color:#555;line-height:1.5">${z.desc}</div>
+                </div>`;
+            }).join('')}
+            <div class="section-label" style="margin-top:10px">CSIS Wargame Key Findings (2023)</div>
+            ${[
+                {t:'Taiwan holds in most scenarios',d:'CSIS ran 24 iterations — Taiwan repelled invasion in most, but at enormous cost: US loses 2 carriers, 900 aircraft, 3,200 military personnel in 3-week conflict'},
+                {t:'Speed is critical',d:'If US intervenes immediately, Taiwan survives. If US hesitates even 1 week, PLA can establish beachheads that become very hard to dislodge'},
+                {t:'Senkaku/Okinawa vulnerability',d:'Okinawa bases are within DF-21D range. US Kadena aircraft face destruction in first 24 hours if China strikes first'},
+                {t:'Semiconductor disruption',d:'Even a "successful" defense scenario produces global semiconductor shortage — TSMC cannot operate under missile bombardment'},
+            ].map(i=>`<div class="invasion-scenario"><div class="invasion-title">${i.t}</div><div class="invasion-desc">${i.d}</div></div>`).join('')}
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Sources: CSIS "First Battle of the Next War" 2023 · RAND · US INDOPACOM documents</p>`; }
+    },
+
+    apt: {
+        title: 'APT Hacking Groups',
+        subtitle: 'Chinese State-Sponsored Cyber Espionage · Attribution',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#FF4444"></div>APT source location</div>
+            <div class="legend-item"><div class="ld" style="background:#FF8800"></div>Attack arc to target</div>
+        `,
+        html() { return `
+            <p class="intro-text">China operates the world's most extensive state cyber espionage program. Unlike Russian groups that favor disruption, Chinese APTs focus primarily on intellectual property theft and long-term access. The US estimates $300B+ in annual IP theft.</p>
+            ${APT_GROUPS.map(g=>`<div class="apt-group">
+                <div class="apt-name">${g.name}</div>
+                <div class="apt-alias">${g.alias} · Activity: ${g.activity}%</div>
+                <div class="apt-bar-wrap"><div class="apt-bar" style="width:${g.activity}%;background:${'#'+g.col.toString(16).padStart(6,'0')}"></div></div>
+                <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#FF8800;margin-bottom:3px;letter-spacing:0.5px">SECTORS: ${g.sectors}</div>
+                <div class="apt-targets">${g.desc}</div>
+            </div>`).join('')}
+            <div class="section-label" style="margin-top:10px">By the Numbers</div>
+            ${[
+                {l:'US IP theft attributed to China (annual)',v:'$300B+'},
+                {l:'Fortune 500 companies breached (est.)',v:'80%+'},
+                {l:'Countries targeted by PLAN cyber units',v:'45+'},
+                {l:'PLA cyber personnel (est.)',v:'~100,000'},
+                {l:'Active APT groups tracked by analysts',v:'30+'},
+            ].map(s=>`<div class="adiz-stat"><span class="adiz-label">${s.l}</span><span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#FF4444">${s.v}</span></div>`).join('')}
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Sources: Mandiant, CrowdStrike, Microsoft, US DoJ indictments, CISA advisories</p>`; }
+    },
+
+    confucius: {
+        title: 'Confucius Institute Network',
+        subtitle: 'Global Soft Power · 550 Peak · 200+ Closed · Controversy',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#4499FF"></div>Open institute</div>
+            <div class="legend-item"><div class="lp" style="background:#333366;opacity:0.6"></div>Closed / suspended</div>
+        `,
+        html() {
+            const open=CI_INSTITUTES.filter(c=>c.open);
+            const closed=CI_INSTITUTES.filter(c=>!c.open);
+            const byCountry={};
+            CI_INSTITUTES.forEach(c=>{
+                if(!byCountry[c.country]) byCountry[c.country]={open:0,closed:0};
+                c.open?byCountry[c.country].open++:byCountry[c.country].closed++;
+            });
+            return `
+            <p class="intro-text">Hanban (now Chinese International Chinese Education Foundation) operates Confucius Institutes at foreign universities, funding Mandarin programs in exchange for restrictions on discussing Taiwan, Tiananmen, Tibet, and Xinjiang.</p>
+            <div style="display:flex;gap:8px;margin-bottom:14px">
+                <div style="flex:1;background:rgba(68,153,255,0.08);border:1px solid rgba(68,153,255,0.2);padding:8px;text-align:center">
+                    <div style="font-family:'Orbitron',monospace;font-size:18px;color:#4499FF">${open.length}</div>
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:1px">SHOWN OPEN</div>
+                </div>
+                <div style="flex:1;background:rgba(100,100,100,0.08);border:1px solid rgba(100,100,100,0.15);padding:8px;text-align:center">
+                    <div style="font-family:'Orbitron',monospace;font-size:18px;color:#666">${closed.length}</div>
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:1px">SHOWN CLOSED</div>
+                </div>
+                <div style="flex:1;background:rgba(255,100,0,0.08);border:1px solid rgba(255,100,0,0.15);padding:8px;text-align:center">
+                    <div style="font-family:'Orbitron',monospace;font-size:18px;color:#FF6600">550+</div>
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:1px">GLOBAL PEAK</div>
+                </div>
+            </div>
+            <div class="section-label">By Country</div>
+            ${Object.entries(byCountry).sort((a,b)=>(b[1].open+b[1].closed)-(a[1].open+a[1].closed)).map(([country,stats])=>`
+            <div class="ci-country">
+                <div class="ci-name">${country}</div>
+                ${stats.open?`<span class="ci-open">${stats.open} open</span>`:''}
+                ${stats.closed?`<span class="ci-closed">${stats.closed} closed</span>`:''}
+            </div>`).join('')}
+            <div class="section-label" style="margin-top:12px">Key Controversies</div>
+            ${[
+                {t:'Academic freedom restrictions',d:'Contracts prohibit discussion of Taiwan independence, Tiananmen massacre, Xinjiang, Tibet, or Falun Gong — even in non-CI courses'},
+                {t:'FBI / Senate investigation (2019)',d:'US Senate Homeland Security report: "significant gaps in oversight and transparency." NDAA 2019 banned DoD funding to universities with CIs'},
+                {t:'Hanban staff as intelligence assets',d:'Multiple cases of CI directors filing reports on Chinese student dissidents to consular officials'},
+                {t:'Mass closures 2019–2023',d:'100+ US universities closed CIs after bipartisan legislation. Australia, Sweden, Canada followed. Total global closures: 200+'},
+                {t:'CIFE rebrand (2020)',d:'Renamed to Chinese International Chinese Education Foundation to distance from government. Funding and direction remains identical per ASIO and MI5'},
+            ].map(i=>`<div style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04)">
+                <div style="font-size:10px;color:#FFD700;margin-bottom:3px">${i.t}</div>
+                <div style="font-size:9px;color:#555;line-height:1.5">${i.d}</div>
+            </div>`).join('')}
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Sources: US Senate HSGAC, NAS, ASPI, ACTA · Data 2025</p>`;
+        }
+    },
+
+    tension: {
+        title: 'Geopolitical Tension Meter',
+        subtitle: 'Live News-Scored · 6 Active Flashpoints · Real-Time',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#FF2222"></div>Critical (80–100)</div>
+            <div class="legend-item"><div class="lp" style="background:#FF8800"></div>High (60–79)</div>
+            <div class="legend-item"><div class="lp" style="background:#FFDD00"></div>Elevated (40–59)</div>
+            <div class="legend-item"><div class="lp" style="background:#44FF88"></div>Moderate (&lt;40)</div>
+        `,
+        html() {
+            return `
+            <p class="intro-text">Tension scores blend historical baseline with live news signal — articles mentioning each flashpoint's keywords boost the score. Higher article frequency = higher tension.</p>
+            <div id="tension-panel-content">
+                ${TENSION_ZONES_DATA.map(z=>{
+                    const score=tensionScores[z.name]||z.baseScore;
+                    const col=score>=80?'#FF2222':score>=60?'#FF8800':score>=40?'#FFDD00':'#44FF88';
+                    return `<div class="tension-zone" id="tz-${z.name.replace(/[^a-z]/gi,'_')}">
+                        <div class="tension-name">
+                            <span class="tension-label">${z.name.toUpperCase()}</span>
+                            <span class="tension-score" style="color:${col}">${score}</span>
+                        </div>
+                        <div class="tension-bar-bg">
+                            <div class="tension-bar-fill" style="width:${score}%;background:${col}"></div>
+                        </div>
+                        <div class="tension-detail">${z.detail}</div>
+                    </div>`;
+                }).join('')}
+            </div>
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#2a2a2a;margin-top:14px;letter-spacing:1px">
+                SCORES UPDATE FROM LIVE FEEDS · BASELINE FROM HISTORICAL ANALYSIS
+            </div>`;
+        }
+    },
+
     space: {
         title: 'Chinese Space Program',
         subtitle: 'Tiangong Live · CNSA Missions · Launch Sites',
@@ -5186,6 +6262,14 @@ function openPanel(id) {
         aqiGroup.visible       = id === 'aqi';
         reGroup.visible        = id === 'rareearth';
         srvGroup.visible       = id === 'surveillance';
+        policeGroup.visible    = id === 'police';
+        debtGroup.visible      = id === 'debt';
+        silosGroup.visible     = id === 'silos';
+        fleetGroup.visible     = id === 'fleet';
+        invasionGroup.visible  = id === 'invasion';
+        aptGroup.visible       = id === 'apt';
+        confuciusGroup.visible = id === 'confucius';
+        tensionGroup.visible   = id === 'tension';
     }
 
     legendEl.innerHTML = p.legend;
@@ -5235,6 +6319,30 @@ function openPanel(id) {
     if (id === 'briefing') {
         requestAnimationFrame(generateBriefing);
     }
+    if (id === 'tension') {
+        requestAnimationFrame(async () => {
+            const articles = newsCache.length ? newsCache : await fetchChineseNews();
+            scoreTensionFromNews(articles);
+            if (activePanel !== 'tension') return;
+            // Re-render scores in the open panel
+            const content = document.getElementById('tension-panel-content');
+            if (!content) return;
+            content.innerHTML = TENSION_ZONES_DATA.map(z => {
+                const score = tensionScores[z.name] || z.baseScore;
+                const col = score>=80?'#FF2222':score>=60?'#FF8800':score>=40?'#FFDD00':'#44FF88';
+                return `<div class="tension-zone">
+                    <div class="tension-name">
+                        <span class="tension-label">${z.name.toUpperCase()}</span>
+                        <span class="tension-score" style="color:${col}">${score}</span>
+                    </div>
+                    <div class="tension-bar-bg">
+                        <div class="tension-bar-fill" style="width:${score}%;background:${col}"></div>
+                    </div>
+                    <div class="tension-detail">${z.detail}</div>
+                </div>`;
+            }).join('');
+        });
+    }
 }
 
 function closePanel() {
@@ -5247,6 +6355,8 @@ function closePanel() {
         missilesGroup.visible = scsGroup.visible = taiwanGroup.visible = navyGroup.visible = false;
         cyberGroup.visible = influenceGroup.visible = false;
         aqiGroup.visible = reGroup.visible = srvGroup.visible = false;
+        policeGroup.visible = debtGroup.visible = silosGroup.visible = fleetGroup.visible = false;
+        invasionGroup.visible = aptGroup.visible = confuciusGroup.visible = tensionGroup.visible = false;
     }
     legendEl.style.display = 'none';
     activePanel = null;
@@ -5363,6 +6473,14 @@ function openAllLayers() {
     aqiGroup.visible       = true;
     reGroup.visible        = true;
     srvGroup.visible       = true;
+    policeGroup.visible    = true;
+    debtGroup.visible      = true;
+    silosGroup.visible     = true;
+    fleetGroup.visible     = true;
+    invasionGroup.visible  = true;
+    aptGroup.visible       = true;
+    confuciusGroup.visible = true;
+    tensionGroup.visible   = true;
 }
 
 function closeAllLayers() {
@@ -5375,6 +6493,8 @@ function closeAllLayers() {
     missilesGroup.visible = scsGroup.visible = taiwanGroup.visible = navyGroup.visible = false;
     cyberGroup.visible = influenceGroup.visible = false;
     aqiGroup.visible = reGroup.visible = srvGroup.visible = false;
+    policeGroup.visible = debtGroup.visible = silosGroup.visible = fleetGroup.visible = false;
+    invasionGroup.visible = aptGroup.visible = confuciusGroup.visible = tensionGroup.visible = false;
 }
 
 allBtn.addEventListener('click', () => {
@@ -6035,7 +7155,7 @@ window.addEventListener('keydown', e => {
 });
 
 // ── Swipe gestures (mobile panel cycling) ─────────────────────────────
-const PANEL_ORDER = ['routes','military','aircraft','economy','stock','leaders','ports','cables','beidou','space','missiles','scs','taiwan','navy','cyber','influence','tariff','aqi','rareearth','surveillance','briefing','comparison'];
+const PANEL_ORDER = ['routes','military','aircraft','economy','stock','leaders','ports','cables','beidou','space','missiles','scs','taiwan','navy','cyber','influence','tariff','aqi','rareearth','surveillance','briefing','comparison','police','debt','silos','fleet','invasion','apt','confucius','tension'];
 
 // ── Screenshot button ──────────────────────────────────────────────────
 document.getElementById('screenshot-btn').addEventListener('click', () => {
