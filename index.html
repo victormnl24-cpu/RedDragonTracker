@@ -2066,7 +2066,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 function sanitizeInput(str, maxLen = 300) {
     if (typeof str !== 'string') return '';
     return str
-        .replace(/[ -​-‍﻿]/g, '') // control + zero-width
+        .replace(/[\u0000-\u001f\u007f\u200b-\u200d\ufeff]/g, '') // control + zero-width
         .replace(/\s+/g, ' ')   // collapse multiple spaces/tabs
         .trim()
         .slice(0, maxLen);
