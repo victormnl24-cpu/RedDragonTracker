@@ -2186,19 +2186,21 @@ function isChineseAircraft(ac) {
     return reg.startsWith('B-') || CHINESE_AIRLINE_PFXS.has(cs.substring(0, 3));
 }
 
-// Yellow plane sprite texture (two-pass render for glow + crisp core)
+// Yellow plane sprite texture — subtle glow, crisp core
 const planeSpriteCanvas = document.createElement('canvas');
 planeSpriteCanvas.width = 64; planeSpriteCanvas.height = 64;
 (function(){
     const c = planeSpriteCanvas.getContext('2d');
-    c.shadowColor = '#FFD700'; c.shadowBlur = 14;
+    // Faint glow pass
+    c.shadowColor = 'rgba(255,215,0,0.5)'; c.shadowBlur = 5;
     c.fillStyle = '#FFD700';
-    c.font = 'bold 38px sans-serif';
+    c.font = 'bold 28px sans-serif';
     c.textAlign = 'center'; c.textBaseline = 'middle';
     c.fillText('✈', 32, 32);
+    // Crisp core pass
     c.shadowBlur = 0;
-    c.fillStyle = '#FFF8DC';
-    c.font = 'bold 30px sans-serif';
+    c.fillStyle = '#FFFFFF';
+    c.font = 'bold 24px sans-serif';
     c.fillText('✈', 32, 32);
 })();
 const planeTex = new THREE.CanvasTexture(planeSpriteCanvas);
