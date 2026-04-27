@@ -6459,6 +6459,15 @@ function openPanel(id) {
     legendEl.innerHTML = p.legend;
     legendEl.style.display = p.legend ? 'block' : 'none';
 
+    // Inject data-source badge into subtitle
+    const _src = PANEL_DATA_SOURCE[id];
+    if (_src) {
+        const _sub = document.getElementById('panel-subtitle');
+        if (_sub && !_sub.querySelector('.badge-live,.badge-osint,.badge-static')) {
+            _sub.insertAdjacentHTML('beforeend', BADGE_HTML[_src]);
+        }
+    }
+
     activePanel = id;
 
     if (id === 'economy') {
@@ -8036,27 +8045,6 @@ const BADGE_HTML = {
     osint:   '<span class="badge-osint">OSINT</span>',
     static:  '<span class="badge-static">REFERENCE</span>',
 };
-
-// Patch openPanel to inject badge into subtitle
-const _origOpenPanel = openPanel;
-function openPanel(id) {
-    _origOpenPanel(id);
-    const src = PANEL_DATA_SOURCE[id];
-    if (src) {
-        const sub = document.getElementById('panel-subtitle');
-        if (sub && !sub.querySelector('.badge-live,.badge-osint,.badge-static')) {
-            sub.insertAdjacentHTML('beforeend', BADGE_HTML[src]);
-        }
-    }
-}
-
-// Re-register panel button listeners with patched openPanel
-document.querySelectorAll('.dock-btn:not(#dock-all-btn), .nav-btn, .hdr-nav-btn').forEach(btn => {
-    const clone = btn.cloneNode(true);
-    btn.parentNode.replaceChild(clone, btn);
-    clone.addEventListener('click', () => activePanel === clone.dataset.panel ? closePanel() : openPanel(clone.dataset.panel));
-});
-document.getElementById('panel-close').addEventListener('click', closePanel);
 
 async function generateBriefing() {
     const content = document.getElementById('briefing-content');
