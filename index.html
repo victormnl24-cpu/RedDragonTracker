@@ -111,6 +111,97 @@
         @keyframes blink { 50% { opacity: 0.4; } }
         @keyframes tensionPulse { 0%,100%{opacity:1} 50%{opacity:0.75} }
 
+        /* ── Globe search ───────────────────────────────── */
+        #globe-search-wrap {
+            position: relative; flex-shrink: 0;
+        }
+        #globe-search {
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(180,0,0,0.25);
+            color: #ccc; font-family: 'Share Tech Mono', monospace;
+            font-size: 10px; letter-spacing: 1px;
+            padding: 4px 10px; width: 140px; outline: none;
+            transition: border-color 0.2s, width 0.2s;
+        }
+        #globe-search::placeholder { color: #333; }
+        #globe-search:focus { border-color: rgba(204,0,0,0.6); width: 180px; }
+        #globe-search-results {
+            position: absolute; top: calc(100% + 4px); right: 0;
+            width: 220px; background: rgba(4,4,8,0.98);
+            border: 1px solid rgba(180,0,0,0.3); z-index: 200;
+            display: none; max-height: 280px; overflow-y: auto;
+        }
+        #globe-search-results.show { display: block; }
+        .search-result {
+            padding: 8px 12px; cursor: pointer; display: flex; gap: 8px; align-items: center;
+            font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #888;
+            border-bottom: 1px solid rgba(255,255,255,0.04); letter-spacing: 1px;
+            transition: background 0.12s;
+        }
+        .search-result:hover { background: rgba(204,0,0,0.1); color: #fff; }
+        .search-result-type { font-size: 7px; color: #444; background: rgba(255,255,255,0.04); padding: 1px 4px; flex-shrink: 0; }
+
+        /* ── Timeline slider ────────────────────────────── */
+        #timeline-bar {
+            position: fixed; bottom: 52px; right: 92px; left: 0;
+            height: 36px; z-index: 54;
+            background: rgba(4,4,8,0.95);
+            border-top: 1px solid rgba(180,0,0,0.2);
+            display: none; align-items: center; gap: 12px; padding: 0 16px;
+        }
+        #timeline-bar.show { display: flex; }
+        #timeline-label { font-family:'Orbitron',monospace; font-size:11px; font-weight:700; color:#CC0000; min-width:36px; letter-spacing:2px; }
+        #timeline-slider {
+            flex: 1; -webkit-appearance: none; appearance: none;
+            height: 3px; background: rgba(180,0,0,0.2); outline: none; cursor: pointer;
+            border-radius: 2px;
+        }
+        #timeline-slider::-webkit-slider-thumb {
+            -webkit-appearance: none; width: 14px; height: 14px;
+            border-radius: 50%; background: #CC0000;
+            border: 2px solid #FF4444; cursor: pointer;
+            box-shadow: 0 0 8px rgba(204,0,0,0.6);
+        }
+        #timeline-slider::-moz-range-thumb { width:14px;height:14px;border-radius:50%;background:#CC0000;border:2px solid #FF4444;cursor:pointer; }
+        #timeline-event { font-family:'Share Tech Mono',monospace; font-size:8px; color:#555; letter-spacing:1px; flex:1; }
+        #timeline-close { background:none;border:none;color:#333;font-size:12px;cursor:pointer;padding:0 4px;transition:color 0.15s; }
+        #timeline-close:hover { color:#CC0000; }
+
+        /* ── AQI panel ──────────────────────────────────── */
+        .aqi-city { padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; align-items:center; gap:8px; }
+        .aqi-dot { width:10px;height:10px;border-radius:50%;flex-shrink:0; }
+        .aqi-name { font-size:10px;color:#bbb;flex:1; }
+        .aqi-val { font-family:'Orbitron',monospace;font-size:12px;font-weight:700; }
+        .aqi-cat { font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:1px; }
+
+        /* ── Rare Earth panel ───────────────────────────── */
+        .ree-element { padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:10px; }
+        .ree-symbol { font-family:'Orbitron',monospace;font-size:13px;font-weight:700;color:#44FFCC;min-width:32px; }
+        .ree-name { font-size:10px;color:#ccc;margin-bottom:2px; }
+        .ree-use { font-size:9px;color:#555;line-height:1.5; }
+        .ree-share { font-family:'Share Tech Mono',monospace;font-size:9px;color:#CC0000; }
+
+        /* ── Surveillance panel ─────────────────────────── */
+        .srv-site { padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;gap:8px; }
+        .srv-dot { width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:3px; }
+        .srv-name { font-size:10px;color:#ccc;margin-bottom:2px;font-family:'Share Tech Mono',monospace; }
+        .srv-desc { font-size:9px;color:#555;line-height:1.5; }
+
+        /* ── Briefing panel ─────────────────────────────── */
+        .brief-section { margin-bottom:14px; }
+        .brief-section-label { font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:2.5px;color:#CC0000;text-transform:uppercase;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid rgba(204,0,0,0.2); }
+        .brief-story { font-size:10px;color:#999;line-height:1.7;margin-bottom:8px; }
+        .brief-headline { font-family:'Share Tech Mono',monospace;font-size:9px;color:#ddd;margin-bottom:3px;cursor:pointer;transition:color 0.15s; }
+        .brief-headline:hover { color:#FF4444; }
+
+        /* ── Comparison panel ───────────────────────────── */
+        .cmp-row { display:flex;align-items:center;gap:6px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04); }
+        .cmp-label { font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:1px;width:110px;flex-shrink:0;text-transform:uppercase; }
+        .cmp-cn { text-align:right; min-width:55px; font-family:'Orbitron',monospace;font-size:10px;font-weight:700;color:#CC0000; }
+        .cmp-us { text-align:left;  min-width:55px; font-family:'Orbitron',monospace;font-size:10px;font-weight:700;color:#2255FF; }
+        .cmp-bar-wrap { flex:1;height:6px;background:rgba(255,255,255,0.04);border-radius:3px;overflow:hidden;position:relative; }
+        .cmp-bar-cn { height:100%;background:#CC0000;position:absolute;right:50%;border-radius:3px 0 0 3px; }
+        .cmp-bar-us { height:100%;background:#2255FF;position:absolute;left:50%;border-radius:0 3px 3px 0; }
+
         /* ── Header nav (top-level features) ───────────── */
         #header-nav {
             display: flex; align-items: center; gap: 8px;
@@ -1264,6 +1355,10 @@
             <span class="hdr-stat-label">Aircraft</span>
             <span class="hdr-stat-val" id="hdr-aircraft-count">—</span>
         </div>
+        <div id="globe-search-wrap">
+            <input id="globe-search" type="text" placeholder="Search…" autocomplete="off" spellcheck="false">
+            <div id="globe-search-results"></div>
+        </div>
         <div class="hdr-stat">
             <span class="hdr-stat-label">UTC</span>
             <span class="hdr-stat-val" id="hdr-clock">00:00:00</span>
@@ -1354,6 +1449,28 @@
     <button class="dock-btn" data-panel="tariff" data-tip="US-China Trade War · Tariffs">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="5" width="5" height="7" rx="0.5" stroke="currentColor" stroke-width="1.1"/><rect x="7.5" y="2" width="5" height="10" rx="0.5" stroke="currentColor" stroke-width="1.1" stroke-dasharray="1.5 1"/><line x1="4" y1="5" x2="4" y2="1.5" stroke="currentColor" stroke-width="1.1"/><polyline points="2.5,3 4,1.5 5.5,3" stroke="currentColor" stroke-width="1.1" fill="none"/></svg></span>
         <span class="dock-label">TAR</span>
+    </button>
+    <div class="dock-divider"></div>
+    <button class="dock-btn" data-panel="aqi" data-tip="Live Air Quality · PM2.5">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 9 Q4 6 7 7 Q10 8 12 5" stroke="currentColor" stroke-width="1.2" fill="none"/><circle cx="4" cy="8" r="1" fill="currentColor" opacity="0.6"/><circle cx="7" cy="7" r="1" fill="currentColor" opacity="0.8"/><circle cx="10.5" cy="5.5" r="1" fill="currentColor" opacity="0.6"/><line x1="2" y1="12" x2="12" y2="12" stroke="currentColor" stroke-width="0.8" opacity="0.3"/></svg></span>
+        <span class="dock-label">AQI</span>
+    </button>
+    <button class="dock-btn" data-panel="rareearth" data-tip="Rare Earth Supply Chain">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polygon points="7,1.5 12.5,4.5 12.5,10.5 7,13.5 1.5,10.5 1.5,4.5" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="1.5" x2="7" y2="5" stroke="currentColor" stroke-width="1"/><line x1="7" y1="9" x2="7" y2="12.5" stroke="currentColor" stroke-width="1"/></svg></span>
+        <span class="dock-label">REE</span>
+    </button>
+    <button class="dock-btn" data-panel="surveillance" data-tip="Xinjiang · Tibet · OSINT">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="6" r="3" stroke="currentColor" stroke-width="1.1"/><circle cx="7" cy="6" r="1" fill="currentColor"/><path d="M3 11 Q5 9 7 10 Q9 11 11 9" stroke="currentColor" stroke-width="1" fill="none" opacity="0.6"/><line x1="7" y1="9" x2="7" y2="12" stroke="currentColor" stroke-width="1.1"/></svg></span>
+        <span class="dock-label">SRV</span>
+    </button>
+    <div class="dock-divider"></div>
+    <button class="dock-btn" data-panel="briefing" data-tip="Daily Intelligence Briefing">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.1"/><line x1="4.5" y1="5" x2="9.5" y2="5" stroke="currentColor" stroke-width="1.1"/><line x1="4.5" y1="7" x2="9.5" y2="7" stroke="currentColor" stroke-width="1.1"/><line x1="4.5" y1="9" x2="7.5" y2="9" stroke="currentColor" stroke-width="1.1"/><circle cx="11" cy="3" r="2" fill="#CC0000"/></svg></span>
+        <span class="dock-label">BRIEF</span>
+    </button>
+    <button class="dock-btn" data-panel="comparison" data-tip="China vs USA Military">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="3" width="4.5" height="8" rx="0.5" stroke="currentColor" stroke-width="1.1"/><rect x="8" y="5.5" width="4.5" height="5.5" rx="0.5" stroke="currentColor" stroke-width="1.1" opacity="0.6"/><line x1="7" y1="1" x2="7" y2="13" stroke="currentColor" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.4"/></svg></span>
+        <span class="dock-label">VS</span>
     </button>
     </div><!-- end #dock-wheel -->
 </div>
@@ -1465,6 +1582,10 @@
     <button id="all-btn" title="Show all layers at once">
         <span class="dot"></span>ALL
     </button>
+    <button id="share-btn" title="Copy shareable link" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#555;padding:0 10px;height:28px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:color 0.15s,border-color 0.15s;">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="9.5" cy="2.5" r="1.5" stroke="currentColor" stroke-width="1.1"/><circle cx="9.5" cy="9.5" r="1.5" stroke="currentColor" stroke-width="1.1"/><circle cx="2.5" cy="6" r="1.5" stroke="currentColor" stroke-width="1.1"/><line x1="3.9" y1="5.2" x2="8.1" y2="3.3" stroke="currentColor" stroke-width="1.1"/><line x1="3.9" y1="6.8" x2="8.1" y2="8.7" stroke="currentColor" stroke-width="1.1"/></svg>
+        SHARE
+    </button>
     <button id="screenshot-btn" title="Save globe screenshot" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#555;padding:0 10px;height:28px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:color 0.15s,border-color 0.15s;">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2.5" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6.5" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M4 2.5 L4.5 1 L7.5 1 L8 2.5" stroke="currentColor" stroke-width="1" fill="none"/></svg>
         CAP
@@ -1499,6 +1620,14 @@
         <div id="video-reload-btn" onclick="event.stopPropagation();loadVideoChannel(currentChannel)" title="Reload stream"
             style="position:absolute;bottom:6px;left:6px;z-index:2;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);color:#555;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px;padding:3px 7px;cursor:pointer;border-radius:2px;">↺ RELOAD</div>
     </div>
+</div>
+
+<!-- Timeline slider — shown when timeline panel is open -->
+<div id="timeline-bar">
+    <div id="timeline-label">2013</div>
+    <input type="range" id="timeline-slider" min="2013" max="2026" step="1" value="2026">
+    <div id="timeline-event">Drag to travel through time</div>
+    <button id="timeline-close" title="Close timeline">✕</button>
 </div>
 
 <!-- Live news crawl bar — bottom of screen -->
@@ -3225,6 +3354,198 @@ INFLUENCE_COUNTRIES.forEach(c => {
     influenceGroup.add(sp); influenceMarkers.push(sp);
 });
 
+// ── AQI Globe Layer ───────────────────────────────────────────────────
+const aqiGroup = new THREE.Group();
+aqiGroup.visible = false;
+globeGroup.add(aqiGroup);
+
+const AQI_CITIES = [
+    { name:'Beijing',    lat:39.9,  lon:116.4 }, { name:'Shanghai',  lat:31.2, lon:121.5 },
+    { name:'Guangzhou',  lat:23.1,  lon:113.3 }, { name:'Shenzhen',  lat:22.5, lon:114.1 },
+    { name:'Chengdu',    lat:30.7,  lon:104.1 }, { name:'Xi\'an',    lat:34.3, lon:108.9 },
+    { name:'Wuhan',      lat:30.6,  lon:114.3 }, { name:'Tianjin',   lat:39.1, lon:117.2 },
+    { name:'Chongqing',  lat:29.6,  lon:106.6 }, { name:'Nanjing',   lat:32.1, lon:118.8 },
+    { name:'Hangzhou',   lat:30.3,  lon:120.2 }, { name:'Harbin',    lat:45.8, lon:126.5 },
+    { name:'Shenyang',   lat:41.8,  lon:123.4 }, { name:'Zhengzhou', lat:34.7, lon:113.6 },
+    { name:'Jinan',      lat:36.7,  lon:117.0 }, { name:'Kunming',   lat:25.0, lon:102.7 },
+    { name:'Urumqi',     lat:43.8,  lon:87.6  }, { name:'Lhasa',     lat:29.7, lon:91.1  },
+];
+
+function aqiColor(aqi) {
+    if (aqi <= 50)  return 0x00E400;
+    if (aqi <= 100) return 0xFFFF00;
+    if (aqi <= 150) return 0xFF7E00;
+    if (aqi <= 200) return 0xFF0000;
+    if (aqi <= 300) return 0x8F3F97;
+    return 0x7E0023;
+}
+function aqiCategory(aqi) {
+    if (aqi <= 50)  return { label:'Good',       color:'#00E400' };
+    if (aqi <= 100) return { label:'Moderate',   color:'#FFFF00' };
+    if (aqi <= 150) return { label:'Unhealthy*', color:'#FF7E00' };
+    if (aqi <= 200) return { label:'Unhealthy',  color:'#FF0000' };
+    if (aqi <= 300) return { label:'Very Unhealthy', color:'#8F3F97' };
+    return                  { label:'Hazardous', color:'#7E0023' };
+}
+
+const aqiMarkers = [];
+const aqiData = {}; // city name → aqi value
+
+function makeAQISprite(col) {
+    const S = 32, cv = document.createElement('canvas'); cv.width = cv.height = S;
+    const ctx = cv.getContext('2d');
+    const r=(col>>16)&255,g=(col>>8)&255,b=col&255;
+    ctx.clearRect(0,0,S,S);
+    const grd = ctx.createRadialGradient(16,16,2,16,16,14);
+    grd.addColorStop(0,`rgba(${r},${g},${b},0.9)`);
+    grd.addColorStop(0.5,`rgba(${r},${g},${b},0.35)`);
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(16,16,14,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=`rgb(${r},${g},${b})`; ctx.beginPath(); ctx.arc(16,16,3,0,Math.PI*2); ctx.fill();
+    return new THREE.SpriteMaterial({ map:new THREE.CanvasTexture(cv), depthTest:false, transparent:true });
+}
+
+// Create placeholder markers (updated after API fetch)
+AQI_CITIES.forEach(city => {
+    const sp = new THREE.Sprite(makeAQISprite(0x888888));
+    sp.scale.setScalar(0.06);
+    sp.position.copy(ll2v(city.lat, city.lon, 1.01));
+    sp.userData = { type:'aqi', name:city.name, aqi:0 };
+    aqiGroup.add(sp); aqiMarkers.push({ sp, city });
+});
+
+async function fetchAQI() {
+    for (const { sp, city } of aqiMarkers) {
+        try {
+            const r = await fetch(`https://api.waqi.info/feed/${encodeURIComponent(city.name)}/?token=demo`);
+            const d = await r.json();
+            if (d.status === 'ok' && d.data && d.data.aqi) {
+                const aqi = typeof d.data.aqi === 'number' ? d.data.aqi : parseInt(d.data.aqi)||0;
+                aqiData[city.name] = aqi;
+                sp.userData.aqi = aqi;
+                const col = aqiColor(aqi);
+                sp.material.dispose();
+                sp.material = makeAQISprite(col);
+                const scale = 0.05 + Math.min(aqi/500, 1) * 0.06;
+                sp.scale.setScalar(scale);
+            }
+        } catch(e) {}
+        await new Promise(res => setTimeout(res, 150)); // rate limit
+    }
+}
+
+// ── Rare Earth Globe Layer ────────────────────────────────────────────
+const reGroup = new THREE.Group();
+reGroup.visible = false;
+globeGroup.add(reGroup);
+
+const RE_MINES = [
+    { name:'Bayan Obo',         lat:41.8,  lon:109.9, output:'Nd,Pr,La,Ce',  pct:70, desc:'World\'s largest rare earth deposit · 70% of China\'s RE production · Inner Mongolia' },
+    { name:'Sichuan Basin',     lat:29.5,  lon:102.5, output:'Nd,Y,Eu',       pct:12, desc:'Light & heavy RE · Mountain mining · Significant water contamination risks' },
+    { name:'Jiangxi Province',  lat:27.5,  lon:115.0, output:'Dy,Tb,Y,Er',   pct:11, desc:'Ion adsorption clays · Critical heavy RE · Dy & Tb essential for EV motors' },
+    { name:'Fujian Province',   lat:26.1,  lon:117.5, output:'Nd,Dy,Tb',     pct:4,  desc:'Mixed RE · Growing production · Proximity to export ports' },
+    { name:'Guangdong',         lat:24.0,  lon:113.5, output:'Nd,Sm,Gd',     pct:3,  desc:'Heavy RE concentrate · High-purity processing facilities nearby' },
+];
+
+const RE_DEPENDENTS = [
+    { name:'USA',          lat:40.0, lon:-100.0, items:'F-35 magnets,EVs,Defense', col:0x2255FF },
+    { name:'Japan',        lat:36.0, lon:138.0,  items:'Toyota EVs,Sony,Panasonic', col:0xFFFFFF },
+    { name:'Germany',      lat:51.0, lon:10.0,   items:'BMW,Siemens,Bosch motors',  col:0xFFDD00 },
+    { name:'South Korea',  lat:37.0, lon:128.0,  items:'Samsung,LG,Hyundai',        col:0x4499FF },
+    { name:'EU',           lat:48.0, lon:15.0,   items:'Wind turbines,Defense',     col:0x0066CC },
+    { name:'Taiwan',       lat:23.7, lon:121.0,  items:'TSMC chip packaging',       col:0xFFFF00 },
+];
+
+function makeREMarker(pct) {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 32;
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0,0,32,32);
+    const grd = ctx.createRadialGradient(16,16,2,16,16,14);
+    grd.addColorStop(0,'rgba(68,255,204,0.9)'); grd.addColorStop(0.5,'rgba(68,255,204,0.3)'); grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(16,16,14,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#44FFCC'; ctx.lineWidth=1.5; ctx.fillStyle='rgba(68,255,204,0.5)';
+    ctx.beginPath(); ctx.arc(16,16,5,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    return new THREE.SpriteMaterial({ map:new THREE.CanvasTexture(cv), depthTest:false, transparent:true });
+}
+
+const reMarkers = [];
+RE_MINES.forEach(m => {
+    const sp = new THREE.Sprite(makeREMarker(m.pct));
+    sp.scale.setScalar(0.04 + m.pct/100 * 0.06);
+    sp.position.copy(ll2v(m.lat, m.lon, 1.01));
+    sp.userData = { type:'reMine', ...m };
+    reGroup.add(sp); reMarkers.push(sp);
+});
+// Draw dependency lines from China to consumer nations
+RE_DEPENDENTS.forEach(dep => {
+    const src = ll2v(35.0, 108.0, 1.01);
+    const tgt = ll2v(dep.lat, dep.lon, 1.01);
+    const mid = src.clone().add(tgt).normalize().multiplyScalar(1.18);
+    const curve = new THREE.QuadraticBezierCurve3(src, mid, tgt);
+    const pts = curve.getPoints(60);
+    const r=(dep.col>>16)&255,g=(dep.col>>8)&255,b=dep.col&255;
+    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineBasicMaterial({ color:dep.col, transparent:true, opacity:0.3 }));
+    reGroup.add(line);
+    // Destination dot
+    const cv2 = document.createElement('canvas'); cv2.width=cv2.height=20;
+    const c2 = cv2.getContext('2d');
+    c2.clearRect(0,0,20,20); c2.fillStyle=`rgba(${r},${g},${b},0.7)`;
+    c2.beginPath(); c2.arc(10,10,6,0,Math.PI*2); c2.fill();
+    const dot = new THREE.Sprite(new THREE.SpriteMaterial({ map:new THREE.CanvasTexture(cv2), depthTest:false, transparent:true }));
+    dot.scale.setScalar(0.04); dot.position.copy(ll2v(dep.lat, dep.lon, 1.01));
+    dot.userData = { type:'reDep', ...dep };
+    reGroup.add(dot); reMarkers.push(dot);
+});
+
+// ── Surveillance Globe Layer ──────────────────────────────────────────
+const srvGroup = new THREE.Group();
+srvGroup.visible = false;
+globeGroup.add(srvGroup);
+
+const SRV_SITES = [
+    // Xinjiang detention/surveillance
+    { name:'Urumqi Detention Complex',    lat:43.82, lon:87.58,  type:'DETENTION',    col:0xFF2222, desc:'Largest known "vocational training center" · Est. 10,000–30,000 detainees · Identified via satellite 2018' },
+    { name:'Kashgar Internment Cluster',  lat:39.47, lon:75.99,  type:'DETENTION',    col:0xFF2222, desc:'Multiple facilities · Kashgar prefecture holds highest per-capita detention rates · Expanded 2017–2019' },
+    { name:'Dabancheng Mega-facility',    lat:43.36, lon:88.31,  type:'DETENTION',    col:0xFF4444, desc:'Largest single facility · ~1.5km² compound · 11,000+ capacity · Identified by BuzzFeed News' },
+    { name:'Aksu Detention Facility',     lat:41.17, lon:80.26,  type:'DETENTION',    col:0xFF4444, desc:'Capacity 5,000+ · New construction 2018 · CCTV perimeter confirmed via satellite' },
+    { name:'Xinjiang DNA Collection',     lat:43.50, lon:87.00,  type:'BIOMETRIC',    col:0xFF8800, desc:'Mandatory DNA, iris, voice collection for all Xinjiang residents · Ran by MPS since 2016' },
+    { name:'Hotan Surveillance Nodes',    lat:37.11, lon:79.93,  type:'SURVEILLANCE', col:0xFFAA00, desc:'"Safe city" program · 1 camera per 2.5 residents · Facial recognition + Uyghur ethnicity detection AI' },
+    { name:'Xinjiang IJOP App Nodes',     lat:42.00, lon:86.00,  type:'SURVEILLANCE', col:0xFFAA00, desc:'Integrated Joint Operations Platform · 24/7 behavioral monitoring · Automated alerts to police' },
+    // Tibet
+    { name:'Lhasa Grid Management',       lat:29.65, lon:91.13,  type:'SURVEILLANCE', col:0xFF8800, desc:'"Grid policing" system · 1 police post per 500m in urban areas · Movement checkpoints on all roads' },
+    { name:'Shigatse Military Garrison',  lat:29.27, lon:88.88,  type:'MILITARY',     col:0xCC0000, desc:'Expanded PLA garrison · High-altitude warfare training · Missile deployment confirmed 2022' },
+    { name:'Tibet Monastery Monitoring',  lat:30.20, lon:90.50,  type:'SURVEILLANCE', col:0xFFAA00, desc:'All monasteries required to display Xi Jinping portraits · "Patriotic education" mandatory · Monks monitored' },
+    // General surveillance infrastructure
+    { name:'Golden Shield HQ (Beijing)',  lat:39.93, lon:116.38, type:'CYBER',        col:0x00AAFF, desc:'"Great Firewall" operations center · 50,000+ censors · Real-time internet monitoring nationwide' },
+    { name:'Zhongguancun AI Cluster',     lat:40.00, lon:116.30, type:'TECH',         col:0x0088CC, desc:'Hikvision, SenseTime, Megvii HQ · World\'s largest facial recognition companies · Export surveillance tech globally' },
+];
+
+function makeSRVMarker(col) {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 28;
+    const ctx = cv.getContext('2d');
+    const r=(col>>16)&255,g=(col>>8)&255,b=col&255;
+    const cs=`rgb(${r},${g},${b})`;
+    ctx.clearRect(0,0,28,28);
+    const grd=ctx.createRadialGradient(14,14,2,14,14,12);
+    grd.addColorStop(0,`rgba(${r},${g},${b},0.7)`); grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(14,14,12,0,Math.PI*2); ctx.fill();
+    // Eye symbol
+    ctx.strokeStyle=cs; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.ellipse(14,14,5,3,0,0,Math.PI*2); ctx.stroke();
+    ctx.fillStyle=cs; ctx.beginPath(); ctx.arc(14,14,1.5,0,Math.PI*2); ctx.fill();
+    return new THREE.SpriteMaterial({ map:new THREE.CanvasTexture(cv), depthTest:false, transparent:true });
+}
+
+const srvMarkers = [];
+SRV_SITES.forEach(site => {
+    const sp = new THREE.Sprite(makeSRVMarker(site.col));
+    sp.scale.setScalar(0.045);
+    sp.position.copy(ll2v(site.lat, site.lon, 1.012));
+    sp.userData = { type:'srv', ...site };
+    srvGroup.add(sp); srvMarkers.push(sp);
+});
+
 // ── Aircraft Tracking ──────────────────────────────────────────────────
 // Chinese airline ICAO callsign prefixes (3-letter designators)
 const CHINESE_AIRLINE_PFXS = new Set([
@@ -3550,6 +3871,57 @@ renderer.domElement.addEventListener('mousemove', e => {
             tooltip.style.top  = (e.clientY - 8)  + 'px';
             tooltip.classList.add('show');
             return;
+        }
+    }
+
+    // ── AQI city markers ──────────────────────────────
+    if (aqiGroup.visible) {
+        const ahits = raycaster.intersectObjects(aqiMarkers.map(m => m.sp), false);
+        if (ahits.length) {
+            const d = ahits[0].object.userData;
+            const aqi = aqiData[d.name];
+            const cat = typeof aqi === 'number' ? aqiCategory(aqi) : { label:'No data', color:'#888' };
+            tooltip.innerHTML = `<strong style="color:${cat.color}">${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">AIR QUALITY INDEX</span><br>
+                <span style="font-size:12px;font-family:'Orbitron',monospace;color:${cat.color};display:block;margin-top:4px">${typeof aqi==='number'?aqi:'—'}</span>
+                <span style="font-size:10px;color:#aaa">${cat.label}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── Rare earth markers ────────────────────────────
+    if (reGroup.visible) {
+        const rehits = raycaster.intersectObjects(reMarkers, false);
+        if (rehits.length) {
+            const d = rehits[0].object.userData;
+            if (d.type === 'reMine') {
+                tooltip.innerHTML = `<strong style="color:#44FFCC">⛏ ${d.name}</strong><br>
+                    <span style="color:#666;font-size:9px;letter-spacing:1px">RARE EARTH MINING REGION</span><br>
+                    <span style="font-size:10px;color:#FFD700;margin-top:3px;display:block">Output: ${d.output} · ${d.pct}% of China total</span>
+                    <span style="font-size:10px;color:#aaa;line-height:1.4;display:block;margin-top:3px">${d.desc}</span>`;
+            } else if (d.type === 'reDep') {
+                const col = '#' + (d.col || 0x888888).toString(16).padStart(6,'0');
+                tooltip.innerHTML = `<strong style="color:${col}">${d.name}</strong><br>
+                    <span style="color:#666;font-size:9px;letter-spacing:1px">RARE EARTH DEPENDENT</span><br>
+                    <span style="font-size:10px;color:#aaa;line-height:1.4;display:block;margin-top:4px">${d.items}</span>`;
+            }
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── Surveillance site markers ──────────────────────
+    if (srvGroup.visible) {
+        const svhits = raycaster.intersectObjects(srvMarkers, false);
+        if (svhits.length) {
+            const d = svhits[0].object.userData;
+            const col = '#' + (d.col||0xFF4444).toString(16).padStart(6,'0');
+            tooltip.innerHTML = `<strong style="color:${col}">${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">${d.type||'FACILITY'}</span><br>
+                <span style="font-size:10px;color:#aaa;line-height:1.4;display:block;margin-top:4px">${d.desc}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
         }
     }
 
@@ -4443,6 +4815,182 @@ const PANELS = {
         `; }
     },
 
+    aqi: {
+        title: 'Air Quality Index',
+        subtitle: 'Live PM2.5 · WAQI Network · Major Chinese Cities',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#00E400"></div>Good (0–50)</div>
+            <div class="legend-item"><div class="lp" style="background:#FFFF00"></div>Moderate (51–100)</div>
+            <div class="legend-item"><div class="lp" style="background:#FF7E00"></div>Unhealthy* (101–150)</div>
+            <div class="legend-item"><div class="lp" style="background:#FF0000"></div>Unhealthy (151–200)</div>
+            <div class="legend-item"><div class="lp" style="background:#8F3F97"></div>Very Unhealthy (201–300)</div>
+            <div class="legend-item"><div class="lp" style="background:#7E0023"></div>Hazardous (300+)</div>
+        `,
+        html() {
+            const rows = AQI_CITIES.map(c => {
+                const aqi = aqiData[c.name] || '—';
+                const cat = typeof aqi === 'number' ? aqiCategory(aqi) : { label:'Loading…', color:'#555' };
+                const col = typeof aqi === 'number' ? aqiCategory(aqi).color : '#555';
+                return `<div class="aqi-city">
+                    <div class="aqi-dot" style="background:${col}"></div>
+                    <div class="aqi-name">${c.name}</div>
+                    <div style="text-align:right">
+                        <div class="aqi-val" style="color:${col}">${aqi}</div>
+                        <div class="aqi-cat" style="color:${col}">${cat.label}</div>
+                    </div>
+                </div>`;
+            }).join('');
+            return `
+            <p class="intro-text">Real-time Air Quality Index for major Chinese cities. PM2.5 is the primary pollutant. Data updates every 30 minutes from WAQI monitoring stations.</p>
+            <div id="aqi-loading" style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#CC0000;letter-spacing:1px;margin-bottom:10px;display:none">● FETCHING LIVE DATA…</div>
+            <div class="section-label">City AQI Readings</div>
+            <div id="aqi-city-list">${rows}</div>
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Source: World Air Quality Index (waqi.info) · Demo API · Updates every 30min</p>`;
+        }
+    },
+
+    rareearth: {
+        title: 'Rare Earth Supply Chain',
+        subtitle: 'China Controls 60%+ of Global Supply · Strategic Leverage',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#44FFCC"></div>Chinese mining region</div>
+            <div class="legend-item"><div class="ld" style="background:#888"></div>Supply dependency line</div>
+        `,
+        html() { return `
+            <p class="intro-text">China dominates rare earth extraction and processing. In 2023 China imposed export controls on Gallium and Germanium. In 2025 it restricted Dysprosium, Terbium — essential for F-35 engines and EV motors.</p>
+            <div class="section-label">Critical Elements — China's Global Share</div>
+            ${[
+                { sym:'Nd', name:'Neodymium',  pct:85, use:'EV motors, wind turbines, MRI machines, F-35 engines' },
+                { sym:'Dy', name:'Dysprosium', pct:99, use:'High-temperature magnets · EV motors · missile guidance · EXPORT RESTRICTED 2025' },
+                { sym:'Tb', name:'Terbium',    pct:99, use:'EV drive systems · solid-state lighting · EXPORT RESTRICTED 2025' },
+                { sym:'La', name:'Lanthanum',  pct:85, use:'Hybrid batteries, camera lenses, petroleum refining' },
+                { sym:'Ce', name:'Cerium',     pct:60, use:'Catalytic converters, glass polishing, phosphors' },
+                { sym:'Ga', name:'Gallium',    pct:94, use:'Semiconductors, 5G chips, LEDs · EXPORT RESTRICTED 2023' },
+                { sym:'Ge', name:'Germanium',  pct:67, use:'Fiber optics, infrared optics, solar panels · EXPORT RESTRICTED 2023' },
+                { sym:'Y',  name:'Yttrium',    pct:70, use:'Phosphors, superconductors, laser targeting systems' },
+            ].map(e => `<div class="ree-element">
+                <div class="ree-symbol">${e.sym}</div>
+                <div style="flex:1">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px">
+                        <span class="ree-name">${e.name}</span>
+                        <span class="ree-share">${e.pct}% Chinese</span>
+                    </div>
+                    <div style="height:3px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:4px">
+                        <div style="height:3px;background:#44FFCC;width:${e.pct}%;border-radius:2px;opacity:0.7"></div>
+                    </div>
+                    <div class="ree-use">${e.use}</div>
+                </div>
+            </div>`).join('')}
+            <div class="section-label">Chinese Mining Regions</div>
+            ${RE_MINES.map(m => `<div class="island-item">
+                <div class="island-dot" style="background:#44FFCC"></div>
+                <div><div class="island-name" style="color:#44FFCC">${m.name}</div>
+                <div class="island-desc">${m.output} · ${m.pct}% of output · ${m.desc}</div></div>
+            </div>`).join('')}
+        `; }
+    },
+
+    surveillance: {
+        title: 'Surveillance & Detention',
+        subtitle: 'Xinjiang · Tibet · OSINT · Satellite Verified',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#FF2222"></div>Detention facility</div>
+            <div class="legend-item"><div class="lp" style="background:#FF8800"></div>Surveillance infrastructure</div>
+            <div class="legend-item"><div class="lp" style="background:#0088CC"></div>Tech/cyber hub</div>
+        `,
+        html() { return `
+            <p class="intro-text">Based on open-source research from ASPI, BuzzFeed News, NYT, and satellite analysis. China has detained an estimated 1–1.8 million Uyghurs in Xinjiang since 2017.</p>
+            <div class="section-label">Key Statistics</div>
+            ${[
+                { label:'Estimated detainees (peak)', val:'1–1.8 million' },
+                { label:'Known facilities identified', val:'380+' },
+                { label:'Xinjiang surveillance cameras', val:'~1 per 2.5 residents' },
+                { label:'IJOP app tracked individuals', val:'~2.5 million' },
+                { label:'DNA samples forcibly collected', val:'~36 million' },
+            ].map(s=>`<div class="adiz-stat"><span class="adiz-label">${s.label}</span><span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#FF4444">${s.val}</span></div>`).join('')}
+            <div class="section-label">Known Sites</div>
+            ${SRV_SITES.map(s => {
+                const col = '#'+s.col.toString(16).padStart(6,'0');
+                return `<div class="srv-site">
+                    <div class="srv-dot" style="background:${col}"></div>
+                    <div>
+                        <div class="srv-name" style="color:${col}">${s.name}</div>
+                        <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#444;letter-spacing:1.5px;margin-bottom:2px">${s.type}</div>
+                        <div class="srv-desc">${s.desc}</div>
+                    </div>
+                </div>`;
+            }).join('')}
+            <div class="section-label">International Response</div>
+            ${[
+                { date:'2021', text:'US, UK, EU, Canada impose coordinated sanctions on Xinjiang officials' },
+                { date:'2022', text:'UN OHCHR report: "serious human rights violations" — China rejects findings' },
+                { date:'2023', text:'US Uyghur Forced Labor Prevention Act blocks all Xinjiang imports' },
+                { date:'2024', text:'ICC members call for investigation · China vetoes UNSC discussion' },
+                { date:'2025', text:'G7 joint statement demands unfettered access · China denies all allegations' },
+            ].map(e=>`<div class="space-milestone"><span class="space-milestone-year">${e.date}</span><span class="space-milestone-text">${e.text}</span></div>`).join('')}
+        `; }
+    },
+
+    briefing: {
+        title: 'Intelligence Briefing',
+        subtitle: 'AI-Generated · Live News Synthesis · Today',
+        legend: '',
+        html() {
+            return `
+            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#CC0000;letter-spacing:2px;margin-bottom:12px">
+                <span class="news-live-dot" style="display:inline-block;width:6px;height:6px;background:#CC0000;border-radius:50%;margin-right:6px;animation:blink 1.5s step-end infinite"></span>
+                GENERATING BRIEFING FROM LIVE FEEDS…
+            </div>
+            <div id="briefing-content">
+                <div style="color:#222;font-family:'Share Tech Mono',monospace;font-size:9px;padding:20px 0">Loading intelligence feeds…</div>
+            </div>`;
+        }
+    },
+
+    comparison: {
+        title: 'China vs USA',
+        subtitle: 'Military · Economic · Strategic Comparison 2026',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#CC0000"></div>China (PRC)</div>
+            <div class="legend-item"><div class="lp" style="background:#2255FF"></div>United States</div>
+        `,
+        html() {
+            const rows = [
+                { label:'Defense Budget',        cn:'$225B',    us:'$886B',    cnW:20, usW:80 },
+                { label:'Active Military',        cn:'2.04M',    us:'1.33M',    cnW:60, usW:40 },
+                { label:'Aircraft Carriers',      cn:'3',        us:'11',       cnW:21, usW:79 },
+                { label:'Nuclear Warheads',       cn:'~500',     us:'~5,550',   cnW:8,  usW:92 },
+                { label:'Fighter Aircraft',       cn:'~1,700',   us:'~2,700',   cnW:39, usW:61 },
+                { label:'Submarines',             cn:'~60',      us:'~68',      cnW:47, usW:53 },
+                { label:'ICBM Launchers',         cn:'~350',     us:'~400',     cnW:47, usW:53 },
+                { label:'Cyber Units (est.)',     cn:'~100,000', us:'~6,200',   cnW:94, usW:6  },
+                { label:'Space Assets',           cn:'~600 sats',us:'~2,900 sats',cnW:17,usW:83 },
+                { label:'GDP (PPP)',               cn:'$33T',     us:'$27T',     cnW:55, usW:45 },
+                { label:'Semiconductor Capacity', cn:'~15%',     us:'~10%',     cnW:60, usW:40 },
+                { label:'Rare Earth Control',     cn:'60%+',     us:'<2%',      cnW:97, usW:3  },
+                { label:'Global Navy Rank',       cn:'#1 hulls', us:'#1 tonnage',cnW:50,usW:50 },
+                { label:'5G Base Stations',       cn:'3.6M',     us:'~100K',    cnW:97, usW:3  },
+                { label:'AI Patents (annual)',    cn:'38,000',   us:'6,300',    cnW:86, usW:14 },
+            ];
+            return `
+            <div style="display:flex;justify-content:space-between;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.06)">
+                <span style="font-family:'Orbitron',monospace;font-size:10px;color:#CC0000;letter-spacing:2px">CHINA</span>
+                <span style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#333;letter-spacing:2px">METRIC</span>
+                <span style="font-family:'Orbitron',monospace;font-size:10px;color:#2255FF;letter-spacing:2px">USA</span>
+            </div>
+            ${rows.map(r => `<div class="cmp-row">
+                <div class="cmp-cn">${r.cn}</div>
+                <div class="cmp-bar-wrap">
+                    <div class="cmp-bar-cn" style="width:${r.cnW/2}%"></div>
+                    <div class="cmp-bar-us" style="width:${r.usW/2}%"></div>
+                </div>
+                <div class="cmp-us">${r.us}</div>
+                <div class="cmp-label">${r.label}</div>
+            </div>`).join('')}
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Sources: IISS Military Balance 2026, SIPRI, US DoD, CSIS. Estimates for classified programs.</p>`;
+        }
+    },
+
     space: {
         title: 'Chinese Space Program',
         subtitle: 'Tiangong Live · CNSA Missions · Launch Sites',
@@ -4635,6 +5183,9 @@ function openPanel(id) {
         navyGroup.visible      = id === 'navy';
         cyberGroup.visible     = id === 'cyber';
         influenceGroup.visible = id === 'influence';
+        aqiGroup.visible       = id === 'aqi';
+        reGroup.visible        = id === 'rareearth';
+        srvGroup.visible       = id === 'surveillance';
     }
 
     legendEl.innerHTML = p.legend;
@@ -4657,6 +5208,33 @@ function openPanel(id) {
     if (id === 'space') {
         requestAnimationFrame(updateTiangongPosition);
     }
+    if (id === 'aqi') {
+        requestAnimationFrame(() => {
+            const loadEl = document.getElementById('aqi-loading');
+            if (loadEl) loadEl.style.display = 'block';
+            fetchAQI().then(() => {
+                if (activePanel !== 'aqi') return;
+                const listEl = document.getElementById('aqi-city-list');
+                if (listEl) listEl.innerHTML = AQI_CITIES.map(c => {
+                    const aqi = aqiData[c.name] || '—';
+                    const cat = typeof aqi === 'number' ? aqiCategory(aqi) : { label:'No data', color:'#555' };
+                    const col = typeof aqi === 'number' ? cat.color : '#555';
+                    return `<div class="aqi-city">
+                        <div class="aqi-dot" style="background:${col}"></div>
+                        <div class="aqi-name">${c.name}</div>
+                        <div style="text-align:right">
+                            <div class="aqi-val" style="color:${col}">${aqi}</div>
+                            <div class="aqi-cat" style="color:${col}">${cat.label}</div>
+                        </div>
+                    </div>`;
+                }).join('');
+                if (loadEl) loadEl.style.display = 'none';
+            });
+        });
+    }
+    if (id === 'briefing') {
+        requestAnimationFrame(generateBriefing);
+    }
 }
 
 function closePanel() {
@@ -4668,6 +5246,7 @@ function closePanel() {
         portsGroup.visible = cablesGroup.visible = beidouGroup.visible = spaceGroup.visible = false;
         missilesGroup.visible = scsGroup.visible = taiwanGroup.visible = navyGroup.visible = false;
         cyberGroup.visible = influenceGroup.visible = false;
+        aqiGroup.visible = reGroup.visible = srvGroup.visible = false;
     }
     legendEl.style.display = 'none';
     activePanel = null;
@@ -4781,6 +5360,9 @@ function openAllLayers() {
     navyGroup.visible      = true;
     cyberGroup.visible     = true;
     influenceGroup.visible = true;
+    aqiGroup.visible       = true;
+    reGroup.visible        = true;
+    srvGroup.visible       = true;
 }
 
 function closeAllLayers() {
@@ -4792,6 +5374,7 @@ function closeAllLayers() {
     portsGroup.visible = cablesGroup.visible = beidouGroup.visible = spaceGroup.visible = false;
     missilesGroup.visible = scsGroup.visible = taiwanGroup.visible = navyGroup.visible = false;
     cyberGroup.visible = influenceGroup.visible = false;
+    aqiGroup.visible = reGroup.visible = srvGroup.visible = false;
 }
 
 allBtn.addEventListener('click', () => {
@@ -5452,7 +6035,7 @@ window.addEventListener('keydown', e => {
 });
 
 // ── Swipe gestures (mobile panel cycling) ─────────────────────────────
-const PANEL_ORDER = ['routes','military','aircraft','economy','stock','leaders','ports','cables','beidou','space','missiles','scs','taiwan','navy','cyber','influence','tariff'];
+const PANEL_ORDER = ['routes','military','aircraft','economy','stock','leaders','ports','cables','beidou','space','missiles','scs','taiwan','navy','cyber','influence','tariff','aqi','rareearth','surveillance','briefing','comparison'];
 
 // ── Screenshot button ──────────────────────────────────────────────────
 document.getElementById('screenshot-btn').addEventListener('click', () => {
@@ -5874,6 +6457,262 @@ setInterval(async () => {
     const articles = await fetchChineseNews();
     buildCrawl(articles);
 }, 600000);
+
+// ── Globe Search ────────────────────────────────────────────────────────
+const SEARCH_INDEX = [
+    // BRI hubs & routes
+    ...BRI.map(r => ({ label:r.name, type:'BRI Route', lat:r.path[0][0], lon:r.path[0][1], panel:'routes' })),
+    // Military bases
+    ...BASES.map(b => ({ label:b.name, type:'Military', lat:b.lat, lon:b.lon, panel:'military' })),
+    // Ports
+    ...PORTS.map(p => ({ label:p.name, type:'Port', lat:p.lat, lon:p.lon, panel:'ports' })),
+    // AQI cities
+    ...AQI_CITIES.map(c => ({ label:c.name, type:'AQI City', lat:c.lat, lon:c.lon, panel:'aqi' })),
+    // Rare earth mines
+    ...RE_MINES.map(m => ({ label:m.name, type:'RE Mine', lat:m.lat, lon:m.lon, panel:'rareearth' })),
+    // Surveillance sites
+    ...SRV_SITES.map(s => ({ label:s.name, type:'Surveillance', lat:s.lat, lon:s.lon, panel:'surveillance' })),
+    // Panels (non-geo)
+    { label:'Belt & Road Initiative', type:'Panel', panel:'routes' },
+    { label:'Military Presence', type:'Panel', panel:'military' },
+    { label:'Air Quality Index', type:'Panel', panel:'aqi' },
+    { label:'Rare Earth Supply Chain', type:'Panel', panel:'rareearth' },
+    { label:'Surveillance & Detention', type:'Panel', panel:'surveillance' },
+    { label:'China vs USA Comparison', type:'Panel', panel:'comparison' },
+    { label:'Intelligence Briefing', type:'Panel', panel:'briefing' },
+    { label:'Space Program', type:'Panel', panel:'space' },
+    { label:'Missile Ranges', type:'Panel', panel:'missiles' },
+    { label:'South China Sea', type:'Panel', panel:'scs' },
+    { label:'Taiwan Strait', type:'Panel', panel:'taiwan' },
+    { label:'Cyber Threats', type:'Panel', panel:'cyber' },
+    { label:'PLA Navy', type:'Panel', panel:'navy' },
+    { label:'Influence Index', type:'Panel', panel:'influence' },
+];
+
+const searchInput   = document.getElementById('globe-search');
+const searchResults = document.getElementById('globe-search-results');
+
+function runSearch(q) {
+    q = q.trim().toLowerCase();
+    searchResults.innerHTML = '';
+    if (!q) { searchResults.classList.remove('show'); return; }
+    const matches = SEARCH_INDEX.filter(item => item.label.toLowerCase().includes(q)).slice(0, 8);
+    if (!matches.length) { searchResults.classList.remove('show'); return; }
+    matches.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'search-result';
+        div.innerHTML = `<span>${item.label}</span><span class="search-result-type">${item.type}</span>`;
+        div.addEventListener('click', () => {
+            openPanel(item.panel);
+            if (item.lat !== undefined) flyToLatLon(item.lat, item.lon);
+            searchInput.value = '';
+            searchResults.classList.remove('show');
+        });
+        searchResults.appendChild(div);
+    });
+    searchResults.classList.add('show');
+}
+
+searchInput.addEventListener('input', () => runSearch(searchInput.value));
+searchInput.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { searchInput.value = ''; searchResults.classList.remove('show'); searchInput.blur(); }
+    if (e.key === 'Enter') {
+        const first = searchResults.querySelector('.search-result');
+        if (first) first.click();
+    }
+});
+document.addEventListener('click', e => {
+    if (!e.target.closest('#globe-search-wrap')) searchResults.classList.remove('show');
+});
+
+// ── Timeline Slider ─────────────────────────────────────────────────────
+const TIMELINE_EVENTS = {
+    2013: 'Belt & Road Initiative announced by Xi Jinping',
+    2014: 'ADIZ declared in East China Sea · Crackdown on Xinjiang begins',
+    2015: 'Made in China 2025 plan launched · Military reform begins',
+    2016: 'South China Sea arbitration ruling rejected · AIIB opens',
+    2017: 'Djibouti base opens · Xinjiang mass detention begins · 19th Party Congress',
+    2018: 'US-China trade war begins · Great Firewall expanded',
+    2019: 'Hong Kong protests · Huawei blacklisted · BRI enters Africa expansion',
+    2020: 'National Security Law imposed on Hong Kong · COVID-19 origins dispute',
+    2021: 'Tiangong CSS operational · AUKUS formed · Taiwan tensions escalate',
+    2022: 'Pelosi visit triggers Taiwan drills · Russia-China partnership deepens · Xinjiang report released',
+    2023: 'Gallium/Germanium export controls · Spy balloon incident · BRICS expansion',
+    2024: 'Taiwan election watched globally · Gaza tensions · South China Sea standoffs',
+    2025: 'Dysprosium/Terbium restrictions · AI competition accelerates · BRI 2.0',
+    2026: 'Current: PLA modernization · Space station expansion · Taiwan strait patrols',
+};
+
+const timelineBar    = document.getElementById('timeline-bar');
+const timelineSlider = document.getElementById('timeline-slider');
+const timelineLabel  = document.getElementById('timeline-label');
+const timelineEvent  = document.getElementById('timeline-event');
+const timelineClose  = document.getElementById('timeline-close');
+
+// Show timeline bar when timeline dock button is clicked (if one exists), or via keyboard shortcut T
+function showTimeline() {
+    timelineBar.style.display = 'flex';
+    timelineSlider.value = 2026;
+    timelineLabel.textContent = '2026';
+    timelineEvent.textContent = TIMELINE_EVENTS[2026];
+}
+function hideTimeline() {
+    timelineBar.style.display = 'none';
+}
+
+timelineSlider.addEventListener('input', () => {
+    const yr = parseInt(timelineSlider.value);
+    timelineLabel.textContent = yr;
+    timelineEvent.textContent = TIMELINE_EVENTS[yr] || '';
+    // Highlight relevant layers by year
+    const showBRI        = yr >= 2013;
+    const showSCS        = yr >= 2014;
+    const showMilitary   = yr >= 2014;
+    const showCyber      = yr >= 2015;
+    const showInfluence  = yr >= 2016;
+    const showNavy       = yr >= 2017;
+    const showTaiwan     = yr >= 2021;
+    const showSpace      = yr >= 2021;
+    const showSurv       = yr >= 2017;
+    if (!allLayersActive) return; // only filter in ALL mode
+    briGroup.visible        = showBRI;
+    scsGroup.visible        = showSCS;
+    basesGroup.visible      = showMilitary;
+    cyberGroup.visible      = showCyber;
+    influenceGroup.visible  = showInfluence;
+    navyGroup.visible       = showNavy;
+    taiwanGroup.visible     = showTaiwan;
+    spaceGroup.visible      = showSpace;
+    srvGroup.visible        = showSurv;
+});
+
+timelineClose.addEventListener('click', hideTimeline);
+
+// Keyboard shortcut T → toggle timeline
+window.addEventListener('keydown', e => {
+    if (e.code === 'KeyT' && !e.target.closest('input,textarea')) {
+        timelineBar.style.display === 'none' || !timelineBar.style.display ? showTimeline() : hideTimeline();
+    }
+});
+
+// Wire timeline dock button if it exists
+const timelineDockBtn = document.querySelector('[data-panel="timeline"]');
+if (timelineDockBtn) {
+    timelineDockBtn.addEventListener('click', () => {
+        timelineBar.style.display === 'none' || !timelineBar.style.display ? showTimeline() : hideTimeline();
+    }, true); // capture — fires before the generic openPanel listener
+}
+
+// ── Share Button ────────────────────────────────────────────────────────
+document.getElementById('share-btn').addEventListener('click', () => {
+    const rotY = globeGroup.rotation.y.toFixed(3);
+    const rotX = globeGroup.rotation.x.toFixed(3);
+    const panel = activePanel || '';
+    const hash = `#v=${rotY},${rotX}${panel ? '&p=' + panel : ''}`;
+    const url = location.origin + location.pathname + hash;
+    navigator.clipboard.writeText(url).then(() => {
+        const btn = document.getElementById('share-btn');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polyline points="1,6 4,9 11,2" stroke="#44FF88" stroke-width="1.5" fill="none"/></svg> COPIED!';
+        btn.style.color = '#44FF88';
+        btn.style.borderColor = 'rgba(68,255,136,0.4)';
+        setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; btn.style.borderColor = ''; }, 2000);
+    }).catch(() => {
+        prompt('Copy this link:', url);
+    });
+});
+
+// Restore shared state from URL hash on load
+(function restoreShareState() {
+    const hash = location.hash;
+    if (!hash || !hash.startsWith('#v=')) return;
+    try {
+        const params = new URLSearchParams(hash.slice(1));
+        const v = params.get('v');
+        const p = params.get('p');
+        if (v) {
+            const [ry, rx] = v.split(',').map(Number);
+            if (!isNaN(ry)) globeGroup.rotation.y = ry;
+            if (!isNaN(rx)) globeGroup.rotation.x = rx;
+        }
+        if (p && PANELS[p]) setTimeout(() => openPanel(p), 500);
+    } catch(e) {}
+})();
+
+// ── Intelligence Briefing Generator ─────────────────────────────────────
+async function generateBriefing() {
+    const content = document.getElementById('briefing-content');
+    if (!content || activePanel !== 'briefing') return;
+
+    const articles = newsCache.length ? newsCache : await fetchChineseNews();
+    if (!content || activePanel !== 'briefing') return;
+
+    if (!articles.length) {
+        content.innerHTML = `<div style="color:#444;font-family:'Share Tech Mono',monospace;font-size:9px;padding:10px 0">
+            Intelligence feeds unavailable. Check internet connection.</div>`;
+        return;
+    }
+
+    // Group articles into themes
+    const categories = [
+        { id:'military',  label:'MILITARY & SECURITY',  keywords:['military','PLA','weapon','defense','navy','missile','aircraft','carrier','troops','exercise','Taiwan','South China Sea','ADIZ'], color:'#FF4444' },
+        { id:'economy',   label:'ECONOMIC & TRADE',      keywords:['trade','economy','tariff','GDP','export','import','sanctions','market','yuan','dollar','investment','supply chain'], color:'#FFD700' },
+        { id:'diplomacy', label:'DIPLOMACY & POLITICS',  keywords:['Xi Jinping','Beijing','diplomat','summit','foreign','minister','agreement','relations','UN','G20','BRICS'], color:'#4499FF' },
+        { id:'tech',      label:'TECHNOLOGY & CYBER',    keywords:['AI','tech','chip','semiconductor','cyber','hack','Huawei','5G','space','satellite','innovation'], color:'#44FFCC' },
+        { id:'rights',    label:'HUMAN RIGHTS & SOCIETY',keywords:['Xinjiang','Uyghur','Tibet','Hong Kong','protest','detention','censorship','rights','freedom'], color:'#FF8800' },
+    ];
+
+    function scoreArticle(a, keywords) {
+        const text = (a.title + ' ' + (a.desc || '')).toLowerCase();
+        return keywords.filter(k => text.includes(k.toLowerCase())).length;
+    }
+
+    const dated = new Date(newsLastFetch || Date.now()).toUTCString().slice(0,16);
+
+    let html = `<div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#333;letter-spacing:1px;margin-bottom:12px">
+        COMPILED ${dated} UTC · ${articles.length} INTELLIGENCE SOURCES</div>`;
+
+    categories.forEach(cat => {
+        const relevant = articles
+            .map(a => ({ ...a, score: scoreArticle(a, cat.keywords) }))
+            .filter(a => a.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 3);
+        if (!relevant.length) return;
+
+        html += `<div class="section-label" style="color:${cat.color}">${cat.label}</div>`;
+        relevant.forEach(a => {
+            html += `<div class="brief-headline" onclick="window.open(${JSON.stringify(a.link)},'_blank')"
+                style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;">
+                <span style="color:${a.color || '#555'};font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px">${a.source}</span>
+                <div style="color:#bbb;font-size:11px;margin-top:3px;line-height:1.4">${a.title}</div>
+            </div>`;
+        });
+    });
+
+    // Headlines that didn't fit any category
+    const scored = articles.map(a => ({
+        ...a,
+        total: categories.reduce((s, c) => s + scoreArticle(a, c.keywords), 0)
+    }));
+    const uncategorized = scored.filter(a => a.total === 0).slice(0, 4);
+    if (uncategorized.length) {
+        html += `<div class="section-label">OTHER DEVELOPMENTS</div>`;
+        uncategorized.forEach(a => {
+            html += `<div class="brief-headline" onclick="window.open(${JSON.stringify(a.link)},'_blank')"
+                style="padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);cursor:pointer;">
+                <span style="color:${a.color||'#555'};font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px">${a.source}</span>
+                <div style="color:#bbb;font-size:11px;margin-top:3px;line-height:1.4">${a.title}</div>
+            </div>`;
+        });
+    }
+
+    content.innerHTML = html;
+
+    // Hide the "generating" indicator
+    const genEl = document.querySelector('#panel-content [style*="GENERATING"]');
+    if (genEl) genEl.style.display = 'none';
+}
 </script>
 </body>
 </html>
