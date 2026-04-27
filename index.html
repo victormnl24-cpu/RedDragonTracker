@@ -8550,26 +8550,13 @@ window.submitNewsletter = async function() {
     submitEl.textContent = 'SENDING…';
 
     try {
-        const res = await secureFetch(
-            'https://jcwmkpwcbfszsxbylnbf.supabase.co/functions/v1/subscribe',
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    email,
-                    honeypot: document.getElementById('nl-honeypot')?.value || '',
-                }),
-            }
-        );
-        const data = await res.json();
-        if (!res.ok && res.status === 429) {
-            errorEl.textContent = '⚠ Too many attempts. Please try again later.';
-            errorEl.style.display = 'block';
-            submitEl.disabled = false;
-            submitEl.textContent = 'SUBSCRIBE →';
-            return;
-        }
-        if (!res.ok) throw new Error(data.error || 'Server error');
+        if (!_sb) throw new Error('Database unavailable');
+        const { error } = await _sb
+            .from('subscribers')
+            .insert({ email, source: 'RedDragonTracker' });
+
+        // 23505 = unique violation (already subscribed) — treat as success
+        if (error && error.code !== '23505') throw new Error(error.message);
         showNLSuccess();
     } catch(e) {
         submitEl.disabled = false;
