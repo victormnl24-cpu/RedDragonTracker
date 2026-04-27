@@ -713,17 +713,16 @@
         }
         .intel-headline {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; letter-spacing: 1.5px; color: #888;
+            font-size: 9px; letter-spacing: 1.5px; color: #ddd;
             text-transform: uppercase; font-weight: 700; margin-bottom: 3px;
         }
         .intel-body {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 8px; color: #3a3a3a; line-height: 1.6;
+            font-size: 8px; color: #777; line-height: 1.6;
         }
         .intel-time {
             font-family: 'Share Tech Mono', monospace;
             font-size: 7px; color: #CC0000; margin-top: 3px;
-            opacity: 0.7;
         }
 
         /* ── All-layers panel override (wider) ─────────── */
@@ -3252,14 +3251,18 @@ function openPanel(id) {
     document.getElementById('panel-subtitle').textContent = p.subtitle;
     document.getElementById('panel-content').innerHTML    = p.html();
     document.getElementById('panel').classList.add('open');
-    document.querySelectorAll('.dock-btn, .nav-btn, .hdr-nav-btn').forEach(b => b.classList.toggle('active', b.dataset.panel === id));
+    // Keep ALL button active state; only toggle panel buttons
+    document.querySelectorAll('.dock-btn:not(#dock-all-btn), .nav-btn, .hdr-nav-btn').forEach(b => b.classList.toggle('active', b.dataset.panel === id));
 
-    briGroup.visible    = id === 'routes';
-    basesGroup.visible  = id === 'military';
-    planesGroup.visible = id === 'aircraft';
-    portsGroup.visible  = id === 'ports';
-    cablesGroup.visible = id === 'cables';
-    beidouGroup.visible = id === 'beidou';
+    // Only change layer visibility if ALL mode is not active
+    if (!allLayersActive) {
+        briGroup.visible    = id === 'routes';
+        basesGroup.visible  = id === 'military';
+        planesGroup.visible = id === 'aircraft';
+        portsGroup.visible  = id === 'ports';
+        cablesGroup.visible = id === 'cables';
+        beidouGroup.visible = id === 'beidou';
+    }
 
     legendEl.innerHTML = p.legend;
     legendEl.style.display = p.legend ? 'block' : 'none';
@@ -3282,17 +3285,18 @@ function openPanel(id) {
 
 function closePanel() {
     document.getElementById('panel').classList.remove('open', 'wide');
-    document.querySelectorAll('.dock-btn, .nav-btn, .hdr-nav-btn').forEach(b => b.classList.remove('active'));
-    briGroup.visible = basesGroup.visible = planesGroup.visible = false;
-    portsGroup.visible = cablesGroup.visible = beidouGroup.visible = false;
+    document.querySelectorAll('.dock-btn:not(#dock-all-btn), .nav-btn, .hdr-nav-btn').forEach(b => b.classList.remove('active'));
+    // Only turn off layers if ALL mode is not active
+    if (!allLayersActive) {
+        briGroup.visible = basesGroup.visible = planesGroup.visible = false;
+        portsGroup.visible = cablesGroup.visible = beidouGroup.visible = false;
+    }
     legendEl.style.display = 'none';
     activePanel = null;
-    allLayersActive = false;
-    if (allBtn) allBtn.classList.remove('active');
 }
 
 // Panel switcher — works for dock-btn, nav-btn, and header nav buttons
-document.querySelectorAll('.dock-btn, .nav-btn, .hdr-nav-btn').forEach(btn => {
+document.querySelectorAll('.dock-btn:not(#dock-all-btn), .nav-btn, .hdr-nav-btn').forEach(btn => {
     btn.addEventListener('click', () => activePanel === btn.dataset.panel ? closePanel() : openPanel(btn.dataset.panel));
 });
 document.getElementById('panel-close').addEventListener('click', closePanel);
@@ -3365,14 +3369,7 @@ function syncAllBtn(active) {
 function openAllLayers() {
     allLayersActive = true;
     syncAllBtn(true);
-
-    // Close any open side panel UI (without touching layer visibility)
-    document.getElementById('panel').classList.remove('open', 'wide');
-    document.querySelectorAll('.dock-btn:not(#dock-all-btn), .nav-btn, .hdr-nav-btn').forEach(b => b.classList.remove('active'));
-    legendEl.style.display = 'none';
-    activePanel = null;
-
-    // Now activate all globe layers
+    // Show all globe layers — leave any open info panel untouched
     briGroup.visible    = true;
     basesGroup.visible  = true;
     planesGroup.visible = true;
