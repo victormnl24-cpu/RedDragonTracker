@@ -7541,6 +7541,7 @@ function chatAllowed() {
 
 // Load recent messages (last 24h) on open
 async function loadChatHistory() {
+    if (!_sb) return;
     const { data, error } = await _sb
         .from('chat_messages')
         .select('id, username, text, created_at')
@@ -7558,28 +7559,30 @@ async function loadChatHistory() {
     });
 }
 
-// Subscribe to new messages via Realtime
-_sb.channel('chat_messages')
-    .on('postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'chat_messages' },
-        payload => {
-            const row = payload.new;
-            if (!row) return;
-            const safe = {
-                text: sanitizeInput(row.text, 300),
-                user: sanitizeInput(row.username, 20),
-                time: new Date(row.created_at).getTime(),
-            };
-            if (safe.text && safe.user) renderChatMessage(row.id, safe);
-        }
-    )
-    .subscribe();
+// Subscribe to new messages via Realtime (only if Supabase loaded)
+if (_sb) {
+    _sb.channel('chat_messages')
+        .on('postgres_changes',
+            { event: 'INSERT', schema: 'public', table: 'chat_messages' },
+            payload => {
+                const row = payload.new;
+                if (!row) return;
+                const safe = {
+                    text: sanitizeInput(row.text, 300),
+                    user: sanitizeInput(row.username, 20),
+                    time: new Date(row.created_at).getTime(),
+                };
+                if (safe.text && safe.user) renderChatMessage(row.id, safe);
+            }
+        )
+        .subscribe();
 
-loadChatHistory();
+    loadChatHistory();
+}
 
 // Send message via Supabase
 async function sendChatMsg(text) {
-    if (!chatUsername || !text.trim()) return;
+    if (!_sb || !chatUsername || !text.trim()) return;
     if (!chatAllowed()) return;
     const cleanText = sanitizeInput(text, 300);
     if (!cleanText) return;
