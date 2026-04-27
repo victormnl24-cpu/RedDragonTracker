@@ -1,0 +1,39 @@
+# ── Credentials & secrets ──────────────────────────────────────────────
+.env
+.env.*
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+secrets.json
+credentials.json
+config.local.*
+
+# ── Claude Code personal overrides (never commit local settings) ────────
+.claude/settings.local.json
+
+# ── macOS system files ──────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# ── Editor & IDE ────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Node (in case npm is ever used) ────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ── Logs & temp files ───────────────────────────────────────────────────
+*.log
+*.tmp
+*.bak
+*.orig

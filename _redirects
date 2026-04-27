@@ -1,0 +1,2 @@
+# SPA fallback — all paths serve index.html (200 = rewrite, not redirect)
+/*    /index.html    200
