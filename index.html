@@ -183,60 +183,97 @@
             font-family: 'Share Tech Mono', monospace; letter-spacing: 0.5px;
         }
 
-        /* ── Right dock (icon panel switcher) ───────────── */
+        /* ── Right dock — 3D drum roulette ──────────────── */
         #right-dock {
             position: fixed; right: 0; top: 50%; transform: translateY(-50%);
-            z-index: 95; display: flex; flex-direction: column; gap: 1px;
-            background: rgba(4,4,8,0.92);
-            border-left: 1px solid rgba(180,0,0,0.35);
-            border-top: 1px solid rgba(180,0,0,0.2);
-            border-bottom: 1px solid rgba(180,0,0,0.2);
-            padding: 6px 0;
-            backdrop-filter: blur(12px);
+            z-index: 95; width: 88px;
+            height: 364px; /* shows 7 items */
+            overflow: hidden;
+            background: rgba(4,4,8,0.94);
+            border-left: 1px solid rgba(180,0,0,0.4);
+            backdrop-filter: blur(14px);
+            cursor: ns-resize;
+            /* perspective for 3D drum effect */
+            perspective: 600px;
+            perspective-origin: 50% 50%;
         }
-        #right-dock::before { content: ''; position: absolute; top: -1px; right: 0; width: 8px; height: 8px; border-top: 1px solid #CC0000; border-right: 1px solid #CC0000; }
-        #right-dock::after  { content: ''; position: absolute; bottom: -1px; right: 0; width: 8px; height: 8px; border-bottom: 1px solid #CC0000; border-right: 1px solid #CC0000; }
+        /* top/bottom fade mask */
+        #right-dock::before, #right-dock::after {
+            content: ''; position: absolute; left: 0; right: 0; z-index: 3; pointer-events: none;
+        }
+        #right-dock::before {
+            top: 0; height: 90px;
+            background: linear-gradient(to bottom, rgba(4,4,8,0.98) 0%, rgba(4,4,8,0.7) 55%, transparent 100%);
+        }
+        #right-dock::after {
+            bottom: 0; height: 90px;
+            background: linear-gradient(to top, rgba(4,4,8,0.98) 0%, rgba(4,4,8,0.7) 55%, transparent 100%);
+        }
+        /* center highlight line */
+        #dock-center-line {
+            position: absolute; left: 0; right: 0; top: 50%;
+            margin-top: -26px; height: 52px;
+            border-top: 1px solid rgba(204,0,0,0.25);
+            border-bottom: 1px solid rgba(204,0,0,0.25);
+            background: rgba(204,0,0,0.05);
+            z-index: 2; pointer-events: none;
+        }
+        /* scroll arrows */
+        #dock-arrow-up, #dock-arrow-down {
+            position: absolute; left: 0; right: 0; z-index: 4;
+            display: flex; align-items: center; justify-content: center;
+            height: 20px; color: rgba(180,0,0,0.4);
+            font-size: 8px; letter-spacing: 1px; pointer-events: none;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        #dock-arrow-up   { top: 4px; }
+        #dock-arrow-down { bottom: 4px; }
+
+        #dock-wheel {
+            position: absolute; left: 0; width: 100%;
+            transform-style: preserve-3d;
+            will-change: transform;
+            transition: transform 0.22s cubic-bezier(0.2, 0, 0.1, 1);
+        }
 
         .dock-btn {
-            width: 86px; display: flex; flex-direction: row; align-items: center;
-            justify-content: flex-start; gap: 9px;
-            padding: 9px 12px 9px 10px; cursor: pointer;
+            width: 88px; height: 52px;
+            display: flex; flex-direction: row; align-items: center;
+            justify-content: flex-start; gap: 8px;
+            padding: 0 10px 0 10px; cursor: pointer;
             border: none; background: transparent;
-            transition: all 0.18s; position: relative;
+            position: relative; box-sizing: border-box;
             border-left: 2px solid transparent;
+            transition: border-left-color 0.15s;
         }
         .dock-icon {
-            width: 28px; height: 28px; border-radius: 50%;
-            border: 1px solid rgba(180,0,0,0.4);
+            width: 26px; height: 26px; border-radius: 50%;
+            border: 1px solid rgba(180,0,0,0.35);
             display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; color: #555; transition: all 0.18s;
+            flex-shrink: 0; color: #555; transition: all 0.15s;
         }
         .dock-icon svg { display: block; }
         .dock-btn span.dock-label {
             font-family: 'Share Tech Mono', monospace;
             font-size: 9px; letter-spacing: 2.5px;
-            text-transform: uppercase; color: #3a3a3a;
-            transition: color 0.18s;
+            text-transform: uppercase; color: #2e2e2e;
+            transition: color 0.15s;
         }
-        .dock-btn:hover { background: rgba(204,0,0,0.1); border-left-color: rgba(204,0,0,0.5); }
         .dock-btn:hover .dock-icon { border-color: #CC0000; color: #CC0000; }
         .dock-btn:hover span.dock-label { color: #CC0000; }
-        .dock-btn.active { background: rgba(204,0,0,0.18); border-left-color: #CC0000; }
+        .dock-btn:hover { border-left-color: rgba(204,0,0,0.4); }
+        .dock-btn.active { border-left-color: #CC0000; }
         .dock-btn.active .dock-icon { border-color: #FF4444; color: #FF4444; background: rgba(204,0,0,0.12); }
         .dock-btn.active span.dock-label { color: #FF4444; }
+        .dock-divider { display: none; } /* removed from drum — not needed */
 
-        .dock-divider {
-            width: 60px; height: 1px;
-            background: rgba(180,0,0,0.12);
-            margin: 3px 13px;
-        }
         /* ALL LAYERS button — gold accent */
         #dock-all-btn .dock-icon { border-color: rgba(255,215,0,0.25); color: #444; }
-        #dock-all-btn span.dock-label { color: #3a3a3a; }
-        #dock-all-btn:hover { background: rgba(255,215,0,0.08); border-left-color: rgba(255,215,0,0.5); }
+        #dock-all-btn span.dock-label { color: #2e2e2e; }
         #dock-all-btn:hover .dock-icon { border-color: #FFD700; color: #FFD700; }
         #dock-all-btn:hover span.dock-label { color: #FFD700; }
-        #dock-all-btn.active { background: rgba(255,215,0,0.12); border-left-color: #FFD700; }
+        #dock-all-btn:hover { border-left-color: rgba(255,215,0,0.4); }
+        #dock-all-btn.active { border-left-color: #FFD700; }
         #dock-all-btn.active .dock-icon { border-color: #FFD700; color: #FFD700; background: rgba(255,215,0,0.1); }
         #dock-all-btn.active span.dock-label { color: #FFD700; }
 
@@ -1023,51 +1060,47 @@
             /* ── Panels & alerts start at 88px (48 header + 40 ticker) ── */
             #tension-alert { top: 88px !important; right: 0 !important; left: 0 !important; }
 
-            /* ── RIGHT DOCK → BOTTOM HORIZONTAL BAR ── */
+            /* ── RIGHT DOCK → BOTTOM HORIZONTAL SCROLLABLE BAR ── */
             #right-dock {
                 position: fixed;
                 top: auto !important;
-                bottom: 0;
-                left: 0;
-                right: 0;
+                bottom: 0; left: 0; right: 0;
                 transform: none !important;
-                flex-direction: row;
-                width: 100%;
-                height: 48px;
+                width: 100%; height: 52px;
+                perspective: none;
+                overflow: hidden;
+                border-left: none;
+                border-top: 1px solid rgba(180,0,0,0.35);
+            }
+            #dock-center-line, #dock-arrow-up, #dock-arrow-down { display: none; }
+            #dock-wheel {
+                position: static !important;
+                display: flex !important;
+                flex-direction: row !important;
+                width: max-content;
+                height: 52px;
+                transform: none !important;
                 overflow-x: auto;
+                overflow-y: hidden;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
-                border-left: none;
-                border-right: none;
-                border-top: 1px solid rgba(180,0,0,0.35);
-                border-bottom: none;
-                padding: 0;
-                justify-content: space-around;
-                align-items: stretch;
+                top: auto !important;
             }
-            #right-dock::-webkit-scrollbar { display: none; }
-            #right-dock::before, #right-dock::after { display: none; }
-
+            #dock-wheel::-webkit-scrollbar { display: none; }
             .dock-btn {
-                width: auto;
-                flex: 1;
-                min-width: 44px;
-                min-height: 44px;
-                padding: 4px 2px;
-                border-left: none;
-                border-top: 2px solid transparent;
+                width: 52px; height: 52px;
+                flex-shrink: 0;
                 flex-direction: column;
-                justify-content: center;
-                gap: 2px;
+                justify-content: center; align-items: center;
+                gap: 3px; padding: 4px 2px;
+                border-left: none; border-top: 2px solid transparent;
+                transform: none !important; opacity: 1 !important; filter: none !important;
+                pointer-events: auto !important;
             }
-            .dock-icon {
-                width: 22px; height: 22px; border-radius: 50%;
-                margin: 0 auto;
-            }
+            .dock-icon { width: 22px; height: 22px; margin: 0 auto; }
             .dock-btn span.dock-label { display: none; }
-            .dock-btn.active { border-left: none; border-top-color: #CC0000; background: rgba(204,0,0,0.2); }
-            .dock-btn::before { display: none; }
-            .dock-divider { width: 1px; height: 28px; margin: 10px 2px; }
+            .dock-btn.active { border-top-color: #CC0000; border-left: none; background: rgba(204,0,0,0.2); }
+            .dock-divider { display: none; }
 
             /* ── Main panel — full width, slide from right ── */
             #panel {
@@ -1241,8 +1274,12 @@
     <nav id="nav"></nav>
 </header>
 
-<!-- Right-side icon dock — panel switcher -->
+<!-- Right-side icon dock — 3D drum roulette -->
 <div id="right-dock">
+    <div id="dock-center-line"></div>
+    <div id="dock-arrow-up">▲</div>
+    <div id="dock-arrow-down">▼</div>
+    <div id="dock-wheel">
     <button class="dock-btn" id="dock-all-btn" data-tip="Show All Layers" onclick="document.getElementById('all-btn').click()">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="3" x2="7" y2="11" stroke="currentColor" stroke-width="1.1"/><line x1="3" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.1"/><line x1="4.5" y1="4.5" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1.1"/><line x1="9.5" y1="4.5" x2="4.5" y2="9.5" stroke="currentColor" stroke-width="1.1"/></svg></span>
         <span class="dock-label">ALL</span>
@@ -1320,6 +1357,7 @@
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="5" width="5" height="7" rx="0.5" stroke="currentColor" stroke-width="1.1"/><rect x="7.5" y="2" width="5" height="10" rx="0.5" stroke="currentColor" stroke-width="1.1" stroke-dasharray="1.5 1"/><line x1="4" y1="5" x2="4" y2="1.5" stroke="currentColor" stroke-width="1.1"/><polyline points="2.5,3 4,1.5 5.5,3" stroke="currentColor" stroke-width="1.1" fill="none"/></svg></span>
         <span class="dock-label">TAR</span>
     </button>
+    </div><!-- end #dock-wheel -->
 </div>
 
 <!-- Alert banner -->
@@ -5387,6 +5425,135 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(innerWidth, innerHeight);
 });
+
+// ── Dock drum roulette ─────────────────────────────────────────────────
+(function initDockDrum() {
+    const dock      = document.getElementById('right-dock');
+    const wheel     = document.getElementById('dock-wheel');
+    const ITEM_H    = 52;      // px per button
+    const VISIBLE   = 7;       // items shown at once
+    const DOCK_H    = ITEM_H * VISIBLE; // 364px
+    const DRUM_R    = 260;     // virtual drum radius (px) — controls curve depth
+    const buttons   = Array.from(wheel.querySelectorAll('.dock-btn'));
+    const N         = buttons.length;
+
+    let offset      = 0;       // current scroll offset in px (0 = first item centered)
+    let velocity    = 0;
+    let dragging    = false;
+    let dragStartY  = 0;
+    let dragOffset  = 0;
+    let animFrame   = null;
+
+    // Position the wheel so item 0 is at the center slot
+    const CENTER_Y  = (DOCK_H - ITEM_H) / 2;  // px from top of dock to center of center slot
+
+    function applyTransforms() {
+        buttons.forEach((btn, i) => {
+            const itemY    = i * ITEM_H;                  // natural Y of item
+            const relY     = itemY - offset;              // position relative to scroll
+            const distFromCenter = relY - CENTER_Y;       // signed distance from center (px)
+            const angle    = distFromCenter / DRUM_R;     // radians
+            const scale    = Math.cos(angle);
+            const translateY = DRUM_R * Math.sin(angle);  // 3D arc
+            const opacity  = Math.max(0, Math.cos(angle * 1.1)); // faster fade at edges
+            const brightness = 0.3 + 0.7 * Math.max(0, Math.cos(angle));
+
+            btn.style.transform = `rotateX(${-angle * 180 / Math.PI}deg) translateY(${translateY - distFromCenter}px) scale(${Math.max(0.7, scale)})`;
+            btn.style.opacity   = opacity < 0.05 ? 0 : opacity;
+            btn.style.filter    = `brightness(${brightness.toFixed(2)})`;
+            btn.style.pointerEvents = opacity < 0.15 ? 'none' : 'auto';
+        });
+        // Position wheel so item 0 starts at top, accounting for CENTER_Y offset
+        wheel.style.top = (CENTER_Y) + 'px';
+    }
+
+    function clampOffset() {
+        const min = 0;
+        const max = (N - 1) * ITEM_H;
+        if (offset < min) { offset = min; velocity *= -0.4; }
+        if (offset > max) { offset = max; velocity *= -0.4; }
+    }
+
+    function snapToNearest() {
+        const nearest = Math.round(offset / ITEM_H) * ITEM_H;
+        offset += (nearest - offset) * 0.2;
+        if (Math.abs(nearest - offset) < 0.5) { offset = nearest; return; }
+        animFrame = requestAnimationFrame(snapToNearest);
+    }
+
+    function startMomentum() {
+        cancelAnimationFrame(animFrame);
+        function tick() {
+            if (Math.abs(velocity) < 0.3) { velocity = 0; snapToNearest(); return; }
+            offset += velocity;
+            velocity *= 0.88;
+            clampOffset();
+            applyTransforms();
+            animFrame = requestAnimationFrame(tick);
+        }
+        tick();
+    }
+
+    // Mouse wheel
+    dock.addEventListener('wheel', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        cancelAnimationFrame(animFrame);
+        offset += e.deltaY * 0.6;
+        clampOffset();
+        applyTransforms();
+        clearTimeout(dock._snapTimer);
+        dock._snapTimer = setTimeout(() => snapToNearest(), 120);
+    }, { passive: false });
+
+    // Mouse drag
+    dock.addEventListener('mousedown', e => {
+        dragging = true; dragStartY = e.clientY; dragOffset = offset;
+        velocity = 0; cancelAnimationFrame(animFrame);
+        e.preventDefault();
+    });
+    window.addEventListener('mousemove', e => {
+        if (!dragging) return;
+        const dy = dragStartY - e.clientY;
+        offset = dragOffset + dy;
+        clampOffset(); applyTransforms();
+    });
+    window.addEventListener('mouseup', () => {
+        if (!dragging) return;
+        dragging = false; startMomentum();
+    });
+
+    // Touch drag
+    let touchStartY = 0, touchOffset = 0, lastTouchY = 0, touchVel = 0;
+    dock.addEventListener('touchstart', e => {
+        touchStartY = lastTouchY = e.touches[0].clientY;
+        touchOffset = offset; touchVel = 0; velocity = 0;
+        cancelAnimationFrame(animFrame);
+        e.stopPropagation();
+    }, { passive: true });
+    dock.addEventListener('touchmove', e => {
+        const y = e.touches[0].clientY;
+        touchVel = lastTouchY - y;
+        lastTouchY = y;
+        offset = touchOffset + (touchStartY - y);
+        clampOffset(); applyTransforms();
+        e.stopPropagation();
+    }, { passive: true });
+    dock.addEventListener('touchend', e => {
+        velocity = touchVel; startMomentum();
+        e.stopPropagation();
+    }, { passive: true });
+
+    // Keyboard up/down when hovering dock
+    dock.setAttribute('tabindex', '0');
+    dock.addEventListener('keydown', e => {
+        if (e.key === 'ArrowDown') { offset = Math.min(offset + ITEM_H, (N-1)*ITEM_H); clampOffset(); snapToNearest(); applyTransforms(); }
+        if (e.key === 'ArrowUp')   { offset = Math.max(offset - ITEM_H, 0); clampOffset(); snapToNearest(); applyTransforms(); }
+    });
+
+    // Initial render
+    applyTransforms();
+})();
 
 // ── Keys ───────────────────────────────────────────────────────────────
 window.addEventListener('keydown', e => {
