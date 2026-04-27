@@ -183,68 +183,67 @@
             font-family: 'Share Tech Mono', monospace; letter-spacing: 0.5px;
         }
 
-        /* ── Right dock — 3D drum roulette ──────────────── */
+        /* ── Right dock — scrollable vertical strip ─────── */
         #right-dock {
-            position: fixed; right: 0; top: 50%; transform: translateY(-50%);
+            position: fixed; right: 0;
+            top: 102px; /* below header + ticker */
+            bottom: 52px; /* above news crawl */
             z-index: 95; width: 88px;
-            height: 364px; /* shows 7 items */
-            overflow: hidden;
-            background: rgba(4,4,8,0.94);
+            background: rgba(4,4,8,0.95);
             border-left: 1px solid rgba(180,0,0,0.4);
             backdrop-filter: blur(14px);
-            cursor: ns-resize;
-            /* perspective for 3D drum effect */
-            perspective: 600px;
-            perspective-origin: 50% 50%;
+            display: flex; flex-direction: column;
+            overflow: hidden; /* scroll handled by #dock-wheel */
         }
-        /* top/bottom fade mask */
+        /* top/bottom fade masks — purely visual, pointer-events:none */
         #right-dock::before, #right-dock::after {
             content: ''; position: absolute; left: 0; right: 0; z-index: 3; pointer-events: none;
         }
         #right-dock::before {
-            top: 0; height: 90px;
-            background: linear-gradient(to bottom, rgba(4,4,8,0.98) 0%, rgba(4,4,8,0.7) 55%, transparent 100%);
+            top: 22px; height: 40px;
+            background: linear-gradient(to bottom, rgba(4,4,8,0.9), transparent);
         }
         #right-dock::after {
-            bottom: 0; height: 90px;
-            background: linear-gradient(to top, rgba(4,4,8,0.98) 0%, rgba(4,4,8,0.7) 55%, transparent 100%);
+            bottom: 22px; height: 40px;
+            background: linear-gradient(to top, rgba(4,4,8,0.9), transparent);
         }
-        /* center highlight line */
-        #dock-center-line {
-            position: absolute; left: 0; right: 0; top: 50%;
-            margin-top: -26px; height: 52px;
-            border-top: 1px solid rgba(204,0,0,0.25);
-            border-bottom: 1px solid rgba(204,0,0,0.25);
-            background: rgba(204,0,0,0.05);
-            z-index: 2; pointer-events: none;
-        }
-        /* scroll arrows */
-        #dock-arrow-up, #dock-arrow-down {
-            position: absolute; left: 0; right: 0; z-index: 4;
-            display: flex; align-items: center; justify-content: center;
-            height: 20px; color: rgba(180,0,0,0.4);
-            font-size: 8px; letter-spacing: 1px; pointer-events: none;
-            font-family: 'Share Tech Mono', monospace;
-        }
-        #dock-arrow-up   { top: 4px; }
-        #dock-arrow-down { bottom: 4px; }
 
-        #dock-wheel {
-            position: absolute; left: 0; width: 100%;
-            transform-style: preserve-3d;
-            will-change: transform;
-            transition: transform 0.22s cubic-bezier(0.2, 0, 0.1, 1);
+        /* clickable arrow buttons at top/bottom */
+        #dock-arrow-up, #dock-arrow-down {
+            flex-shrink: 0; height: 22px; width: 100%;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(4,4,8,0.98);
+            border: none; cursor: pointer; z-index: 5;
+            color: rgba(180,0,0,0.5); font-size: 9px;
+            transition: color 0.15s, background 0.15s;
+            user-select: none;
         }
+        #dock-arrow-up   { border-bottom: 1px solid rgba(180,0,0,0.15); }
+        #dock-arrow-down { border-top:    1px solid rgba(180,0,0,0.15); }
+        #dock-arrow-up:hover, #dock-arrow-down:hover { color: #CC0000; background: rgba(180,0,0,0.08); }
+        #dock-center-line { display: none; }
+
+        /* scrollable inner track */
+        #dock-wheel {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Firefox */
+            -webkit-overflow-scrolling: touch;
+        }
+        #dock-wheel::-webkit-scrollbar { display: none; }
 
         .dock-btn {
             width: 88px; height: 52px;
             display: flex; flex-direction: row; align-items: center;
-            justify-content: flex-start; gap: 8px;
-            padding: 0 10px 0 10px; cursor: pointer;
+            justify-content: flex-start; gap: 9px;
+            padding: 0 10px; cursor: pointer;
             border: none; background: transparent;
-            position: relative; box-sizing: border-box;
+            box-sizing: border-box;
             border-left: 2px solid transparent;
-            transition: border-left-color 0.15s;
+            transition: background 0.15s, border-left-color 0.15s;
+            flex-shrink: 0;
         }
         .dock-icon {
             width: 26px; height: 26px; border-radius: 50%;
@@ -255,25 +254,30 @@
         .dock-icon svg { display: block; }
         .dock-btn span.dock-label {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; letter-spacing: 2.5px;
-            text-transform: uppercase; color: #2e2e2e;
+            font-size: 9px; letter-spacing: 2px;
+            text-transform: uppercase; color: #333;
             transition: color 0.15s;
         }
+        .dock-btn:hover { background: rgba(204,0,0,0.08); border-left-color: rgba(204,0,0,0.4); }
         .dock-btn:hover .dock-icon { border-color: #CC0000; color: #CC0000; }
         .dock-btn:hover span.dock-label { color: #CC0000; }
-        .dock-btn:hover { border-left-color: rgba(204,0,0,0.4); }
-        .dock-btn.active { border-left-color: #CC0000; }
+        .dock-btn.active { background: rgba(204,0,0,0.14); border-left-color: #CC0000; }
         .dock-btn.active .dock-icon { border-color: #FF4444; color: #FF4444; background: rgba(204,0,0,0.12); }
         .dock-btn.active span.dock-label { color: #FF4444; }
-        .dock-divider { display: none; } /* removed from drum — not needed */
 
-        /* ALL LAYERS button — gold accent */
+        .dock-divider {
+            width: 56px; height: 1px;
+            background: rgba(180,0,0,0.12);
+            margin: 2px 16px; flex-shrink: 0;
+        }
+
+        /* ALL LAYERS — gold accent */
         #dock-all-btn .dock-icon { border-color: rgba(255,215,0,0.25); color: #444; }
-        #dock-all-btn span.dock-label { color: #2e2e2e; }
+        #dock-all-btn span.dock-label { color: #333; }
+        #dock-all-btn:hover { background: rgba(255,215,0,0.06); border-left-color: rgba(255,215,0,0.4); }
         #dock-all-btn:hover .dock-icon { border-color: #FFD700; color: #FFD700; }
         #dock-all-btn:hover span.dock-label { color: #FFD700; }
-        #dock-all-btn:hover { border-left-color: rgba(255,215,0,0.4); }
-        #dock-all-btn.active { border-left-color: #FFD700; }
+        #dock-all-btn.active { background: rgba(255,215,0,0.1); border-left-color: #FFD700; }
         #dock-all-btn.active .dock-icon { border-color: #FFD700; color: #FFD700; background: rgba(255,215,0,0.1); }
         #dock-all-btn.active span.dock-label { color: #FFD700; }
 
@@ -1062,45 +1066,39 @@
 
             /* ── RIGHT DOCK → BOTTOM HORIZONTAL SCROLLABLE BAR ── */
             #right-dock {
-                position: fixed;
-                top: auto !important;
-                bottom: 0; left: 0; right: 0;
-                transform: none !important;
-                width: 100%; height: 52px;
-                perspective: none;
-                overflow: hidden;
+                position: fixed !important;
+                top: auto !important; bottom: 0 !important;
+                left: 0 !important; right: 0 !important;
+                width: 100% !important; height: 52px !important;
+                flex-direction: row !important;
+                overflow: hidden !important;
                 border-left: none;
                 border-top: 1px solid rgba(180,0,0,0.35);
             }
-            #dock-center-line, #dock-arrow-up, #dock-arrow-down { display: none; }
+            #right-dock::before, #right-dock::after { display: none; }
+            #dock-arrow-up, #dock-arrow-down { display: none !important; }
             #dock-wheel {
-                position: static !important;
                 display: flex !important;
                 flex-direction: row !important;
-                width: max-content;
-                height: 52px;
-                transform: none !important;
-                overflow-x: auto;
-                overflow-y: hidden;
+                height: 52px !important;
+                width: max-content !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
-                top: auto !important;
             }
             #dock-wheel::-webkit-scrollbar { display: none; }
             .dock-btn {
-                width: 52px; height: 52px;
-                flex-shrink: 0;
-                flex-direction: column;
+                width: 54px !important; height: 52px !important;
+                flex-shrink: 0; flex-direction: column;
                 justify-content: center; align-items: center;
                 gap: 3px; padding: 4px 2px;
-                border-left: none; border-top: 2px solid transparent;
-                transform: none !important; opacity: 1 !important; filter: none !important;
-                pointer-events: auto !important;
+                border-left: none !important; border-top: 2px solid transparent;
             }
             .dock-icon { width: 22px; height: 22px; margin: 0 auto; }
             .dock-btn span.dock-label { display: none; }
-            .dock-btn.active { border-top-color: #CC0000; border-left: none; background: rgba(204,0,0,0.2); }
-            .dock-divider { display: none; }
+            .dock-btn.active { border-top-color: #CC0000 !important; border-left: none !important; background: rgba(204,0,0,0.2); }
+            .dock-divider { display: none !important; }
 
             /* ── Main panel — full width, slide from right ── */
             #panel {
@@ -5426,133 +5424,22 @@ window.addEventListener('resize', () => {
     renderer.setSize(innerWidth, innerHeight);
 });
 
-// ── Dock drum roulette ─────────────────────────────────────────────────
-(function initDockDrum() {
-    const dock      = document.getElementById('right-dock');
-    const wheel     = document.getElementById('dock-wheel');
-    const ITEM_H    = 52;      // px per button
-    const VISIBLE   = 7;       // items shown at once
-    const DOCK_H    = ITEM_H * VISIBLE; // 364px
-    const DRUM_R    = 260;     // virtual drum radius (px) — controls curve depth
-    const buttons   = Array.from(wheel.querySelectorAll('.dock-btn'));
-    const N         = buttons.length;
-
-    let offset      = 0;       // current scroll offset in px (0 = first item centered)
-    let velocity    = 0;
-    let dragging    = false;
-    let dragStartY  = 0;
-    let dragOffset  = 0;
-    let animFrame   = null;
-
-    // Position the wheel so item 0 is at the center slot
-    const CENTER_Y  = (DOCK_H - ITEM_H) / 2;  // px from top of dock to center of center slot
-
-    function applyTransforms() {
-        buttons.forEach((btn, i) => {
-            const itemY    = i * ITEM_H;                  // natural Y of item
-            const relY     = itemY - offset;              // position relative to scroll
-            const distFromCenter = relY - CENTER_Y;       // signed distance from center (px)
-            const angle    = distFromCenter / DRUM_R;     // radians
-            const scale    = Math.cos(angle);
-            const translateY = DRUM_R * Math.sin(angle);  // 3D arc
-            const opacity  = Math.max(0, Math.cos(angle * 1.1)); // faster fade at edges
-            const brightness = 0.3 + 0.7 * Math.max(0, Math.cos(angle));
-
-            btn.style.transform = `rotateX(${-angle * 180 / Math.PI}deg) translateY(${translateY - distFromCenter}px) scale(${Math.max(0.7, scale)})`;
-            btn.style.opacity   = opacity < 0.05 ? 0 : opacity;
-            btn.style.filter    = `brightness(${brightness.toFixed(2)})`;
-            btn.style.pointerEvents = opacity < 0.15 ? 'none' : 'auto';
-        });
-        // Position wheel so item 0 starts at top, accounting for CENTER_Y offset
-        wheel.style.top = (CENTER_Y) + 'px';
+// ── Dock scroll arrows ─────────────────────────────────────────────────
+(function() {
+    const wheel = document.getElementById('dock-wheel');
+    const upBtn = document.getElementById('dock-arrow-up');
+    const dnBtn = document.getElementById('dock-arrow-down');
+    if (!wheel || !upBtn || !dnBtn) return;
+    const STEP = 52 * 3; // scroll 3 items per click
+    upBtn.addEventListener('click', () => wheel.scrollBy({ top: -STEP, behavior: 'smooth' }));
+    dnBtn.addEventListener('click', () => wheel.scrollBy({ top:  STEP, behavior: 'smooth' }));
+    // Show/hide arrows based on scroll position
+    function updateArrows() {
+        upBtn.style.opacity = wheel.scrollTop > 10 ? '1' : '0.2';
+        dnBtn.style.opacity = wheel.scrollTop < (wheel.scrollHeight - wheel.clientHeight - 10) ? '1' : '0.2';
     }
-
-    function clampOffset() {
-        const min = 0;
-        const max = (N - 1) * ITEM_H;
-        if (offset < min) { offset = min; velocity *= -0.4; }
-        if (offset > max) { offset = max; velocity *= -0.4; }
-    }
-
-    function snapToNearest() {
-        const nearest = Math.round(offset / ITEM_H) * ITEM_H;
-        offset += (nearest - offset) * 0.2;
-        if (Math.abs(nearest - offset) < 0.5) { offset = nearest; return; }
-        animFrame = requestAnimationFrame(snapToNearest);
-    }
-
-    function startMomentum() {
-        cancelAnimationFrame(animFrame);
-        function tick() {
-            if (Math.abs(velocity) < 0.3) { velocity = 0; snapToNearest(); return; }
-            offset += velocity;
-            velocity *= 0.88;
-            clampOffset();
-            applyTransforms();
-            animFrame = requestAnimationFrame(tick);
-        }
-        tick();
-    }
-
-    // Mouse wheel
-    dock.addEventListener('wheel', e => {
-        e.preventDefault();
-        e.stopPropagation();
-        cancelAnimationFrame(animFrame);
-        offset += e.deltaY * 0.6;
-        clampOffset();
-        applyTransforms();
-        clearTimeout(dock._snapTimer);
-        dock._snapTimer = setTimeout(() => snapToNearest(), 120);
-    }, { passive: false });
-
-    // Mouse drag
-    dock.addEventListener('mousedown', e => {
-        dragging = true; dragStartY = e.clientY; dragOffset = offset;
-        velocity = 0; cancelAnimationFrame(animFrame);
-        e.preventDefault();
-    });
-    window.addEventListener('mousemove', e => {
-        if (!dragging) return;
-        const dy = dragStartY - e.clientY;
-        offset = dragOffset + dy;
-        clampOffset(); applyTransforms();
-    });
-    window.addEventListener('mouseup', () => {
-        if (!dragging) return;
-        dragging = false; startMomentum();
-    });
-
-    // Touch drag
-    let touchStartY = 0, touchOffset = 0, lastTouchY = 0, touchVel = 0;
-    dock.addEventListener('touchstart', e => {
-        touchStartY = lastTouchY = e.touches[0].clientY;
-        touchOffset = offset; touchVel = 0; velocity = 0;
-        cancelAnimationFrame(animFrame);
-        e.stopPropagation();
-    }, { passive: true });
-    dock.addEventListener('touchmove', e => {
-        const y = e.touches[0].clientY;
-        touchVel = lastTouchY - y;
-        lastTouchY = y;
-        offset = touchOffset + (touchStartY - y);
-        clampOffset(); applyTransforms();
-        e.stopPropagation();
-    }, { passive: true });
-    dock.addEventListener('touchend', e => {
-        velocity = touchVel; startMomentum();
-        e.stopPropagation();
-    }, { passive: true });
-
-    // Keyboard up/down when hovering dock
-    dock.setAttribute('tabindex', '0');
-    dock.addEventListener('keydown', e => {
-        if (e.key === 'ArrowDown') { offset = Math.min(offset + ITEM_H, (N-1)*ITEM_H); clampOffset(); snapToNearest(); applyTransforms(); }
-        if (e.key === 'ArrowUp')   { offset = Math.max(offset - ITEM_H, 0); clampOffset(); snapToNearest(); applyTransforms(); }
-    });
-
-    // Initial render
-    applyTransforms();
+    wheel.addEventListener('scroll', updateArrows, { passive: true });
+    updateArrows();
 })();
 
 // ── Keys ───────────────────────────────────────────────────────────────
