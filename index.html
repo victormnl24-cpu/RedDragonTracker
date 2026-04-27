@@ -258,6 +258,158 @@
         .tension-bar-fill { height:4px;border-radius:2px;transition:width 0.8s ease; }
         .tension-detail { font-size:9px;color:#444;line-height:1.5; }
 
+        /* ── Newsletter modal ───────────────────────────── */
+        #nl-trigger {
+            position: fixed; bottom: 54px; right: 96px; z-index: 96;
+            display: flex; align-items: center; gap: 7px;
+            background: linear-gradient(135deg, rgba(180,0,0,0.92), rgba(120,0,0,0.92));
+            border: 1px solid rgba(255,80,80,0.5);
+            color: #fff; font-family: 'Orbitron', monospace;
+            font-size: 9px; font-weight: 700; letter-spacing: 2.5px;
+            padding: 8px 16px; cursor: pointer;
+            box-shadow: 0 0 18px rgba(200,0,0,0.45), 0 2px 8px rgba(0,0,0,0.5);
+            transition: all 0.2s; text-transform: uppercase;
+            animation: nlPulse 3s ease-in-out infinite;
+        }
+        #nl-trigger:hover {
+            background: linear-gradient(135deg, rgba(220,0,0,0.97), rgba(160,0,0,0.97));
+            box-shadow: 0 0 28px rgba(255,50,50,0.6), 0 2px 12px rgba(0,0,0,0.6);
+            transform: translateY(-1px);
+        }
+        @keyframes nlPulse {
+            0%,100% { box-shadow: 0 0 18px rgba(200,0,0,0.45), 0 2px 8px rgba(0,0,0,0.5); }
+            50%      { box-shadow: 0 0 28px rgba(255,60,60,0.65), 0 2px 12px rgba(0,0,0,0.5); }
+        }
+        #nl-trigger svg { flex-shrink: 0; }
+
+        #nl-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9000;
+            background: rgba(0,0,0,0.88);
+            backdrop-filter: blur(8px);
+            align-items: center; justify-content: center;
+        }
+        #nl-overlay.show { display: flex; }
+
+        #nl-modal {
+            position: relative;
+            width: min(520px, calc(100vw - 32px));
+            background: rgba(6,4,8,0.97);
+            border: 1px solid rgba(200,0,0,0.4);
+            box-shadow: 0 0 60px rgba(180,0,0,0.3), 0 24px 80px rgba(0,0,0,0.8);
+            padding: 40px 36px 36px;
+            overflow: hidden;
+        }
+        /* corner accent lines */
+        #nl-modal::before, #nl-modal::after {
+            content: ''; position: absolute; background: #CC0000;
+        }
+        #nl-modal::before { top:0;left:0; width:60px; height:1px; }
+        #nl-modal::after  { top:0;left:0; width:1px;  height:60px; }
+
+        #nl-close {
+            position: absolute; top: 14px; right: 16px;
+            background: none; border: none; color: #333;
+            font-size: 18px; cursor: pointer; line-height: 1;
+            transition: color 0.15s;
+        }
+        #nl-close:hover { color: #CC0000; }
+
+        #nl-eyebrow {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; color: #CC0000; letter-spacing: 4px;
+            text-transform: uppercase; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        #nl-eyebrow::before {
+            content: ''; display: inline-block;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #CC0000; animation: blink 1.5s step-end infinite;
+        }
+
+        #nl-headline {
+            font-family: 'Orbitron', monospace;
+            font-size: 26px; font-weight: 900; color: #fff;
+            letter-spacing: 3px; line-height: 1.15; margin-bottom: 6px;
+            text-shadow: 0 0 30px rgba(204,0,0,0.4);
+        }
+        #nl-headline span { color: #CC0000; }
+
+        #nl-sub {
+            font-size: 13px; color: #777; line-height: 1.6; margin-bottom: 22px;
+        }
+
+        .nl-bullet {
+            display: flex; align-items: flex-start; gap: 10px;
+            margin-bottom: 10px;
+        }
+        .nl-bullet-icon {
+            width: 20px; height: 20px; flex-shrink: 0;
+            border: 1px solid rgba(204,0,0,0.3); color: #CC0000;
+            font-size: 10px; display: flex; align-items: center; justify-content: center;
+        }
+        .nl-bullet-text { font-size: 11px; color: #666; line-height: 1.5; }
+        .nl-bullet-text strong { color: #aaa; font-weight: 500; }
+
+        #nl-form { margin-top: 24px; }
+        #nl-form-row {
+            display: flex; gap: 0;
+            border: 1px solid rgba(200,0,0,0.35);
+        }
+        #nl-email {
+            flex: 1; background: rgba(255,255,255,0.03);
+            border: none; outline: none;
+            color: #ddd; font-family: 'Share Tech Mono', monospace;
+            font-size: 12px; padding: 12px 16px; letter-spacing: 1px;
+        }
+        #nl-email::placeholder { color: #2a2a2a; }
+        #nl-email:focus { background: rgba(255,255,255,0.05); }
+        #nl-submit {
+            background: #CC0000; border: none; cursor: pointer;
+            color: #fff; font-family: 'Orbitron', monospace;
+            font-size: 9px; font-weight: 700; letter-spacing: 2px;
+            padding: 12px 20px; text-transform: uppercase;
+            transition: background 0.15s; flex-shrink: 0;
+        }
+        #nl-submit:hover { background: #FF2222; }
+        #nl-submit:disabled { background: #333; cursor: default; }
+
+        #nl-legal {
+            font-size: 9px; color: #2a2a2a;
+            font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 0.5px; margin-top: 10px; line-height: 1.5;
+        }
+        #nl-legal a { color: #333; text-decoration: none; }
+        #nl-legal a:hover { color: #666; }
+
+        #nl-success {
+            display: none; text-align: center; padding: 20px 0;
+        }
+        #nl-success .nl-check {
+            width: 52px; height: 52px; border: 2px solid #00cc44;
+            border-radius: 50%; margin: 0 auto 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; color: #00cc44;
+        }
+        #nl-success h3 {
+            font-family: 'Orbitron', monospace; font-size: 16px;
+            color: #fff; letter-spacing: 3px; margin-bottom: 8px;
+        }
+        #nl-success p { font-size: 11px; color: #555; line-height: 1.7; }
+
+        #nl-error {
+            display: none; margin-top: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; color: #FF4444; letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+            #nl-trigger { bottom: 62px; right: 8px; font-size: 8px; padding: 7px 12px; }
+            #nl-modal { padding: 28px 20px 24px; }
+            #nl-headline { font-size: 20px; }
+            #nl-form-row { flex-direction: column; }
+            #nl-submit { padding: 11px; }
+        }
+
         /* ── Data source badges ─────────────────────────── */
         .badge-live {
             display: inline-flex; align-items: center; gap: 4px;
@@ -1762,6 +1914,65 @@
 </div>
 
 <div id="legend" class="legend" style="display:none"></div>
+
+<!-- Newsletter trigger button -->
+<button id="nl-trigger" onclick="document.getElementById('nl-overlay').classList.add('show')">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+        <rect x="1" y="3" width="11" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/>
+        <path d="M1 4 L6.5 7.5 L12 4" stroke="currentColor" stroke-width="1.1" fill="none"/>
+    </svg>
+    GET THE BRIEF
+</button>
+
+<!-- Newsletter modal -->
+<div id="nl-overlay" onclick="if(event.target===this)this.classList.remove('show')">
+<div id="nl-modal">
+    <button id="nl-close" onclick="document.getElementById('nl-overlay').classList.remove('show')">✕</button>
+
+    <div id="nl-eyebrow">RED DRAGON BRIEF · WEEKLY INTELLIGENCE</div>
+
+    <h2 id="nl-headline">STAY AHEAD OF<br><span>THE DRAGON</span></h2>
+    <p id="nl-sub">Free weekly analysis of China's military moves, economic pressure, and geopolitical strategy — straight to your inbox.</p>
+
+    <div class="nl-bullet">
+        <div class="nl-bullet-icon">⚡</div>
+        <div class="nl-bullet-text"><strong>Weekly intelligence digest</strong> — the 5 most significant China developments you need to know</div>
+    </div>
+    <div class="nl-bullet">
+        <div class="nl-bullet-icon">🛰</div>
+        <div class="nl-bullet-text"><strong>Live dashboard alerts</strong> — when tension scores spike or new satellite imagery drops</div>
+    </div>
+    <div class="nl-bullet">
+        <div class="nl-bullet-icon">🔒</div>
+        <div class="nl-bullet-text"><strong>OSINT deep dives</strong> — APT groups, silo fields, debt traps, and influence operations decoded</div>
+    </div>
+    <div class="nl-bullet">
+        <div class="nl-bullet-icon">📊</div>
+        <div class="nl-bullet-text"><strong>Data before the news cycle</strong> — we track what the mainstream media misses</div>
+    </div>
+
+    <div id="nl-success">
+        <div class="nl-check">✓</div>
+        <h3>YOU'RE IN</h3>
+        <p>Welcome to the Red Dragon Brief.<br>Check your inbox for a confirmation email.<br><br>
+        <span style="color:#CC0000">First issue drops this week.</span></p>
+    </div>
+
+    <div id="nl-form">
+        <!-- ACTION: replace YOUR_FORM_ID with your Formspree form ID -->
+        <!-- Get a free form at formspree.io — takes 2 minutes -->
+        <div id="nl-form-row">
+            <input id="nl-email" type="email" placeholder="your@email.com" autocomplete="email" required>
+            <button id="nl-submit" type="button" onclick="submitNewsletter()">SUBSCRIBE →</button>
+        </div>
+        <div id="nl-error"></div>
+        <div id="nl-legal">
+            No spam. Unsubscribe any time. By subscribing you agree to receive the Red Dragon Brief newsletter.
+            &nbsp;·&nbsp; <a href="https://victormnl24-cpu.github.io/RedDragonTracker/" target="_blank">reddragontracker.com</a>
+        </div>
+    </div>
+</div>
+</div>
 
 <script type="module">
 import * as THREE from 'three';
@@ -8118,6 +8329,90 @@ async function generateBriefing() {
     // Hide the "generating" indicator
     const genEl = document.querySelector('#panel-content [style*="GENERATING"]');
     if (genEl) genEl.style.display = 'none';
+}
+
+// ── Newsletter signup ────────────────────────────────────────────────────
+// SETUP: Go to formspree.io, create a free form, paste your form ID below
+const FORMSPREE_ID = 'YOUR_FORM_ID'; // ← replace with e.g. 'xpwzlbkr'
+
+window.submitNewsletter = async function() {
+    const emailEl  = document.getElementById('nl-email');
+    const submitEl = document.getElementById('nl-submit');
+    const errorEl  = document.getElementById('nl-error');
+    const email    = emailEl.value.trim();
+
+    // Basic validation
+    errorEl.style.display = 'none';
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errorEl.textContent = '⚠ Please enter a valid email address.';
+        errorEl.style.display = 'block';
+        emailEl.focus();
+        return;
+    }
+
+    // If form ID not set, open Substack fallback
+    if (FORMSPREE_ID === 'YOUR_FORM_ID') {
+        // Fallback: opens a mailto or a Substack page
+        // Replace this URL with your Substack / ConvertKit / Beehiiv subscribe link
+        const fallbackUrl = `mailto:?subject=Subscribe%20to%20Red%20Dragon%20Brief&body=Please%20subscribe%20${encodeURIComponent(email)}%20to%20the%20Red%20Dragon%20Brief%20newsletter.`;
+        window.open(fallbackUrl);
+        showNLSuccess();
+        return;
+    }
+
+    submitEl.disabled = true;
+    submitEl.textContent = 'SENDING…';
+
+    try {
+        const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ email, source: 'RedDragonTracker', _subject: 'New Red Dragon Brief subscriber' })
+        });
+        if (res.ok) {
+            showNLSuccess();
+        } else {
+            throw new Error('Server error');
+        }
+    } catch(e) {
+        submitEl.disabled = false;
+        submitEl.textContent = 'SUBSCRIBE →';
+        errorEl.textContent = '⚠ Something went wrong. Please try again.';
+        errorEl.style.display = 'block';
+    }
+};
+
+function showNLSuccess() {
+    document.getElementById('nl-form').style.display = 'none';
+    document.getElementById('nl-success').style.display = 'block';
+    // Auto-close after 4 seconds
+    setTimeout(() => {
+        document.getElementById('nl-overlay').classList.remove('show');
+        // Reset for next time
+        setTimeout(() => {
+            document.getElementById('nl-form').style.display = 'block';
+            document.getElementById('nl-success').style.display = 'none';
+            document.getElementById('nl-email').value = '';
+            const sb = document.getElementById('nl-submit');
+            if (sb) { sb.disabled = false; sb.textContent = 'SUBSCRIBE →'; }
+        }, 500);
+    }, 4000);
+}
+
+// Allow Enter key to submit
+document.getElementById('nl-email')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.submitNewsletter();
+});
+
+// Auto-show the modal after 90 seconds if user hasn't subscribed
+const _nlShown = sessionStorage.getItem('nl_shown');
+if (!_nlShown) {
+    setTimeout(() => {
+        if (!document.getElementById('nl-overlay').classList.contains('show')) {
+            document.getElementById('nl-overlay').classList.add('show');
+            sessionStorage.setItem('nl_shown', '1');
+        }
+    }, 90000);
 }
 </script>
 </body>
