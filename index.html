@@ -6785,6 +6785,25 @@ initTVTicker();   // Run immediately on page load
 let activePanel = null;
 const legendEl = document.getElementById('legend');
 
+// Must be declared before openPanel so it's initialized when event handlers call it
+const PANEL_DATA_SOURCE = {
+    aircraft: 'live', stock: 'live', economy: 'live', news: 'live',
+    aqi: 'live', space: 'live', quakes: 'live', tension: 'live', briefing: 'live',
+    debt: 'partial',
+    military: 'osint', routes: 'osint', ports: 'osint', cables: 'osint',
+    beidou: 'osint', missiles: 'osint', scs: 'osint', taiwan: 'osint',
+    navy: 'osint', cyber: 'osint', influence: 'osint', tariff: 'osint',
+    rareearth: 'osint', surveillance: 'osint', police: 'osint',
+    silos: 'osint', fleet: 'osint', invasion: 'osint', apt: 'osint',
+    confucius: 'osint', leaders: 'static', comparison: 'static',
+};
+const BADGE_HTML = {
+    live:    '<span class="badge-live">LIVE</span>',
+    partial: '<span class="badge-osint">LIVE + OSINT</span>',
+    osint:   '<span class="badge-osint">OSINT</span>',
+    static:  '<span class="badge-static">REFERENCE</span>',
+};
+
 function openPanel(id) {
     const p = PANELS[id];
     document.getElementById('panel-title').textContent    = p.title;
@@ -8184,7 +8203,7 @@ setInterval(async () => {
 // ── Globe Search ────────────────────────────────────────────────────────
 const SEARCH_INDEX = [
     // BRI hubs & routes
-    ...BRI.map(r => ({ label:r.name, type:'BRI Route', lat:r.path[0][0], lon:r.path[0][1], panel:'routes' })),
+    ...BRI.filter(r => r.path?.[0]).map(r => ({ label:r.name, type:'BRI Route', lat:r.path[0][0], lon:r.path[0][1], panel:'routes' })),
     // Military bases
     ...BASES.map(b => ({ label:b.name, type:'Military', lat:b.lat, lon:b.lon, panel:'military' })),
     // Ports
@@ -8416,30 +8435,7 @@ async function fetchWorldBankDebt() {
 }
 
 // ── LIVE / OSINT badge injection ────────────────────────────────────────
-// Called after openPanel renders content — adds data-source badge to subtitle
-const PANEL_DATA_SOURCE = {
-    // Fully live feeds
-    aircraft: 'live', stock: 'live', economy: 'live', news: 'live',
-    aqi: 'live', space: 'live', quakes: 'live', tension: 'live', briefing: 'live',
-    // Partially live (live scoring + static base data)
-    debt: 'partial',
-    // OSINT research-grade
-    military: 'osint', routes: 'osint', ports: 'osint', cables: 'osint',
-    beidou: 'osint', missiles: 'osint', scs: 'osint', taiwan: 'osint',
-    navy: 'osint', cyber: 'osint', influence: 'osint', tariff: 'osint',
-    rareearth: 'osint', surveillance: 'osint', police: 'osint',
-    silos: 'osint', fleet: 'osint', invasion: 'osint', apt: 'osint',
-    confucius: 'osint',
-    // Static reference
-    leaders: 'static', comparison: 'static',
-};
-
-const BADGE_HTML = {
-    live:    '<span class="badge-live">LIVE</span>',
-    partial: '<span class="badge-osint">LIVE + OSINT</span>',
-    osint:   '<span class="badge-osint">OSINT</span>',
-    static:  '<span class="badge-static">REFERENCE</span>',
-};
+// PANEL_DATA_SOURCE and BADGE_HTML declared above openPanel (required for TDZ)
 
 async function generateBriefing() {
     const content = document.getElementById('briefing-content');
