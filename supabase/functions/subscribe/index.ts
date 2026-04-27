@@ -7,6 +7,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 const ALLOWED_ORIGINS = [
   'https://victormnl24-cpu.github.io',
   'https://reddragontracker.pages.dev',
+  'https://reddragontracker.victormnl24.workers.dev',
 ];
 
 function getCORS(req: Request) {
