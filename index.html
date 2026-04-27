@@ -115,33 +115,23 @@
             margin-left: 28px;
         }
         .hdr-nav-btn {
-            display: flex; align-items: center; gap: 8px;
-            background: linear-gradient(135deg, rgba(140,0,0,0.18) 0%, rgba(80,0,0,0.10) 100%);
-            border: none;
-            border-top: 1px solid rgba(255,80,80,0.25);
-            border-bottom: 1px solid rgba(100,0,0,0.5);
+            display: flex; align-items: center; gap: 7px;
+            background: transparent;
+            border: 1px solid rgba(204,0,0,0.3);
             border-left: 2px solid #CC0000;
-            color: #CC0000; font-family: 'Orbitron', monospace;
-            font-size: 8px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
-            padding: 6px 16px 6px 12px; cursor: pointer; transition: all 0.2s;
-            position: relative; clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 0 100%);
+            color: #CC0000; font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase;
+            padding: 5px 14px 5px 10px; cursor: pointer; transition: all 0.18s;
         }
         .hdr-nav-btn:hover {
-            color: #FF6666; border-left-color: #FF4444;
-            background: linear-gradient(135deg, rgba(180,0,0,0.28) 0%, rgba(100,0,0,0.15) 100%);
-            text-shadow: 0 0 8px rgba(255,80,80,0.6);
+            color: #FF6666; border-color: rgba(255,80,80,0.5); border-left-color: #FF4444;
+            background: rgba(204,0,0,0.08);
         }
         .hdr-nav-btn.active {
-            color: #FFD700; border-left-color: #FFD700;
-            background: linear-gradient(135deg, rgba(180,0,0,0.35) 0%, rgba(80,0,0,0.2) 100%);
-            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+            color: #FFD700; border-color: rgba(255,215,0,0.3); border-left-color: #FFD700;
+            background: rgba(255,215,0,0.05);
         }
-        .hdr-nav-sickle {
-            font-size: 13px; flex-shrink: 0; line-height: 1;
-            color: #CC0000; transition: color 0.2s;
-        }
-        .hdr-nav-btn:hover .hdr-nav-sickle { color: #FF6666; }
-        .hdr-nav-btn.active .hdr-nav-sickle { color: #FFD700; }
+        .hdr-nav-icon { flex-shrink: 0; color: inherit; display: flex; align-items: center; }
         /* News panel items */
         .news-refresh-bar {
             display: flex; align-items: center; gap: 8px;
@@ -193,63 +183,49 @@
         /* ── Right dock (icon panel switcher) ───────────── */
         #right-dock {
             position: fixed; right: 0; top: 50%; transform: translateY(-50%);
-            z-index: 95; display: flex; flex-direction: column; gap: 2px;
-            background: rgba(0,0,0,0.85);
-            border-left: 1px solid rgba(180,0,0,0.3);
-            border-top: 1px solid rgba(180,0,0,0.15);
-            border-bottom: 1px solid rgba(180,0,0,0.15);
-            padding: 4px 0;
-            backdrop-filter: blur(10px);
+            z-index: 95; display: flex; flex-direction: column; gap: 1px;
+            background: rgba(4,4,8,0.92);
+            border-left: 1px solid rgba(180,0,0,0.35);
+            border-top: 1px solid rgba(180,0,0,0.2);
+            border-bottom: 1px solid rgba(180,0,0,0.2);
+            padding: 6px 0;
+            backdrop-filter: blur(12px);
         }
-        /* top/bottom corner notch */
-        #right-dock::before { content: ''; position: absolute; top: -1px; right: 0; width: 6px; height: 6px; border-top: 1px solid #CC0000; border-right: 1px solid #CC0000; }
-        #right-dock::after  { content: ''; position: absolute; bottom: -1px; right: 0; width: 6px; height: 6px; border-bottom: 1px solid #CC0000; border-right: 1px solid #CC0000; }
+        #right-dock::before { content: ''; position: absolute; top: -1px; right: 0; width: 8px; height: 8px; border-top: 1px solid #CC0000; border-right: 1px solid #CC0000; }
+        #right-dock::after  { content: ''; position: absolute; bottom: -1px; right: 0; width: 8px; height: 8px; border-bottom: 1px solid #CC0000; border-right: 1px solid #CC0000; }
 
         .dock-btn {
-            width: 52px; display: flex; flex-direction: column; align-items: center;
-            justify-content: center; gap: 0;
-            padding: 13px 6px; cursor: pointer;
+            width: 86px; display: flex; flex-direction: row; align-items: center;
+            justify-content: flex-start; gap: 9px;
+            padding: 9px 12px 9px 10px; cursor: pointer;
             border: none; background: transparent;
-            transition: all 0.2s; position: relative;
+            transition: all 0.18s; position: relative;
             border-left: 2px solid transparent;
         }
+        .dock-icon {
+            width: 28px; height: 28px; border-radius: 50%;
+            border: 1px solid rgba(180,0,0,0.4);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0; color: #555; transition: all 0.18s;
+        }
+        .dock-icon svg { display: block; }
         .dock-btn span.dock-label {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; letter-spacing: 2px;
-            text-transform: uppercase; color: #444;
-            transition: color 0.2s;
+            font-size: 9px; letter-spacing: 2.5px;
+            text-transform: uppercase; color: #3a3a3a;
+            transition: color 0.18s;
         }
-        .dock-btn:hover {
-            background: rgba(204,0,0,0.12);
-            border-left-color: rgba(255,215,0,0.4);
-        }
-        .dock-btn:hover span.dock-label { color: #FFD700; }
-        .dock-btn.active {
-            background: rgba(204,0,0,0.25);
-            border-left-color: #CC0000;
-        }
+        .dock-btn:hover { background: rgba(204,0,0,0.1); border-left-color: rgba(204,0,0,0.5); }
+        .dock-btn:hover .dock-icon { border-color: #CC0000; color: #CC0000; }
+        .dock-btn:hover span.dock-label { color: #CC0000; }
+        .dock-btn.active { background: rgba(204,0,0,0.18); border-left-color: #CC0000; }
+        .dock-btn.active .dock-icon { border-color: #FF4444; color: #FF4444; background: rgba(204,0,0,0.12); }
         .dock-btn.active span.dock-label { color: #FF4444; }
 
-        /* Tooltip on hover */
-        .dock-btn::before {
-            content: attr(data-tip);
-            position: absolute; right: 58px; top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.9); color: #ccc;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; letter-spacing: 1px;
-            padding: 4px 8px; white-space: nowrap;
-            border: 1px solid rgba(180,0,0,0.4);
-            border-radius: 1px;
-            pointer-events: none; opacity: 0;
-            transition: opacity 0.15s;
-        }
-        .dock-btn:hover::before { opacity: 1; }
-
         .dock-divider {
-            width: 30px; height: 1px;
-            background: rgba(180,0,0,0.15);
-            margin: 2px 11px;
+            width: 60px; height: 1px;
+            background: rgba(180,0,0,0.12);
+            margin: 3px 13px;
         }
 
         /* ── Nav button (hidden — using dock now) ────────── */
@@ -260,8 +236,8 @@
         #chat-toggle { top: 50% !important; transform: translateY(-50%) !important; }
 
         #panel {
-            position: fixed; top: 88px; right: 54px; width: 360px; height: calc(100vh - 88px);
-            background: rgba(2,2,4,0.96);
+            position: fixed; top: 88px; right: 88px; width: 360px; height: calc(100vh - 88px);
+            background: rgba(4,4,8,0.96);
             border-left: 1px solid rgba(180,0,0,0.3);
             border-right: 1px solid rgba(180,0,0,0.08);
             transform: translateX(110%); transition: transform 0.32s cubic-bezier(.4,0,.2,1);
@@ -423,15 +399,15 @@
         #tooltip.show { opacity: 1; }
 
         #status-bar {
-            position: fixed; bottom: 0; left: 0; right: 0; padding: 4px 20px;
-            background: rgba(0,0,0,0.9);
+            position: fixed; bottom: 0; left: 0; right: 0; padding: 5px 20px;
+            background: rgba(4,4,8,0.92);
             border-top: 1px solid rgba(180,0,0,0.2);
             font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; color: #2a2a2a; display: flex; gap: 20px;
-            align-items: center; z-index: 50; letter-spacing: 1px;
+            font-size: 8px; color: #222; display: flex; gap: 20px;
+            align-items: center; z-index: 50; letter-spacing: 1.5px;
         }
         #status-bar em { color: #CC0000; font-style: normal; }
-        #status-bar .sys-ok { color: #FFD700; }
+        #status-bar .sys-ok { color: #00cc44; }
 
         .live-dot {
             display: inline-block; width: 6px; height: 6px; border-radius: 50%;
@@ -632,36 +608,92 @@
         }
         #chat-unread.show { display: flex; }
 
-        /* ── Globe control buttons (bottom-center) ─────── */
+        /* ── Globe control bar (bottom-center) ─────────── */
         #globe-controls {
-            position: fixed; bottom: 36px; left: 50%; transform: translateX(-50%);
-            z-index: 60; display: flex; align-items: center; gap: 6px;
+            position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+            z-index: 60; display: flex; align-items: center;
+            background: rgba(4,4,8,0.90);
+            border: 1px solid rgba(180,0,0,0.25);
+            backdrop-filter: blur(10px);
         }
-        #pause-btn {
-            width: 34px; height: 34px;
-            background: rgba(0,0,0,0.88);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: #444; font-size: 13px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s; backdrop-filter: blur(8px); flex-shrink: 0;
-            font-family: 'Share Tech Mono', monospace;
-        }
-        #pause-btn:hover { border-color: #CC0000; color: #CC0000; }
-        #pause-btn.paused { border-color: #CC0000; color: #CC0000; background: rgba(180,0,0,0.15); }
-
-        #all-btn {
-            padding: 0 14px; height: 34px;
-            background: rgba(0,0,0,0.88);
-            border: 1px solid rgba(255,215,0,0.15);
-            color: #444; font-size: 9px; font-weight: 700; letter-spacing: 2px;
-            text-transform: uppercase; cursor: pointer;
+        .ctrl-seg {
             display: flex; align-items: center; gap: 7px;
-            transition: all 0.2s; backdrop-filter: blur(8px); white-space: nowrap;
+            padding: 0 16px; height: 36px; cursor: default;
+            border-right: 1px solid rgba(180,0,0,0.15);
             font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+            color: #3a3a3a; transition: color 0.18s;
         }
-        #all-btn:hover { border-color: #FFD700; color: #FFD700; }
-        #all-btn.active { border-color: #FFD700; color: #FFD700; background: rgba(80,60,0,0.3); }
+        .ctrl-seg:last-child { border-right: none; }
+        .ctrl-seg svg { color: #2a2a2a; transition: color 0.18s; flex-shrink: 0; }
+        .ctrl-seg.clickable { cursor: pointer; }
+        .ctrl-seg.clickable:hover { color: #888; }
+        .ctrl-seg.clickable:hover svg { color: #888; }
+        .ctrl-seg.clickable:hover { background: rgba(255,255,255,0.03); }
+        #pause-btn {
+            display: flex; align-items: center; gap: 7px;
+            padding: 0 16px; height: 36px; cursor: pointer;
+            border: none; background: transparent;
+            border-right: 1px solid rgba(180,0,0,0.15);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+            color: #3a3a3a; transition: all 0.18s;
+        }
+        #pause-btn svg { color: #2a2a2a; transition: color 0.18s; flex-shrink: 0; }
+        #pause-btn:hover { color: #CC0000; background: rgba(204,0,0,0.08); }
+        #pause-btn:hover svg { color: #CC0000; }
+        #pause-btn.paused { color: #CC0000; }
+        #pause-btn.paused svg { color: #CC0000; }
+        #all-btn {
+            display: flex; align-items: center; gap: 7px;
+            padding: 0 16px; height: 36px; cursor: pointer;
+            border: none; background: transparent;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+            color: #3a3a3a; transition: all 0.18s;
+        }
+        #all-btn:hover { color: #FFD700; background: rgba(255,215,0,0.06); }
+        #all-btn.active { color: #FFD700; }
         #all-btn .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: blink 1.4s infinite; }
+
+        /* ── Left intelligence panel ─────────────────────── */
+        #intel-panel {
+            position: fixed; left: 16px; top: 100px; z-index: 60;
+            width: 240px;
+            pointer-events: none;
+        }
+        #intel-panel-header {
+            display: flex; align-items: center; gap: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 2.5px; color: #CC0000;
+            text-transform: uppercase; margin-bottom: 12px;
+        }
+        #intel-live-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #CC0000; flex-shrink: 0;
+            animation: blink 1.5s step-end infinite;
+        }
+        #intel-panel-header .intel-divider {
+            flex: 1; height: 1px; background: rgba(204,0,0,0.25);
+        }
+        .intel-item {
+            margin-bottom: 14px; padding-left: 10px;
+            border-left: 1px solid rgba(204,0,0,0.25);
+        }
+        .intel-headline {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 1.5px; color: #888;
+            text-transform: uppercase; font-weight: 700; margin-bottom: 3px;
+        }
+        .intel-body {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; color: #3a3a3a; line-height: 1.6;
+        }
+        .intel-time {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; color: #CC0000; margin-top: 3px;
+            opacity: 0.7;
+        }
 
         /* ── All-layers panel override (wider) ─────────── */
         #panel.wide { width: 480px; }
@@ -818,15 +850,20 @@
                 flex: 1;
                 min-width: 44px;
                 min-height: 44px;
-                padding: 6px 3px;
+                padding: 4px 2px;
                 border-left: none;
                 border-top: 2px solid transparent;
                 flex-direction: column;
+                justify-content: center;
                 gap: 2px;
             }
+            .dock-icon {
+                width: 22px; height: 22px; border-radius: 50%;
+                margin: 0 auto;
+            }
+            .dock-btn span.dock-label { display: none; }
             .dock-btn.active { border-left: none; border-top-color: #CC0000; background: rgba(204,0,0,0.2); }
-            .dock-btn::before { display: none; }   /* no tooltip on touch */
-            .dock-label { font-size: 7px; letter-spacing: 1px; }
+            .dock-btn::before { display: none; }
             .dock-divider { width: 1px; height: 28px; margin: 10px 2px; }
 
             /* ── Main panel — full width, slide from right ── */
@@ -865,10 +902,16 @@
             }
             #chat-toggle .chat-icon { writing-mode: horizontal-tb; font-size: 12px; }
 
+            /* ── Intel panel hidden on mobile ── */
+            #intel-panel { display: none; }
+
             /* ── Globe controls above bottom dock ── */
-            #globe-controls { bottom: 58px; }
-            #pause-btn { width: 40px; height: 40px; }
-            #all-btn { height: 40px; font-size: 8px; }
+            #globe-controls { bottom: 58px; font-size: 8px; }
+            .ctrl-seg { padding: 0 8px; gap: 4px; }
+            .ctrl-seg svg { width: 12px; height: 12px; }
+            #pause-btn { padding: 0 8px; gap: 4px; }
+            #pause-btn svg { width: 12px; height: 12px; }
+            #all-btn { padding: 0 8px; font-size: 8px; }
 
             /* ── Status bar — hide (bottom dock fills that role) ── */
             #status-bar { display: none; }
@@ -912,7 +955,7 @@
     </div>
     <div id="header-nav">
         <button class="hdr-nav-btn" id="news-btn" data-panel="news">
-            <span class="hdr-nav-sickle">☭</span>NEWS FEED
+            <span class="hdr-nav-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="1.5" fill="currentColor"/><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="1.5 1"/></svg></span>NEWS FEED
         </button>
     </div>
     <div id="header-right">
@@ -942,42 +985,51 @@
 
 <!-- Right-side icon dock — panel switcher -->
 <div id="right-dock">
-    <button class="dock-btn" data-panel="routes"  data-tip="BRI Trade Routes">
+    <button class="dock-btn" data-panel="routes" data-tip="BRI Trade Routes">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M7 1.5 Q9.5 4 9.5 7 Q9.5 10 7 12.5" stroke="currentColor" stroke-width="1.1" fill="none"/><path d="M7 1.5 Q4.5 4 4.5 7 Q4.5 10 7 12.5" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="1.5" y1="7" x2="12.5" y2="7" stroke="currentColor" stroke-width="1.1"/></svg></span>
         <span class="dock-label">BRI</span>
     </button>
     <button class="dock-btn" data-panel="military" data-tip="Military Installations">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5 L12 3.5 L12 8.5 Q12 12 7 13.5 Q2 12 2 8.5 L2 3.5 Z" stroke="currentColor" stroke-width="1.1"/></svg></span>
         <span class="dock-label">MIL</span>
     </button>
     <button class="dock-btn" data-panel="aircraft" data-tip="Live Aircraft Tracking">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M13 7 L3 3.5 L3 5.5 L8 7 L3 8.5 L3 10.5 Z" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="1.5" y1="10.5" x2="4" y2="10.5" stroke="currentColor" stroke-width="1.1"/></svg></span>
         <span class="dock-label">AIR</span>
     </button>
     <div class="dock-divider"></div>
     <button class="dock-btn" data-panel="economy" data-tip="Economy · NBS Data">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="9" width="2.5" height="3.5" stroke="currentColor" stroke-width="1.1"/><rect x="5.8" y="6" width="2.5" height="6.5" stroke="currentColor" stroke-width="1.1"/><rect x="9.5" y="3" width="2.5" height="9.5" stroke="currentColor" stroke-width="1.1"/></svg></span>
         <span class="dock-label">ECON</span>
     </button>
-    <button class="dock-btn" data-panel="stock"   data-tip="Markets · TradingView">
+    <button class="dock-btn" data-panel="stock" data-tip="Markets · TradingView">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="1,11 4,7 7,9 10,4.5 13,6.5" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linejoin="round"/></svg></span>
         <span class="dock-label">MKT</span>
     </button>
     <button class="dock-btn" data-panel="leaders" data-tip="Politburo Leadership">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="2" y1="4.5" x2="12" y2="4.5" stroke="currentColor" stroke-width="1.1"/><line x1="2" y1="12.5" x2="12" y2="12.5" stroke="currentColor" stroke-width="1.1"/><line x1="4" y1="4.5" x2="4" y2="12.5" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="4.5" x2="7" y2="12.5" stroke="currentColor" stroke-width="1.1"/><line x1="10" y1="4.5" x2="10" y2="12.5" stroke="currentColor" stroke-width="1.1"/><path d="M7 1.5 L12 4.5 L2 4.5 Z" stroke="currentColor" stroke-width="1.1"/></svg></span>
         <span class="dock-label">GOV</span>
     </button>
     <div class="dock-divider"></div>
-    <button class="dock-btn" data-panel="ports"  data-tip="Chinese Port Control">
+    <button class="dock-btn" data-panel="ports" data-tip="Chinese Port Control">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="3.5" r="1.5" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="5" x2="7" y2="12" stroke="currentColor" stroke-width="1.1"/><line x1="4" y1="7" x2="10" y2="7" stroke="currentColor" stroke-width="1.1"/><path d="M3 12 Q5.5 10.5 7 12 Q8.5 13.5 11 12" stroke="currentColor" stroke-width="1.1" fill="none"/></svg></span>
         <span class="dock-label">PORT</span>
     </button>
     <button class="dock-btn" data-panel="cables" data-tip="Submarine Cable Network">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="4.5" width="8" height="4" rx="2" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="1.5" x2="7" y2="4.5" stroke="currentColor" stroke-width="1.1"/><path d="M1 10.5 Q3 8.5 5 10.5 Q7 12.5 9 10.5 Q11 8.5 13 10.5" stroke="currentColor" stroke-width="1.1" fill="none"/></svg></span>
         <span class="dock-label">SUB</span>
     </button>
     <button class="dock-btn" data-panel="beidou" data-tip="Beidou Satellite Network">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.1"/><line x1="1" y1="7" x2="5" y2="7" stroke="currentColor" stroke-width="1.3"/><line x1="9" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="1.3"/><line x1="7" y1="1" x2="7" y2="5" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="9" x2="7" y2="13" stroke="currentColor" stroke-width="1.1"/><line x1="3" y1="3" x2="5.5" y2="5.5" stroke="currentColor" stroke-width="1.1"/><line x1="8.5" y1="8.5" x2="11" y2="11" stroke="currentColor" stroke-width="1.1"/></svg></span>
         <span class="dock-label">SAT</span>
     </button>
 </div>
 
 <!-- Alert banner -->
-<div id="tension-alert" style="display:none;position:fixed;top:88px;left:0;right:54px;z-index:98;
+<div id="tension-alert" style="display:none;position:fixed;top:88px;left:0;right:88px;z-index:98;
     background:rgba(180,0,0,0.92);border-bottom:2px solid #FF2222;padding:7px 20px;
     display:none;align-items:center;gap:12px;backdrop-filter:blur(8px);">
-    <span style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#fff;letter-spacing:3px;">⚠ TENSION ALERT</span>
+    <span style="font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:#fff;letter-spacing:3px;">! TENSION ALERT</span>
     <span id="tension-alert-msg" style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#ffaaaa;letter-spacing:1px;flex:1"></span>
     <button onclick="document.getElementById('tension-alert').style.display='none'"
         style="background:none;border:1px solid rgba(255,255,255,0.3);color:#fff;padding:2px 10px;
@@ -1011,9 +1063,9 @@
 <!-- Chat panel (left) -->
 <div id="chat-panel">
     <div id="chat-header">
-        <div id="chat-title">💬 Global Chat</div>
-        <div id="chat-live"><span class="live-dot"></span> Live</div>
-        <button id="chat-close">✕</button>
+        <div id="chat-title">GLOBAL CHAT</div>
+        <div id="chat-live"><span class="live-dot"></span> LIVE</div>
+        <button id="chat-close">X</button>
     </div>
 
     <!-- Username setup (shown until name is set) -->
@@ -1034,30 +1086,58 @@
     <!-- Messages -->
     <div id="chat-messages">
         <div id="chat-empty">
-            <span>🌏</span>
-            Be the first to say something!
+            Be the first to say something.
         </div>
     </div>
 
     <!-- Input -->
     <div id="chat-input-bar">
         <input id="chat-input" placeholder="Type a message…" maxlength="300" autocomplete="off" disabled>
-        <button id="chat-send" disabled>➤</button>
+        <button id="chat-send" disabled>SEND</button>
     </div>
+</div>
+
+<!-- Left intelligence feed panel -->
+<div id="intel-panel">
+    <div id="intel-panel-header">
+        <span id="intel-live-dot"></span>
+        LIVE INTELLIGENCE
+        <span class="intel-divider"></span>
+    </div>
+    <div id="intel-items"></div>
 </div>
 
 <!-- Globe controls (bottom-center) -->
 <div id="globe-controls">
-    <button id="pause-btn" title="Pause / Resume rotation">⏸</button>
+    <div class="ctrl-seg">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2 C3.5 2 2 3 2 4.5 L2 9 C2 10 2.5 10.5 3.5 10.5 L3.5 12 L5 12 L5 10.5 L9 10.5 L9 12 L10.5 12 L10.5 10.5 C11.5 10.5 12 10 12 9 L12 4.5 C12 3 10.5 2 9 2 Z" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="4.5" cy="6.5" r="0.8" fill="currentColor"/><circle cx="9.5" cy="6.5" r="0.8" fill="currentColor"/></svg>
+        DRAG
+    </div>
+    <div class="ctrl-seg">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M10.5 3.5 A5 5 0 1 0 12 7" stroke="currentColor" stroke-width="1.2" fill="none"/><polyline points="10,1 12,3.5 9.5,5.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>
+        ROTATE
+    </div>
+    <div class="ctrl-seg">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.2"/><line x1="9" y1="9" x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.3"/><line x1="4" y1="6" x2="8" y2="6" stroke="currentColor" stroke-width="1.1"/><line x1="6" y1="4" x2="6" y2="8" stroke="currentColor" stroke-width="1.1"/></svg>
+        ZOOM
+    </div>
+    <button id="pause-btn" title="Pause / Resume rotation">
+        <svg id="pause-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="2.5" width="2.5" height="9" stroke="currentColor" stroke-width="1.1"/><rect x="8.5" y="2.5" width="2.5" height="9" stroke="currentColor" stroke-width="1.1"/></svg>
+        <span id="pause-label">PAUSE</span>
+    </button>
+    <div class="ctrl-seg clickable" id="reset-btn" title="Reset view">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7 A4.5 4.5 0 1 1 4.5 11" stroke="currentColor" stroke-width="1.2" fill="none"/><polyline points="2.5,4 2.5,7 5.5,7" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>
+        RESET
+    </div>
     <button id="all-btn" title="Show all layers at once">
-        <span class="dot"></span> VIEW ALL LAYERS
+        <span class="dot"></span>ALL
     </button>
 </div>
 
 <div id="status-bar">
     <div><span class="sys-ok">■</span> GLOBE ACTIVE</div>
-    <div style="flex:1;text-align:center">DRAG · rotate &nbsp;|&nbsp; SCROLL · zoom &nbsp;|&nbsp; SPACE · pause &nbsp;|&nbsp; R · reset</div>
-    <div style="color:#222">RED DRAGON TRACKER © 2026</div>
+    <div style="flex:1"></div>
+    <div style="color:#1a1a1a">RED DRAGON TRACKER · 2026</div>
 </div>
 
 <div id="legend" class="legend" style="display:none"></div>
@@ -3204,10 +3284,36 @@ let globeRotating = true;
 const pauseBtn = document.getElementById('pause-btn');
 function toggleRotation() {
     globeRotating = !globeRotating;
-    pauseBtn.textContent = globeRotating ? '⏸' : '▶';
     pauseBtn.classList.toggle('paused', !globeRotating);
+    const lbl = document.getElementById('pause-label');
+    if (lbl) lbl.textContent = globeRotating ? 'PAUSE' : 'RESUME';
+    const icon = document.getElementById('pause-icon');
+    if (icon) icon.innerHTML = globeRotating
+        ? '<rect x="3" y="2.5" width="2.5" height="9" stroke="currentColor" stroke-width="1.1"/><rect x="8.5" y="2.5" width="2.5" height="9" stroke="currentColor" stroke-width="1.1"/>'
+        : '<polygon points="3,2 12,7 3,12" stroke="currentColor" stroke-width="1.1" fill="none"/>';
 }
 pauseBtn.addEventListener('click', toggleRotation);
+
+// Reset button
+const resetBtn = document.getElementById('reset-btn');
+if (resetBtn) resetBtn.addEventListener('click', () => controls.reset());
+
+// ── Left Intel Panel ──────────────────────────────────────────────────
+function renderIntelPanel() {
+    const container = document.getElementById('intel-items');
+    if (!container || !newsCache.length) return;
+    const items = newsCache.slice(0, 5);
+    container.innerHTML = items.map(a => {
+        const words = a.title.split(' ');
+        const headline = words.slice(0, 4).join(' ').toUpperCase();
+        const body = a.title.length > 40 ? a.title.substring(0, 70) + '…' : a.title;
+        return `<div class="intel-item">
+            <div class="intel-headline">${headline}</div>
+            <div class="intel-body">${body}</div>
+            <div class="intel-time">${newsTimeAgo(a.date)} ago</div>
+        </div>`;
+    }).join('');
+}
 
 // ── VIEW ALL button ────────────────────────────────────────────────────
 const allBtn = document.getElementById('all-btn');
@@ -3914,6 +4020,7 @@ async function fetchChineseNews(force = false) {
     newsCache = articles;
     newsLastFetch = Date.now();
     updateTensionMeter(articles);
+    renderIntelPanel();
     return articles;
 }
 
@@ -4054,6 +4161,8 @@ function flyToLatLon(lat, lon) {
     globeRotating = false; // pause auto-spin during fly
     if (document.getElementById('pause-btn')) {
         document.getElementById('pause-btn').classList.add('paused');
+        const lbl = document.getElementById('pause-label');
+        if (lbl) lbl.textContent = 'RESUME';
     }
 }
 
