@@ -227,6 +227,15 @@
             background: rgba(180,0,0,0.12);
             margin: 3px 13px;
         }
+        /* ALL LAYERS button — gold accent */
+        #dock-all-btn .dock-icon { border-color: rgba(255,215,0,0.25); color: #444; }
+        #dock-all-btn span.dock-label { color: #3a3a3a; }
+        #dock-all-btn:hover { background: rgba(255,215,0,0.08); border-left-color: rgba(255,215,0,0.5); }
+        #dock-all-btn:hover .dock-icon { border-color: #FFD700; color: #FFD700; }
+        #dock-all-btn:hover span.dock-label { color: #FFD700; }
+        #dock-all-btn.active { background: rgba(255,215,0,0.12); border-left-color: #FFD700; }
+        #dock-all-btn.active .dock-icon { border-color: #FFD700; color: #FFD700; background: rgba(255,215,0,0.1); }
+        #dock-all-btn.active span.dock-label { color: #FFD700; }
 
         /* ── Nav button (hidden — using dock now) ────────── */
         #nav { display: none; }
@@ -985,6 +994,11 @@
 
 <!-- Right-side icon dock — panel switcher -->
 <div id="right-dock">
+    <button class="dock-btn" id="dock-all-btn" data-tip="Show All Layers" onclick="document.getElementById('all-btn').click()">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="3" x2="7" y2="11" stroke="currentColor" stroke-width="1.1"/><line x1="3" y1="7" x2="11" y2="7" stroke="currentColor" stroke-width="1.1"/><line x1="4.5" y1="4.5" x2="9.5" y2="9.5" stroke="currentColor" stroke-width="1.1"/><line x1="9.5" y1="4.5" x2="4.5" y2="9.5" stroke="currentColor" stroke-width="1.1"/></svg></span>
+        <span class="dock-label">ALL</span>
+    </button>
+    <div class="dock-divider"></div>
     <button class="dock-btn" data-panel="routes" data-tip="BRI Trade Routes">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M7 1.5 Q9.5 4 9.5 7 Q9.5 10 7 12.5" stroke="currentColor" stroke-width="1.1" fill="none"/><path d="M7 1.5 Q4.5 4 4.5 7 Q4.5 10 7 12.5" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="1.5" y1="7" x2="12.5" y2="7" stroke="currentColor" stroke-width="1.1"/></svg></span>
         <span class="dock-label">BRI</span>
@@ -3319,13 +3333,20 @@ function renderIntelPanel() {
 const allBtn = document.getElementById('all-btn');
 let allLayersActive = false;
 
+const dockAllBtn = document.getElementById('dock-all-btn');
+
+function syncAllBtn(active) {
+    allBtn.classList.toggle('active', active);
+    if (dockAllBtn) dockAllBtn.classList.toggle('active', active);
+}
+
 function openAllLayers() {
     allLayersActive = true;
-    allBtn.classList.add('active');
+    syncAllBtn(true);
 
     // Close any open side panel UI (without touching layer visibility)
     document.getElementById('panel').classList.remove('open', 'wide');
-    document.querySelectorAll('.dock-btn, .nav-btn, .hdr-nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.dock-btn:not(#dock-all-btn), .nav-btn, .hdr-nav-btn').forEach(b => b.classList.remove('active'));
     legendEl.style.display = 'none';
     activePanel = null;
 
@@ -3340,12 +3361,15 @@ function openAllLayers() {
 
 function closeAllLayers() {
     allLayersActive = false;
-    allBtn.classList.remove('active');
+    syncAllBtn(false);
 
     // Hide all globe layers
     briGroup.visible    = false;
     basesGroup.visible  = false;
     planesGroup.visible = false;
+    portsGroup.visible  = false;
+    cablesGroup.visible = false;
+    beidouGroup.visible = false;
 }
 
 allBtn.addEventListener('click', () => {
