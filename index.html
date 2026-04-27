@@ -2015,9 +2015,9 @@
 
     <div id="nl-success">
         <div class="nl-check" style="font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:0">OK</div>
-        <h3>YOU'RE IN</h3>
-        <p>Welcome to the Red Dragon Brief.<br>Check your inbox for a confirmation email.<br><br>
-        <span style="color:#CC0000">First issue drops this week.</span></p>
+        <h3>ONE MORE STEP</h3>
+        <p>A Substack tab just opened — click <strong>Subscribe</strong> there to confirm.<br><br>
+        <span style="color:#CC0000">Takes 5 seconds. Check your inbox after.</span></p>
     </div>
 
     <div id="nl-form">
@@ -8549,15 +8549,16 @@ window.submitNewsletter = async function() {
     submitEl.textContent = 'SENDING…';
 
     try {
-        if (!_sb) throw new Error('Database unavailable');
-        const { error } = await _sb
-            .from('subscribers')
-            .insert({ email, source: 'RedDragonTracker' });
-
-        // 23505 = unique violation (already subscribed) — treat as success
-        if (error && error.code !== '23505') throw new Error(error.message);
-        // Only count successful (or duplicate) submissions toward rate limit
-        nlRecordAttempt();
+        // Save to Supabase backup list (silent fail is fine)
+        if (_sb) {
+            await _sb.from('subscribers').insert({ email, source: 'RedDragonTracker' })
+                .then(() => {}).catch(() => {});
+        }
+        // Open Substack subscribe page in new tab with email pre-filled
+        window.open(
+            `https://victormnl.substack.com/subscribe?email=${encodeURIComponent(email)}`,
+            '_blank', 'noopener,noreferrer'
+        );
         showNLSuccess();
     } catch(e) {
         submitEl.disabled = false;
