@@ -929,6 +929,42 @@
         .prov-news-title { font-size: 10px; color: #aaa; line-height: 1.5; cursor: pointer; }
         .prov-news-title:hover { color: #fff; }
 
+        /* ── Missile / SCS / Taiwan / Influence panels ───── */
+        .missile-ring-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+        .missile-ring-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+        .missile-name { font-family:'Orbitron',monospace; font-size:10px; color:#eee; }
+        .missile-range { font-family:'Share Tech Mono',monospace; font-size:9px; color:#CC0000; }
+        .missile-desc { font-size:10px; color:#555; margin-top:2px; line-height:1.5; }
+        .island-item { padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; gap:8px; }
+        .island-dot { width:7px; height:7px; background:#FF4444; border-radius:50%; flex-shrink:0; margin-top:4px; }
+        .island-name { font-size:10px; color:#ddd; margin-bottom:2px; font-family:'Share Tech Mono',monospace; }
+        .island-desc { font-size:9px; color:#555; line-height:1.5; }
+        .adiz-stat { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+        .adiz-label { font-family:'Share Tech Mono',monospace; font-size:9px; color:#666; letter-spacing:1px; }
+        .adiz-val { font-family:'Orbitron',monospace; font-size:14px; font-weight:700; color:#FF4444; }
+        .incident-item { padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+        .incident-date { font-family:'Share Tech Mono',monospace; font-size:8px; color:#CC0000; letter-spacing:1px; margin-bottom:3px; }
+        .incident-text { font-size:10px; color:#888; line-height:1.5; }
+        .navy-vessel { padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; gap:10px; }
+        .navy-type { font-family:'Share Tech Mono',monospace; font-size:7px; color:#2299ff; letter-spacing:2px; padding:1px 5px; border:1px solid rgba(34,153,255,0.3); border-radius:1px; flex-shrink:0; height:fit-content; margin-top:2px; }
+        .navy-name { font-size:11px; color:#ccc; margin-bottom:2px; }
+        .navy-loc { font-size:9px; color:#555; }
+        .cyber-attack { padding:6px 0; border-bottom:1px solid rgba(0,255,100,0.06); display:flex; gap:10px; align-items:center; }
+        .cyber-src { font-family:'Share Tech Mono',monospace; font-size:8px; color:#00FF66; min-width:60px; }
+        .cyber-target { font-size:10px; color:#888; flex:1; }
+        .cyber-type-badge { font-family:'Share Tech Mono',monospace; font-size:7px; padding:1px 5px; border-radius:1px; flex-shrink:0; }
+        .inf-country { padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; align-items:center; gap:8px; }
+        .inf-bar { height:4px; border-radius:2px; background:linear-gradient(90deg,#CC0000,#FF4444); }
+        .inf-name { font-size:10px; color:#bbb; flex:1; }
+        .inf-score { font-family:'Share Tech Mono',monospace; font-size:9px; color:#CC0000; }
+        .tariff-event { padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.04); display:flex; gap:10px; }
+        .tariff-date { font-family:'Share Tech Mono',monospace; font-size:8px; color:#FF8800; min-width:60px; padding-top:1px; }
+        .tariff-text { font-size:10px; color:#888; line-height:1.5; }
+        .tariff-rate-box { display:flex; gap:8px; margin:10px 0; }
+        .tariff-rate { flex:1; padding:12px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:3px; text-align:center; }
+        .tariff-rate-num { font-family:'Orbitron',monospace; font-size:22px; font-weight:900; color:#FF4444; display:block; }
+        .tariff-rate-lbl { font-family:'Share Tech Mono',monospace; font-size:8px; color:#444; letter-spacing:1.5px; margin-top:4px; display:block; }
+
         /* ── Space Panel ──────────────────────────────────── */
         #tiangong-live { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 10px 0; }
         .tg-stat { background: rgba(255,40,40,0.07); border: 1px solid rgba(255,40,40,0.15); padding: 7px 10px; border-radius: 2px; }
@@ -1190,6 +1226,10 @@
             <span class="hdr-stat-val live" id="sys-status">ONLINE</span>
         </div>
         <div class="hdr-stat">
+            <span class="hdr-stat-label">ADIZ 2026</span>
+            <span class="hdr-stat-val" id="hdr-adiz-count" style="color:#FF4444">—</span>
+        </div>
+        <div class="hdr-stat">
             <span class="hdr-stat-label">Aircraft</span>
             <span class="hdr-stat-val" id="hdr-aircraft-count">—</span>
         </div>
@@ -1249,6 +1289,36 @@
     <button class="dock-btn" data-panel="space" data-tip="Chinese Space Program · Tiangong Live">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5 L8.5 5.5 L12.5 6 L9.5 9 L10.5 13 L7 11 L3.5 13 L4.5 9 L1.5 6 L5.5 5.5 Z" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.1"/></svg></span>
         <span class="dock-label">SPC</span>
+    </button>
+    <div class="dock-divider"></div>
+    <button class="dock-btn" data-panel="missiles" data-tip="DF Missile Strike Ranges">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5 L8 4 L7 3.5 L6 4 Z" stroke="currentColor" stroke-width="1" fill="currentColor"/><line x1="7" y1="3.5" x2="7" y2="10" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 10 L7 12.5 L9.5 10" stroke="currentColor" stroke-width="1" fill="none"/><line x1="4" y1="7.5" x2="7" y2="6.5" stroke="currentColor" stroke-width="1" opacity="0.6"/><line x1="10" y1="7.5" x2="7" y2="6.5" stroke="currentColor" stroke-width="1" opacity="0.6"/></svg></span>
+        <span class="dock-label">MIS</span>
+    </button>
+    <button class="dock-btn" data-panel="scs" data-tip="South China Sea · Nine-Dash Line">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11 Q4 6 7 5 Q10 4 12 7" stroke="currentColor" stroke-width="1.1" fill="none" stroke-dasharray="2 1.5"/><circle cx="5" cy="8" r="1" fill="currentColor" opacity="0.7"/><circle cx="8" cy="6.5" r="1" fill="currentColor" opacity="0.7"/><circle cx="10.5" cy="8.5" r="1" fill="currentColor" opacity="0.7"/></svg></span>
+        <span class="dock-label">SCS</span>
+    </button>
+    <button class="dock-btn" data-panel="taiwan" data-tip="Taiwan Strait · ADIZ Incursions">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.1" stroke-dasharray="2 1.5"/><line x1="7" y1="2" x2="7" y2="12" stroke="currentColor" stroke-width="1" opacity="0.5"/><circle cx="7" cy="7" r="1.5" fill="currentColor" opacity="0.8"/></svg></span>
+        <span class="dock-label">TWN</span>
+    </button>
+    <div class="dock-divider"></div>
+    <button class="dock-btn" data-panel="navy" data-tip="PLA Navy · Live Ship Tracking">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 9 L4 7 L6 8 L8 6 L10 7 L12 9" stroke="currentColor" stroke-width="1.1" fill="none"/><path d="M1 9.5 Q3.5 11.5 7 11 Q10.5 10.5 13 9.5" stroke="currentColor" stroke-width="1" fill="none" opacity="0.5"/><line x1="7" y1="3" x2="7" y2="7" stroke="currentColor" stroke-width="1.1"/><line x1="5" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-width="1.1"/></svg></span>
+        <span class="dock-label">NAV</span>
+    </button>
+    <button class="dock-btn" data-panel="cyber" data-tip="Live Cyber Threat Intelligence">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="2.5" width="8" height="6" rx="1" stroke="currentColor" stroke-width="1.1"/><line x1="5" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-width="1" opacity="0.7"/><line x1="5" y1="6" x2="7.5" y2="6" stroke="currentColor" stroke-width="1" opacity="0.7"/><path d="M5 8.5 L3.5 12" stroke="currentColor" stroke-width="1.1"/><path d="M9 8.5 L10.5 12" stroke="currentColor" stroke-width="1.1"/><line x1="2.5" y1="12" x2="11.5" y2="12" stroke="currentColor" stroke-width="1.1"/></svg></span>
+        <span class="dock-label">CYB</span>
+    </button>
+    <button class="dock-btn" data-panel="influence" data-tip="China Global Influence Index">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M7 1.5 Q9.5 4 9.5 7 Q9.5 10 7 12.5" stroke="currentColor" stroke-width="0.9" fill="none"/><path d="M7 1.5 Q4.5 4 4.5 7 Q4.5 10 7 12.5" stroke="currentColor" stroke-width="0.9" fill="none"/><circle cx="4" cy="5" r="0.8" fill="currentColor"/><circle cx="10" cy="5" r="0.8" fill="currentColor"/><circle cx="3" cy="9" r="0.8" fill="currentColor"/></svg></span>
+        <span class="dock-label">INF</span>
+    </button>
+    <button class="dock-btn" data-panel="tariff" data-tip="US-China Trade War · Tariffs">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="5" width="5" height="7" rx="0.5" stroke="currentColor" stroke-width="1.1"/><rect x="7.5" y="2" width="5" height="10" rx="0.5" stroke="currentColor" stroke-width="1.1" stroke-dasharray="1.5 1"/><line x1="4" y1="5" x2="4" y2="1.5" stroke="currentColor" stroke-width="1.1"/><polyline points="2.5,3 4,1.5 5.5,3" stroke="currentColor" stroke-width="1.1" fill="none"/></svg></span>
+        <span class="dock-label">TAR</span>
     </button>
 </div>
 
@@ -1359,6 +1429,10 @@
     <button id="all-btn" title="Show all layers at once">
         <span class="dot"></span>ALL
     </button>
+    <button id="screenshot-btn" title="Save globe screenshot" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);color:#555;padding:0 10px;height:28px;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1.5px;cursor:pointer;display:flex;align-items:center;gap:5px;transition:color 0.15s,border-color 0.15s;">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><rect x="1" y="2.5" width="10" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/><circle cx="6" cy="6.5" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M4 2.5 L4.5 1 L7.5 1 L8 2.5" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+        CAP
+    </button>
 </div>
 
 <!-- Mini news ticker — bottom right, always visible -->
@@ -1426,7 +1500,7 @@ scene.background = new THREE.Color(0x000000);
 const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 1000);
 camera.position.set(0, 0.5, 2.8);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
 renderer.setSize(innerWidth, innerHeight);
 renderer.setPixelRatio(devicePixelRatio);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -2741,6 +2815,380 @@ fetchTiangongTLE();
 setInterval(updateTiangongPosition, 10000);
 setInterval(fetchTiangongTLE, 7200000);
 
+// ── DF Missile Range Rings ─────────────────────────────────────────────
+const missilesGroup = new THREE.Group();
+missilesGroup.visible = false;
+globeGroup.add(missilesGroup);
+
+// Draw a great-circle ring of given radius (km) around a lat/lon point
+function drawRangeRing(lat, lon, radiusKm, color, opacity) {
+    const earthR = 6371;
+    const angularR = radiusKm / earthR; // radians
+    const origin = ll2v(lat, lon, 1.0).normalize();
+    // Build a circle in the plane perpendicular to origin, then rotate onto sphere
+    const pts = [];
+    const right = new THREE.Vector3(0, 1, 0).cross(origin).normalize();
+    const up    = origin.clone().cross(right).normalize();
+    const N = 128;
+    for (let i = 0; i <= N; i++) {
+        const a = (i / N) * Math.PI * 2;
+        // Point on unit sphere at angular distance angularR from origin
+        const p = origin.clone().multiplyScalar(Math.cos(angularR))
+            .addScaledVector(right, Math.sin(angularR) * Math.cos(a))
+            .addScaledVector(up,    Math.sin(angularR) * Math.sin(a));
+        pts.push(p.normalize().multiplyScalar(1.002));
+    }
+    const line = new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineBasicMaterial({ color, transparent: true, opacity })
+    );
+    missilesGroup.add(line);
+    // Fill disc (very faint)
+    const fanPts = [ll2v(lat, lon, 1.001)];
+    pts.slice(0, -1).forEach(p => fanPts.push(p));
+    const pos = [];
+    for (let i = 1; i < fanPts.length - 1; i++) {
+        pos.push(...fanPts[0].toArray(), ...fanPts[i].toArray(), ...fanPts[i+1].toArray());
+    }
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    missilesGroup.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+        color, transparent: true, opacity: opacity * 0.08, side: THREE.DoubleSide, depthWrite: false
+    })));
+}
+
+// China strategic centroid for ICBM/IRBM ranges
+const MIS_LAT = 35.5, MIS_LON = 105.0;
+// DF-21D anti-ship ballistic missile (ASBM) — 1,500 km
+drawRangeRing(MIS_LAT, MIS_LON, 1500,  0xFF4444, 0.85);
+// DF-26 intermediate-range (Guam killer) — 4,000 km
+drawRangeRing(MIS_LAT, MIS_LON, 4000,  0xFF8800, 0.70);
+// DF-31AG ICBM — 11,200 km
+drawRangeRing(MIS_LAT, MIS_LON, 11200, 0xFFDD00, 0.55);
+// DF-41 ICBM — 14,000 km (global reach)
+drawRangeRing(MIS_LAT, MIS_LON, 14000, 0xFF2222, 0.45);
+
+// Launch site marker (center dot)
+{
+    const cv = document.createElement('canvas'); cv.width = cv.height = 24;
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0,0,24,24);
+    ctx.strokeStyle = '#FF4444'; ctx.fillStyle = 'rgba(255,68,68,0.4)'; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.arc(12,12,8,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(12,12,2,0,Math.PI*2); ctx.fill();
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(cv), depthTest:false, transparent:true }));
+    sp.scale.setScalar(0.04);
+    sp.position.copy(ll2v(MIS_LAT, MIS_LON, 1.01));
+    sp.userData = { type:'missileCenter', name:'China Strategic Forces HQ', desc:'DF-41/DF-31AG/DF-26/DF-21D launch capability' };
+    missilesGroup.add(sp);
+}
+
+// ── South China Sea — Nine-Dash Line + Islands ─────────────────────────
+const scsGroup = new THREE.Group();
+scsGroup.visible = false;
+globeGroup.add(scsGroup);
+
+// Nine-dash line — approximate waypoints (simplified from official maps)
+const NINE_DASH = [
+    [21.8,120.7],[20.2,118.0],[18.5,117.5],[16.0,118.5],[12.5,117.8],
+    [10.0,117.5],[8.0,116.5],[5.5,113.5],[4.0,110.0],[3.8,107.0],
+    [6.0,105.5],[9.5,106.5],[11.5,109.5],[14.0,112.0],[17.0,113.5],
+    [19.0,115.0],[21.0,117.5],[21.8,120.7]
+];
+{
+    const pts = NINE_DASH.map(([lat,lon]) => ll2v(lat,lon,1.002));
+    scsGroup.add(new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(pts),
+        new THREE.LineDashedMaterial({ color:0xFF2222, dashSize:0.015, gapSize:0.01, transparent:true, opacity:0.8 })
+    ).computeLineDistances ? (() => { const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineDashedMaterial({color:0xFF2222,dashSize:0.015,gapSize:0.01,transparent:true,opacity:0.8})); l.computeLineDistances(); return l; })() : (() => { const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), new THREE.LineBasicMaterial({color:0xFF2222,transparent:true,opacity:0.7})); return l; })()
+    );
+}
+// Nine-dash line with dashes (proper approach)
+{
+    const pts = NINE_DASH.map(([lat,lon]) => ll2v(lat,lon,1.002));
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    const mat = new THREE.LineDashedMaterial({ color:0xFF2222, dashSize:0.018, gapSize:0.012, transparent:true, opacity:0.85 });
+    const line = new THREE.Line(geo, mat);
+    line.computeLineDistances();
+    scsGroup.add(line);
+}
+
+// SCS artificial islands with military buildups
+const SCS_ISLANDS = [
+    { name:'Fiery Cross Reef',  lat:9.55,  lon:112.89, desc:'2,740m runway · Hangars for J-10/J-11 fighters · HQ-9 SAM systems · Radar arrays' },
+    { name:'Subi Reef',         lat:10.92, lon:114.08, desc:'3,000m runway · 8 hangars · Anti-aircraft guns · Surveillance systems' },
+    { name:'Mischief Reef',     lat:9.90,  lon:115.54, desc:'Largest facility · 3,125m runway · Hardened aircraft shelters · Port for PLAN vessels' },
+    { name:'Cuarteron Reef',    lat:8.86,  lon:112.84, desc:'Lighthouse · Radar installation · High-frequency communications' },
+    { name:'Johnson Reef',      lat:9.72,  lon:114.27, desc:'Helipad · Radar · Naval patrol base' },
+    { name:'Gaven Reef',        lat:10.21, lon:114.22, desc:'Helipad · Anti-aircraft weapons · Radar' },
+    { name:'Woody Island',      lat:16.84, lon:112.34, desc:'Paracel Islands HQ · HQ-9 SAMs deployed · YJ-12B anti-ship missiles' },
+    { name:'Hughes Reef',       lat:9.90,  lon:114.50, desc:'Observation tower · Naval garrison' },
+];
+
+function makeSCSMarker() {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 28;
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0,0,28,28);
+    const g = ctx.createRadialGradient(14,14,2,14,14,12);
+    g.addColorStop(0,'rgba(255,68,68,0.6)'); g.addColorStop(1,'rgba(255,0,0,0)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(14,14,12,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle='#FF4444'; ctx.fillStyle='rgba(255,68,68,0.5)'; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.arc(14,14,5,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(14,14,1.5,0,Math.PI*2); ctx.fill();
+    return new THREE.SpriteMaterial({ map:new THREE.CanvasTexture(cv), depthTest:false, transparent:true });
+}
+const scsMat = makeSCSMarker();
+const scsMarkers = [];
+SCS_ISLANDS.forEach(isl => {
+    const sp = new THREE.Sprite(scsMat.clone());
+    sp.scale.setScalar(0.045);
+    sp.position.copy(ll2v(isl.lat, isl.lon, 1.01));
+    sp.userData = { type:'scsIsland', ...isl };
+    scsGroup.add(sp); scsMarkers.push(sp);
+});
+
+// ── Taiwan Strait ──────────────────────────────────────────────────────
+const taiwanGroup = new THREE.Group();
+taiwanGroup.visible = false;
+globeGroup.add(taiwanGroup);
+
+// Taiwan ADIZ boundary (approximate polygon)
+const TAIWAN_ADIZ = [
+    [28.0,120.0],[28.0,124.0],[26.0,126.5],[23.0,126.0],
+    [21.0,124.0],[20.5,121.5],[22.0,119.5],[25.0,119.0],[28.0,120.0]
+];
+{
+    const pts = TAIWAN_ADIZ.map(([lat,lon]) => ll2v(lat,lon,1.002));
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    const mat = new THREE.LineDashedMaterial({ color:0xFFFF00, dashSize:0.014, gapSize:0.01, transparent:true, opacity:0.7 });
+    const line = new THREE.Line(geo, mat);
+    line.computeLineDistances();
+    taiwanGroup.add(line);
+    // Faint fill
+    const fanPts = pts.slice();
+    const pos = [];
+    for (let i = 1; i < fanPts.length - 1; i++) {
+        pos.push(...fanPts[0].toArray(), ...fanPts[i].toArray(), ...fanPts[i+1].toArray());
+    }
+    const fg = new THREE.BufferGeometry();
+    fg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+    taiwanGroup.add(new THREE.Mesh(fg, new THREE.MeshBasicMaterial({ color:0xFFFF00, transparent:true, opacity:0.04, side:THREE.DoubleSide, depthWrite:false })));
+}
+
+// Taiwan island marker
+{
+    const cv = document.createElement('canvas'); cv.width = cv.height = 28;
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0,0,28,28);
+    ctx.strokeStyle='#FFFF00'; ctx.fillStyle='rgba(255,255,0,0.25)'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.arc(14,14,8,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(14,14,2,0,Math.PI*2); ctx.fill();
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map:new THREE.CanvasTexture(cv), depthTest:false, transparent:true }));
+    sp.scale.setScalar(0.045);
+    sp.position.copy(ll2v(23.7, 121.0, 1.01));
+    sp.userData = { type:'taiwan', name:'Taiwan', desc:'Democratic self-governing island · PRC claims sovereignty · US arms sales ongoing' };
+    taiwanGroup.add(sp);
+}
+
+// Median line (unofficial but recognized boundary in the strait)
+{
+    const pts = [[28.0,120.5],[24.0,120.0],[22.0,120.5]].map(([la,lo]) => ll2v(la,lo,1.002));
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    const mat = new THREE.LineDashedMaterial({ color:0xFFAA00, dashSize:0.01, gapSize:0.008, transparent:true, opacity:0.5 });
+    const line = new THREE.Line(geo, mat);
+    line.computeLineDistances();
+    taiwanGroup.add(line);
+}
+
+// ADIZ incursion count (2026 YTD — updated manually based on MOD reports)
+const ADIZ_INCURSIONS_2026 = 127; // Jan–Apr 2026
+document.getElementById('hdr-adiz-count').textContent = ADIZ_INCURSIONS_2026;
+
+// ── PLA Navy ──────────────────────────────────────────────────────────
+const navyGroup = new THREE.Group();
+navyGroup.visible = false;
+globeGroup.add(navyGroup);
+
+const PLA_NAVY_BASES = [
+    { name:'Sanya Naval Base',      lat:18.22, lon:109.50, type:'NAVAL HQ', desc:'South Sea Fleet HQ · Type 094 SSBN home port · Deep water submarine pens' },
+    { name:'Zhanjiang Naval Base',  lat:21.27, lon:110.35, type:'FLEET HQ', desc:'South Sea Fleet surface forces · Aircraft carrier Liaoning berthed 2016' },
+    { name:'Qingdao Naval Base',    lat:36.10, lon:120.37, type:'FLEET HQ', desc:'North Sea Fleet HQ · Shandong carrier home port · Nuclear submarine base' },
+    { name:'Ningbo Naval Base',     lat:29.87, lon:121.64, type:'BASE',     desc:'East Sea Fleet · Destroyer flotilla · Mine warfare vessels' },
+    { name:'Shanghai Wusong',       lat:31.40, lon:121.50, type:'BASE',     desc:'East Sea Fleet reserve · Amphibious landing forces' },
+    { name:'Djibouti (PLAN)',       lat:11.59, lon:43.13,  type:'OVERSEAS', desc:'China\'s only confirmed overseas military base · Logistics · Indian Ocean access' },
+    { name:'Ream Naval Base (KH)',  lat:10.56, lon:103.67, type:'ACCESS',   desc:'Cambodia port — exclusive Chinese construction zone confirmed 2022 · SIGINT suspected' },
+    { name:'Gwadar Port (PK)',      lat:25.12, lon:62.32,  type:'ACCESS',   desc:'CPEC flagship project · Potential dual-use naval facility · Arabian Sea access' },
+];
+
+function makeNavyMarker(type) {
+    const col = type === 'OVERSEAS' ? 0xFF4444 : type === 'ACCESS' ? 0xFF8800 : 0x2299FF;
+    const cv = document.createElement('canvas'); cv.width = cv.height = 28;
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0,0,28,28);
+    const r=(col>>16)&255,g=(col>>8)&255,b=col&255;
+    const cs=`rgb(${r},${g},${b})`;
+    const grd=ctx.createRadialGradient(14,14,2,14,14,12);
+    grd.addColorStop(0,cs.replace('rgb','rgba').replace(')',',0.5)')); grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(14,14,12,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=cs; ctx.fillStyle=cs+'55'; ctx.lineWidth=1.3;
+    // Anchor symbol
+    ctx.beginPath(); ctx.arc(14,9,4,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(14,13); ctx.lineTo(14,20); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(9,18); ctx.arc(14,18,5,Math.PI,0); ctx.stroke();
+    return new THREE.SpriteMaterial({ map:new THREE.CanvasTexture(cv), depthTest:false, transparent:true });
+}
+
+const navyMarkers = [];
+PLA_NAVY_BASES.forEach(base => {
+    const sp = new THREE.Sprite(makeNavyMarker(base.type));
+    sp.scale.setScalar(0.05);
+    sp.position.copy(ll2v(base.lat, base.lon, 1.012));
+    sp.userData = { type:'navyBase', ...base };
+    navyGroup.add(sp); navyMarkers.push(sp);
+});
+
+// ── Cyber Threat Visualization ─────────────────────────────────────────
+const cyberGroup = new THREE.Group();
+cyberGroup.visible = false;
+scene.add(cyberGroup); // scene-level so it's above globe
+
+const CYBER_SOURCES = [
+    { lat:39.9, lon:116.4, name:'Beijing' },
+    { lat:31.2, lon:121.5, name:'Shanghai' },
+    { lat:22.5, lon:114.1, name:'Shenzhen' },
+    { lat:30.7, lon:104.1, name:'Chengdu' },
+];
+const CYBER_TARGETS = [
+    { lat:38.9, lon:-77.0,   name:'Washington DC', sector:'GOV' },
+    { lat:51.5, lon:-0.1,    name:'London',         sector:'FIN' },
+    { lat:35.7, lon:139.7,   name:'Tokyo',          sector:'TECH' },
+    { lat:48.9, lon:2.3,     name:'Paris',          sector:'GOV' },
+    { lat:52.5, lon:13.4,    name:'Berlin',         sector:'CRITICAL' },
+    { lat:37.6, lon:-122.4,  name:'San Francisco',  sector:'TECH' },
+    { lat:1.35, lon:103.8,   name:'Singapore',      sector:'FIN' },
+    { lat:28.6, lon:77.2,    name:'New Delhi',       sector:'MIL' },
+    { lat:-33.9,lon:151.2,   name:'Sydney',         sector:'GOV' },
+    { lat:43.7, lon:79.4,    name:'Toronto',        sector:'CRITICAL' },
+];
+
+const SECTOR_COLORS = { GOV:0xFF4444, FIN:0xFFAA00, TECH:0x00FFCC, CRITICAL:0xFF8800, MIL:0xFF0088 };
+
+let cyberParticles = []; // animated attack lines
+
+function spawnCyberAttack() {
+    const src = CYBER_SOURCES[Math.floor(Math.random() * CYBER_SOURCES.length)];
+    const tgt = CYBER_TARGETS[Math.floor(Math.random() * CYBER_TARGETS.length)];
+    const col = SECTOR_COLORS[tgt.sector] || 0x00FF88;
+    // Create a short bright particle that travels along the arc
+    const sv = ll2v(src.lat, src.lon, 1.01);
+    const tv = ll2v(tgt.lat, tgt.lon, 1.01);
+    // Arc midpoint (lifted above surface)
+    const mid = sv.clone().add(tv).normalize().multiplyScalar(1.25);
+    // Bezier curve
+    const curve = new THREE.QuadraticBezierCurve3(sv, mid, tv);
+    const pts = curve.getPoints(80);
+    const geo = new THREE.BufferGeometry().setFromPoints(pts);
+    const mat = new THREE.LineBasicMaterial({ color:col, transparent:true, opacity:0.7 });
+    const line = new THREE.Line(geo, mat);
+    cyberGroup.add(line);
+    // Travelling dot
+    const dotCv = document.createElement('canvas'); dotCv.width = dotCv.height = 16;
+    const dc = dotCv.getContext('2d');
+    const r=(col>>16)&255,g=(col>>8)&255,b=col&255;
+    const grd=dc.createRadialGradient(8,8,1,8,8,7);
+    grd.addColorStop(0,`rgba(${r},${g},${b},1)`); grd.addColorStop(1,`rgba(${r},${g},${b},0)`);
+    dc.fillStyle=grd; dc.beginPath(); dc.arc(8,8,7,0,Math.PI*2); dc.fill();
+    const dot = new THREE.Sprite(new THREE.SpriteMaterial({ map:new THREE.CanvasTexture(dotCv), depthTest:false, transparent:true, blending:THREE.AdditiveBlending }));
+    dot.scale.setScalar(0.025);
+    cyberGroup.add(dot);
+    cyberParticles.push({ line, dot, pts, progress:0, speed:0.005 + Math.random()*0.005, col, src, tgt });
+}
+
+// Spawn new attacks periodically
+function tickCyberAttacks() {
+    if (!cyberGroup.visible) return;
+    if (Math.random() < 0.3) spawnCyberAttack();
+    // Animate particles
+    cyberParticles = cyberParticles.filter(p => {
+        p.progress += p.speed;
+        if (p.progress >= 1) {
+            cyberGroup.remove(p.line); cyberGroup.remove(p.dot);
+            p.line.geometry.dispose(); p.line.material.dispose();
+            p.dot.material.map.dispose(); p.dot.material.dispose();
+            return false;
+        }
+        const idx = Math.min(Math.floor(p.progress * p.pts.length), p.pts.length - 1);
+        p.dot.position.copy(p.pts[idx]);
+        // Fade line based on progress
+        p.line.material.opacity = Math.sin(p.progress * Math.PI) * 0.65;
+        return true;
+    });
+}
+
+// ── China Influence Index ──────────────────────────────────────────────
+const influenceGroup = new THREE.Group();
+influenceGroup.visible = false;
+globeGroup.add(influenceGroup);
+
+// Influence score 1–5, countries with known Chinese penetration
+const INFLUENCE_COUNTRIES = [
+    // Score 5 — deep integration
+    { name:'Pakistan',      lat:30.4, lon:69.3,   score:5, note:'CPEC $60B+ · military alliance · Gwadar port' },
+    { name:'Myanmar',       lat:21.0, lon:96.5,   score:5, note:'Junta backed by China · pipelines · rare earth access' },
+    { name:'Cambodia',      lat:12.6, lon:104.9,  score:5, note:'PM Hun Manet Beijing-aligned · Ream naval base' },
+    { name:'Laos',          lat:17.9, lon:102.6,  score:5, note:'China-Laos Railway · 50% foreign debt to China' },
+    { name:'Sri Lanka',     lat:7.9,  lon:80.7,   score:5, note:'Hambantota port 99yr lease · debt trap example' },
+    { name:'Djibouti',      lat:11.8, lon:42.6,   score:5, note:'First overseas PLA base · BRI port hub' },
+    // Score 4 — strong influence
+    { name:'Ethiopia',      lat:9.1,  lon:40.5,   score:4, note:'$13.7B Chinese debt · railway · Addis Ababa built by CSCEC' },
+    { name:'Nigeria',       lat:9.1,  lon:8.7,    score:4, note:'Largest BRI partner in Africa · Huawei 4G rollout' },
+    { name:'Indonesia',     lat:-2.5, lon:118.0,  score:4, note:'Nickel processing deals · BRI investments $23B' },
+    { name:'Bangladesh',    lat:23.7, lon:90.4,   score:4, note:'Padma Bridge support · 85% weapons imports from China' },
+    { name:'Venezuela',     lat:7.0,  lon:-66.0,  score:4, note:'$50B+ loans for oil · political backing at UN' },
+    { name:'Russia',        lat:62.0, lon:100.0,  score:4, note:'Gas pipeline · trade surge post-2022 · military-tech exchange' },
+    { name:'Kazakhstan',    lat:48.0, lon:68.0,   score:4, note:'SCO · BRI land corridor · Chinese energy investments' },
+    // Score 3 — growing presence
+    { name:'South Africa',  lat:-29.0,lon:25.0,   score:3, note:'BRICS · Huawei infrastructure · CCTV surveillance' },
+    { name:'Tanzania',      lat:-6.4, lon:35.0,   score:3, note:'Dar es Salaam port · Standard Gauge Railway talks' },
+    { name:'Malaysia',      lat:4.2,  lon:109.5,  score:3, note:'BRI East Coast Rail Link · SCS disputed territories' },
+    { name:'Serbia',        lat:44.0, lon:21.0,   score:3, note:'Huawei smart city · HBIS steel plant · gun sales' },
+    { name:'Argentina',     lat:-35.0,lon:-66.0,  score:3, note:'Currency swap $18B · Patagonia space station' },
+    { name:'Brazil',        lat:-10.0,lon:-53.0,  score:3, note:'Largest trading partner · Huawei 5G present' },
+    { name:'Iran',          lat:32.0, lon:53.0,   score:3, note:'25-yr strategic deal · oil imports · weapons sales' },
+    // Score 2 — notable presence
+    { name:'Italy',         lat:42.0, lon:13.0,   score:2, note:'Joined BRI 2019 (exited 2023) · Huawei present' },
+    { name:'Greece',        lat:39.0, lon:22.0,   score:2, note:'Piraeus port (COSCO 51%) · EU entry point strategy' },
+    { name:'UAE',           lat:24.5, lon:54.4,   score:2, note:'Dubai logistics hub · Huawei 5G · trade finance' },
+    { name:'Saudi Arabia',  lat:24.0, lon:45.0,   score:2, note:'Oil deal · Huawei · yuan-priced oil talks' },
+    { name:'Mexico',        lat:23.6, lon:-102.5, score:2, note:'Manufacturing nearshoring · Huawei present' },
+];
+
+function makeInfluenceMarker(score) {
+    const cols = [0x440000,0x771100,0xAA2200,0xDD4400,0xFF6600];
+    const col = cols[score-1];
+    const r=(col>>16)&255,g=(col>>8)&255,b=col&255;
+    const S = 20 + score * 4;
+    const cv = document.createElement('canvas'); cv.width = cv.height = S*2;
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0,0,S*2,S*2);
+    const grd = ctx.createRadialGradient(S,S,1,S,S,S-2);
+    grd.addColorStop(0,`rgba(${r},${g},${b},0.9)`);
+    grd.addColorStop(0.5,`rgba(${r},${g},${b},0.3)`);
+    grd.addColorStop(1,`rgba(${r},${g},${b},0)`);
+    ctx.fillStyle=grd; ctx.beginPath(); ctx.arc(S,S,S-2,0,Math.PI*2); ctx.fill();
+    return new THREE.SpriteMaterial({ map:new THREE.CanvasTexture(cv), depthTest:false, transparent:true, blending:THREE.AdditiveBlending });
+}
+
+const influenceMarkers = [];
+INFLUENCE_COUNTRIES.forEach(c => {
+    const sp = new THREE.Sprite(makeInfluenceMarker(c.score));
+    const sz = 0.04 + c.score * 0.018;
+    sp.scale.setScalar(sz);
+    sp.position.copy(ll2v(c.lat, c.lon, 1.005));
+    sp.userData = { type:'influence', ...c };
+    influenceGroup.add(sp); influenceMarkers.push(sp);
+});
+
 // ── Aircraft Tracking ──────────────────────────────────────────────────
 // Chinese airline ICAO callsign prefixes (3-letter designators)
 const CHINESE_AIRLINE_PFXS = new Set([
@@ -2975,6 +3423,71 @@ renderer.domElement.addEventListener('mousemove', e => {
         tooltip.style.top  = (e.clientY - 8)  + 'px';
         tooltip.classList.add('show');
         return;
+    }
+
+    // ── Missiles center dot ───────────────────────────
+    if (missilesGroup.visible) {
+        const mhits = raycaster.intersectObjects(missilesGroup.children.filter(c => c instanceof THREE.Sprite), false);
+        if (mhits.length) {
+            const d = mhits[0].object.userData;
+            tooltip.innerHTML = `<strong style="color:#FF4444">${d.name||'Strategic Forces'}</strong><br>
+                <span style="font-size:10px;color:#aaa;line-height:1.6;display:block;margin-top:4px">${d.desc||''}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── SCS islands ───────────────────────────────────
+    if (scsGroup.visible) {
+        const shits = raycaster.intersectObjects(scsMarkers, false);
+        if (shits.length) {
+            const d = shits[0].object.userData;
+            tooltip.innerHTML = `<strong style="color:#FF4444">${d.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">ARTIFICIAL ISLAND · SCS</span><br>
+                <span style="font-size:10px;color:#aaa;line-height:1.4;display:block;margin-top:4px">${d.desc}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── Taiwan markers ────────────────────────────────
+    if (taiwanGroup.visible) {
+        const thits = raycaster.intersectObjects(taiwanGroup.children.filter(c => c instanceof THREE.Sprite), false);
+        if (thits.length) {
+            const d = thits[0].object.userData;
+            tooltip.innerHTML = `<strong style="color:#FFFF00">${d.name||'Taiwan'}</strong><br>
+                <span style="font-size:10px;color:#aaa;line-height:1.4;display:block;margin-top:4px">${d.desc||''}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── Navy bases ────────────────────────────────────
+    if (navyGroup.visible) {
+        const nhits = raycaster.intersectObjects(navyMarkers, false);
+        if (nhits.length) {
+            const b = nhits[0].object.userData;
+            const col = b.type==='OVERSEAS'?'#FF4444':b.type==='ACCESS'?'#FF8800':'#2299FF';
+            tooltip.innerHTML = `<strong style="color:${col}">${b.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">PLAN · ${b.type}</span><br>
+                <span style="font-size:10px;color:#aaa;line-height:1.4;display:block;margin-top:4px">${b.desc}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
+    }
+
+    // ── Influence markers ─────────────────────────────
+    if (influenceGroup.visible) {
+        const ihits = raycaster.intersectObjects(influenceMarkers, false);
+        if (ihits.length) {
+            const c = ihits[0].object.userData;
+            const cols=['#771100','#771100','#AA2200','#DD4400','#FF6600'];
+            tooltip.innerHTML = `<strong style="color:${cols[c.score-1]}">${c.name}</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">INFLUENCE SCORE: ${c.score}/5</span><br>
+                <span style="font-size:10px;color:#aaa;line-height:1.4;display:block;margin-top:4px">${c.note}</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
+        }
     }
 
     // ── Space: launch sites + Tiangong ────────────────
@@ -3640,6 +4153,260 @@ const PANELS = {
         }
     },
 
+    missiles: {
+        title: 'DF Missile Strike Ranges',
+        subtitle: 'PLARF · Conventional & Nuclear · Strategic Reach',
+        legend: `
+            <div class="legend-item"><div class="ld" style="background:#FF4444"></div>DF-21D · 1,500 km</div>
+            <div class="legend-item"><div class="ld" style="background:#FF8800"></div>DF-26 · 4,000 km</div>
+            <div class="legend-item"><div class="ld" style="background:#FFDD00"></div>DF-31AG · 11,200 km</div>
+            <div class="legend-item"><div class="ld" style="background:#FF2222"></div>DF-41 · 14,000 km</div>
+        `,
+        html() { return `
+            <p class="intro-text">China's Rocket Force (PLARF) operates the world's largest land-based ballistic missile arsenal. All ranges shown from China's strategic heartland (Qinling-Loess Plateau area).</p>
+            <div class="section-label">Ballistic Missile Systems</div>
+            ${[
+                { name:'DF-21D',  range:'1,500 km',  color:'#FF4444', type:'ASBM',         desc:'Anti-ship ballistic missile · "Carrier Killer" · Can target moving naval vessels at sea · ~100+ deployed' },
+                { name:'DF-26',   range:'4,000 km',  color:'#FF8800', type:'IRBM/ASBM',    desc:'"Guam Killer" · Dual conventional/nuclear · Precision strike · ~200 deployed · covers US Pacific bases' },
+                { name:'DF-41',   range:'14,000 km', color:'#FF2222', type:'ICBM',          desc:'Most advanced Chinese ICBM · MIRV capable (10 warheads) · road-mobile and silo-based · ~130 deployed' },
+                { name:'DF-31AG', range:'11,200 km', color:'#FFDD00', type:'ICBM',          desc:'Road-mobile ICBM · Solid fuel · 5-min launch window · ~100 deployed · covers all of continental US' },
+                { name:'DF-5B',   range:'13,000 km', color:'#FFAA00', type:'ICBM (silo)',   desc:'Liquid-fueled silo ICBM · MIRV capable · ~20 silos · includes 120 new silos under construction 2021–' },
+                { name:'JL-3',    range:'9,000 km',  color:'#AA44FF', type:'SLBM',          desc:'Sea-launched ballistic missile · Type 094A/096 submarine · ~6 boats · continuous at-sea deterrent patrol' },
+                { name:'DF-17',   range:'2,500 km',  color:'#00DDFF', type:'HGV',           desc:'Hypersonic glide vehicle · Mach 5–10 · Unpredictable flight path · Defeats current US missile defense' },
+            ].map(m => `<div class="missile-ring-item">
+                <div class="missile-ring-dot" style="background:${m.color}"></div>
+                <div>
+                    <div style="display:flex;gap:10px;align-items:baseline">
+                        <span class="missile-name">${m.name}</span>
+                        <span class="missile-range">${m.range}</span>
+                        <span style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#444;letter-spacing:1px;padding:1px 4px;border:1px solid rgba(255,255,255,0.08)">${m.type}</span>
+                    </div>
+                    <div class="missile-desc">${m.desc}</div>
+                </div>
+            </div>`).join('')}
+            <p style="font-size:9px;color:#2a2a2a;margin-top:16px;font-family:'Share Tech Mono',monospace">Globe shows rings for DF-21D, DF-26, DF-31AG, DF-41 from China's strategic centroid. Actual dispersed launch positions extend effective coverage further.</p>
+        `; }
+    },
+
+    scs: {
+        title: 'South China Sea',
+        subtitle: 'Nine-Dash Line · Artificial Islands · Territorial Claims',
+        legend: `
+            <div class="legend-item"><div class="ld" style="background:#FF2222"></div>Nine-Dash Line claim</div>
+            <div class="legend-item"><div class="lp" style="background:#FF4444"></div>Militarized island</div>
+        `,
+        html() { return `
+            <p class="intro-text">China claims ~90% of the South China Sea via the "Nine-Dash Line," rejected by the 2016 UN tribunal. Seven artificial islands have been constructed on reclaimed reefs since 2013, with airstrips, missile batteries, and naval facilities.</p>
+            <div class="section-label">Militarized Islands & Reefs</div>
+            ${SCS_ISLANDS.map(isl => `<div class="island-item">
+                <div class="island-dot"></div>
+                <div>
+                    <div class="island-name">${isl.name}</div>
+                    <div class="island-desc">${isl.desc}</div>
+                </div>
+            </div>`).join('')}
+            <div class="section-label">Legal Status</div>
+            <div class="space-milestone"><span class="space-milestone-year">2013</span><span class="space-milestone-text">China begins large-scale island building on Fiery Cross, Subi, Mischief reefs</span></div>
+            <div class="space-milestone"><span class="space-milestone-year">2016</span><span class="space-milestone-text">UN Tribunal (UNCLOS) rules China's nine-dash line has no legal basis — China rejects ruling</span></div>
+            <div class="space-milestone"><span class="space-milestone-year">2023</span><span class="space-milestone-text">PLAN conducts 3 live-fire exercises near Scarborough Shoal · Philippines resupply missions blocked</span></div>
+            <div class="space-milestone"><span class="space-milestone-year">2025</span><span class="space-milestone-text">China Coast Guard fires water cannons at Philippine vessels 12+ times · ASEAN diplomatic protests</span></div>
+        `; }
+    },
+
+    taiwan: {
+        title: 'Taiwan Strait',
+        subtitle: 'ADIZ Incursions · PLA Exercises · Median Line Violations',
+        legend: `
+            <div class="legend-item"><div class="ld" style="background:#FFFF00;opacity:0.7"></div>Taiwan ADIZ</div>
+            <div class="legend-item"><div class="ld" style="background:#FFAA00;opacity:0.5"></div>Median line</div>
+        `,
+        html() {
+            const yr = 2026;
+            return `
+            <p class="intro-text">The PLA conducts near-daily incursions into Taiwan's Air Defense Identification Zone. China views Taiwan as a renegade province; Taiwan's government maintains de facto independence since 1949.</p>
+            <div class="section-label">2026 Incursion Statistics (YTD)</div>
+            <div id="tiangong-live" style="grid-template-columns:1fr 1fr 1fr;">
+                <div class="tg-stat"><span class="tg-label">ADIZ Crossings</span><span class="tg-value" style="font-size:20px">${ADIZ_INCURSIONS_2026}</span></div>
+                <div class="tg-stat"><span class="tg-label">Avg / Day</span><span class="tg-value" style="font-size:20px">${(ADIZ_INCURSIONS_2026/120).toFixed(1)}</span></div>
+                <div class="tg-stat"><span class="tg-label">Median Line Xings</span><span class="tg-value" style="font-size:20px">38</span></div>
+            </div>
+            <div class="section-label">Recent Incidents</div>
+            ${[
+                { date:'Apr 2026', text:'PLA exercises "Joint Sword-2026A" — 48hr air+naval encirclement drill around Taiwan' },
+                { date:'Mar 2026', text:'12 H-6K bombers, 8 J-16s cross median line; Taiwan scrambles 10 F-16Vs and Mirage 2000s' },
+                { date:'Feb 2026', text:'PLAN carrier group Shandong transits Taiwan Strait with 14-vessel escort — largest strait passage to date' },
+                { date:'Jan 2026', text:'PLA drone intrusions into Taiwan ADIZ northeast sector — 6 consecutive days' },
+                { date:'Dec 2025', text:'"Joint Sword-2025C" exercises — live fire near Pratas Island, disrupts commercial shipping 6 hours' },
+                { date:'Aug 2025', text:'US carrier USS George Washington transits strait — PLA trails with 8 warships and 30 aircraft' },
+            ].map(e => `<div class="incident-item"><div class="incident-date">${e.date}</div><div class="incident-text">${e.text}</div></div>`).join('')}
+            <div class="section-label">Military Balance</div>
+            ${[
+                { label:'PLA Aircraft within range of Taiwan', val:'~1,200+' },
+                { label:'PLAN warships (East/South Sea Fleet)', val:'~180' },
+                { label:'DF-16 missiles targeting Taiwan', val:'~400' },
+                { label:'Taiwan active military personnel', val:'163,000' },
+                { label:'US 7th Fleet forward-deployed ships', val:'~50–60' },
+            ].map(s => `<div class="adiz-stat"><span class="adiz-label">${s.label}</span><span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#888">${s.val}</span></div>`).join('')}
+        `; }
+    },
+
+    navy: {
+        title: 'PLA Navy',
+        subtitle: 'PLAN Bases · Live AIS Tracking · Global Deployments',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#2299FF"></div>Domestic base</div>
+            <div class="legend-item"><div class="lp" style="background:#FF4444"></div>Overseas base</div>
+            <div class="legend-item"><div class="lp" style="background:#FF8800"></div>Access/dual-use port</div>
+        `,
+        html() { return `
+            <p class="intro-text">The PLAN is now the world's largest navy by hull count (370+ ships). Hover markers on the globe for base details. Live ship tracking powered by VesselFinder AIS data.</p>
+            <div class="section-label">Live AIS — South China Sea & Taiwan Strait</div>
+            <div style="width:100%;height:200px;border:1px solid rgba(255,255,255,0.08);border-radius:2px;overflow:hidden;margin-bottom:14px">
+                <iframe src="https://www.vesselfinder.com/aismap?lat=18&lon=115&zoom=5&width=100%25&height=200&names=true&mmsi=&imo=&type=1,2,3,4,5" style="width:100%;height:200px;border:none" title="Live ship tracking"></iframe>
+            </div>
+            <div class="section-label">Known PLAN Bases</div>
+            ${PLA_NAVY_BASES.map(b => {
+                const col = b.type === 'OVERSEAS' ? '#FF4444' : b.type === 'ACCESS' ? '#FF8800' : '#2299FF';
+                return `<div class="navy-vessel">
+                    <span class="navy-type" style="border-color:${col}33;color:${col}">${b.type}</span>
+                    <div><div class="navy-name">${b.name}</div><div class="navy-loc">${b.desc}</div></div>
+                </div>`;
+            }).join('')}
+            <div class="section-label">Fleet Strength (2026)</div>
+            ${[
+                { label:'Aircraft Carriers', val:'3 (Liaoning, Shandong, Fujian)' },
+                { label:'Destroyers (Type 052C/D/055)', val:'43' },
+                { label:'Frigates (Type 054A)', val:'32' },
+                { label:'Ballistic Missile Submarines', val:'6 Type 094/094A' },
+                { label:'Attack Submarines', val:'50+ SSN/SSK' },
+                { label:'Amphibious assault ships', val:'8 Type 071/075' },
+            ].map(s => `<div class="adiz-stat"><span class="adiz-label">${s.label}</span><span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:#888">${s.val}</span></div>`).join('')}
+        `; }
+    },
+
+    cyber: {
+        title: 'Cyber Threat Intelligence',
+        subtitle: 'China-Linked APT Activity · Live Attack Simulation',
+        legend: `
+            <div class="legend-item"><div class="ld" style="background:#FF4444"></div>Government targets</div>
+            <div class="legend-item"><div class="ld" style="background:#FFAA00"></div>Financial sector</div>
+            <div class="legend-item"><div class="ld" style="background:#00FFCC"></div>Technology sector</div>
+            <div class="legend-item"><div class="ld" style="background:#FF0088"></div>Military/Defense</div>
+        `,
+        html() { return `
+            <p class="intro-text">Animated lines show simulated cyberattack patterns based on known Chinese APT group activity. Globe visualization is illustrative — based on CISA, NSA, and Mandiant public reporting.</p>
+            <div class="section-label">Active APT Groups (China-linked)</div>
+            ${[
+                { name:'APT41 (Winnti)',     sectors:'Healthcare, Gaming, Telecom',    note:'Dual espionage + financial crime · Most prolific Chinese APT' },
+                { name:'APT40 (Bronze Mohawk)', sectors:'Maritime, Defense, Gov',     note:'PLA Unit 61398 linked · US DOJ indictments 2021, 2024' },
+                { name:'Volt Typhoon',       sectors:'Critical Infrastructure',        note:'Pre-positioning in US power/water grids · "Sleeping" implants discovered 2023' },
+                { name:'Salt Typhoon',       sectors:'Telecoms, ISP, Gov',             note:'Compromised 9 US telecoms including AT&T, Verizon 2024 · Active 2026' },
+                { name:'APT10 (Stone Panda)',sectors:'MSPs, Cloud, Manufacturing',     note:'MSP supply chain attacks · Operation Cloud Hopper · Active globally' },
+                { name:'Aquatic Panda',      sectors:'Academic, Technology, Gov',      note:'Log4Shell exploitation · Credential harvesting · Active since 2020' },
+            ].map(a => `<div class="cyber-attack">
+                <div style="flex:1">
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#00FF66;margin-bottom:2px">${a.name}</div>
+                    <div style="font-size:9px;color:#555;margin-bottom:1px;font-family:'Share Tech Mono',monospace;letter-spacing:0.5px">${a.sectors}</div>
+                    <div style="font-size:9px;color:#777;line-height:1.5">${a.note}</div>
+                </div>
+            </div>`).join('')}
+            <div class="section-label">2025–2026 Notable Incidents</div>
+            ${[
+                { date:'Feb 2026', src:'Salt Typhoon', target:'EU Parliament networks', type:'ESPIONAGE' },
+                { date:'Jan 2026', src:'Volt Typhoon', target:'Texas power grid (ERCOT)', type:'CRITICAL' },
+                { date:'Dec 2025', src:'APT41',        target:'Taiwan semiconductor firms', type:'IP THEFT' },
+                { date:'Nov 2025', src:'APT40',        target:'UK Ministry of Defence', type:'ESPIONAGE' },
+                { date:'Sep 2025', src:'Aquatic Panda', target:'US university research', type:'IP THEFT' },
+            ].map(e => {
+                const tcol = { ESPIONAGE:'#FF4444', CRITICAL:'#FF8800', 'IP THEFT':'#00FFCC' }[e.type] || '#888';
+                return `<div class="incident-item">
+                    <div class="incident-date" style="display:flex;gap:8px;align-items:center">
+                        ${e.date}
+                        <span style="font-family:'Share Tech Mono',monospace;font-size:7px;padding:1px 5px;border:1px solid ${tcol}44;color:${tcol}">${e.type}</span>
+                    </div>
+                    <div style="font-size:9px;color:#CC0000;font-family:'Share Tech Mono',monospace;margin:2px 0">${e.src}</div>
+                    <div class="incident-text">Target: ${e.target}</div>
+                </div>`;
+            }).join('')}
+        `; }
+    },
+
+    influence: {
+        title: 'China Influence Index',
+        subtitle: 'BRI · Huawei 5G · Debt Diplomacy · Diplomatic Alignment',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#FF6600"></div>Score 5 — Deep integration</div>
+            <div class="legend-item"><div class="lp" style="background:#DD4400"></div>Score 4 — Strong influence</div>
+            <div class="legend-item"><div class="lp" style="background:#AA2200"></div>Score 3 — Growing presence</div>
+            <div class="legend-item"><div class="lp" style="background:#771100"></div>Score 2 — Notable presence</div>
+        `,
+        html() {
+            const byScore = s => INFLUENCE_COUNTRIES.filter(c => c.score === s);
+            const scoreLabel = { 5:'Deep Integration', 4:'Strong Influence', 3:'Growing Presence', 2:'Notable Presence' };
+            const scoreColor = { 5:'#FF6600', 4:'#DD4400', 3:'#AA2200', 2:'#771100' };
+            return `
+            <p class="intro-text">China's global influence measured across 4 dimensions: BRI investment/debt, Huawei 5G deployment, diplomatic alignment (UN votes, Taiwan recognition), and military cooperation.</p>
+            ${[5,4,3,2].map(s => `
+                <div class="section-label" style="color:${scoreColor[s]}">${scoreLabel[s]}</div>
+                ${byScore(s).map(c => `<div class="inf-country">
+                    <div class="inf-bar" style="width:${c.score*18}px;background:${scoreColor[s]}"></div>
+                    <div class="inf-name">${c.name}</div>
+                    <div style="font-size:9px;color:#444;line-height:1.4;max-width:160px">${c.note}</div>
+                </div>`).join('')}
+            `).join('')}
+            <p style="font-size:9px;color:#2a2a2a;margin-top:16px;font-family:'Share Tech Mono',monospace">Scores: composite index based on BRI membership, Huawei 5G footprint, Chinese FDI volume, UN vote alignment with PRC, and bilateral military agreements.</p>
+        `; }
+    },
+
+    tariff: {
+        title: 'US-China Trade War',
+        subtitle: 'Tariff Escalation · 2018–2026 · Affected Sectors',
+        legend: '',
+        html() { return `
+            <p class="intro-text">The US-China trade war began in 2018. By April 2025, US tariffs on Chinese goods reached 145% — the highest since the 1930s Smoot-Hawley era. China retaliated at 125% on US goods.</p>
+            <div class="section-label">Current Tariff Rates (Apr 2026)</div>
+            <div class="tariff-rate-box">
+                <div class="tariff-rate">
+                    <span class="tariff-rate-num">145%</span>
+                    <span class="tariff-rate-lbl">US ON CHINA GOODS</span>
+                </div>
+                <div class="tariff-rate">
+                    <span class="tariff-rate-num" style="color:#FF8800">125%</span>
+                    <span class="tariff-rate-lbl">CHINA ON US GOODS</span>
+                </div>
+            </div>
+            <div class="section-label">Most Affected Sectors</div>
+            ${[
+                { sector:'Semiconductors & Electronics', us:'25–50%', cn:'Banned exports of Ge/Ga materials' },
+                { sector:'Steel & Aluminum',             us:'25%+',   cn:'Retaliatory soy/auto tariffs' },
+                { sector:'Electric Vehicles',            us:'100%',   cn:'US auto exports targeted 25%' },
+                { sector:'Solar Panels',                 us:'50%',    cn:'Polysilicon supply chain disruption' },
+                { sector:'Agriculture (soybeans)',       us:'0%',     cn:'Previous 25% (removed via Phase 1)' },
+                { sector:'Pharmaceuticals',              us:'Up to 50%', cn:'Active exemptions disputed' },
+            ].map(s => `<div class="adiz-stat">
+                <span class="adiz-label">${s.sector}</span>
+                <div style="text-align:right">
+                    <div style="font-size:8px;color:#FF4444;font-family:'Share Tech Mono',monospace">US: ${s.us}</div>
+                    <div style="font-size:8px;color:#FF8800;font-family:'Share Tech Mono',monospace">CN: ${s.cn}</div>
+                </div>
+            </div>`).join('')}
+            <div class="section-label">Timeline</div>
+            ${[
+                { date:'Mar 2018', text:'Trump admin imposes 25% tariffs on steel, 10% on aluminum from China' },
+                { date:'Jul 2018', text:'US tariffs: $34B of Chinese goods at 25%. China retaliates in kind' },
+                { date:'Jan 2020', text:'"Phase One" deal signed — China agrees to $200B purchases · tariffs paused' },
+                { date:'Mar 2025', text:'Trump 2.0 raises tariffs to 34%, then escalates to 145% over 3 weeks' },
+                { date:'Apr 2025', text:'China retaliates: 125% on US goods · rare earth export controls enacted' },
+                { date:'May 2025', text:'90-day truce: tariffs reduced to 30%/10% pending negotiations' },
+                { date:'Aug 2025', text:'Truce expires without deal · tariffs reset to 145%/125%' },
+                { date:'2026',     text:'Both sides in talks; semiconductor and EV sectors remain fully decoupled' },
+            ].map(e => `<div class="tariff-event">
+                <span class="tariff-date">${e.date}</span>
+                <span class="tariff-text">${e.text}</span>
+            </div>`).join('')}
+        `; }
+    },
+
     space: {
         title: 'Chinese Space Program',
         subtitle: 'Tiangong Live · CNSA Missions · Launch Sites',
@@ -3819,13 +4586,19 @@ function openPanel(id) {
 
     // Only change layer visibility if ALL mode is not active
     if (!allLayersActive) {
-        briGroup.visible    = id === 'routes';
-        basesGroup.visible  = id === 'military';
-        planesGroup.visible = id === 'aircraft';
-        portsGroup.visible  = id === 'ports';
-        cablesGroup.visible = id === 'cables';
-        beidouGroup.visible = id === 'beidou';
-        spaceGroup.visible  = id === 'space';
+        briGroup.visible       = id === 'routes';
+        basesGroup.visible     = id === 'military';
+        planesGroup.visible    = id === 'aircraft';
+        portsGroup.visible     = id === 'ports';
+        cablesGroup.visible    = id === 'cables';
+        beidouGroup.visible    = id === 'beidou';
+        spaceGroup.visible     = id === 'space';
+        missilesGroup.visible  = id === 'missiles';
+        scsGroup.visible       = id === 'scs';
+        taiwanGroup.visible    = id === 'taiwan';
+        navyGroup.visible      = id === 'navy';
+        cyberGroup.visible     = id === 'cyber';
+        influenceGroup.visible = id === 'influence';
     }
 
     legendEl.innerHTML = p.legend;
@@ -3857,6 +4630,8 @@ function closePanel() {
     if (!allLayersActive) {
         briGroup.visible = basesGroup.visible = planesGroup.visible = false;
         portsGroup.visible = cablesGroup.visible = beidouGroup.visible = spaceGroup.visible = false;
+        missilesGroup.visible = scsGroup.visible = taiwanGroup.visible = navyGroup.visible = false;
+        cyberGroup.visible = influenceGroup.visible = false;
     }
     legendEl.style.display = 'none';
     activePanel = null;
@@ -3957,13 +4732,19 @@ function openAllLayers() {
     allLayersActive = true;
     syncAllBtn(true);
     // Show all globe layers — leave any open info panel untouched
-    briGroup.visible    = true;
-    basesGroup.visible  = true;
-    planesGroup.visible = true;
-    portsGroup.visible  = true;
-    cablesGroup.visible = true;
-    beidouGroup.visible = true;
-    spaceGroup.visible  = true;
+    briGroup.visible       = true;
+    basesGroup.visible     = true;
+    planesGroup.visible    = true;
+    portsGroup.visible     = true;
+    cablesGroup.visible    = true;
+    beidouGroup.visible    = true;
+    spaceGroup.visible     = true;
+    missilesGroup.visible  = true;
+    scsGroup.visible       = true;
+    taiwanGroup.visible    = true;
+    navyGroup.visible      = true;
+    cyberGroup.visible     = true;
+    influenceGroup.visible = true;
 }
 
 function closeAllLayers() {
@@ -3971,13 +4752,10 @@ function closeAllLayers() {
     syncAllBtn(false);
 
     // Hide all globe layers
-    briGroup.visible    = false;
-    basesGroup.visible  = false;
-    planesGroup.visible = false;
-    portsGroup.visible  = false;
-    cablesGroup.visible = false;
-    beidouGroup.visible = false;
-    spaceGroup.visible  = false;
+    briGroup.visible = basesGroup.visible = planesGroup.visible = false;
+    portsGroup.visible = cablesGroup.visible = beidouGroup.visible = spaceGroup.visible = false;
+    missilesGroup.visible = scsGroup.visible = taiwanGroup.visible = navyGroup.visible = false;
+    cyberGroup.visible = influenceGroup.visible = false;
 }
 
 allBtn.addEventListener('click', () => {
@@ -4594,6 +5372,9 @@ function animate() {
         p.sprite.material.opacity = Math.min(p.t * 8, (1 - p.t) * 8, 1) * 0.65;
     });
 
+    // ── Cyber attack animation tick ────────────────────
+    if (cyberGroup.visible) tickCyberAttacks();
+
     starsMat.opacity = 0.32 + Math.sin(time * 2) * 0.08;
     controls.update();
     renderer.render(scene, camera);
@@ -4617,7 +5398,20 @@ window.addEventListener('keydown', e => {
 });
 
 // ── Swipe gestures (mobile panel cycling) ─────────────────────────────
-const PANEL_ORDER = ['routes','military','aircraft','economy','stock','leaders','ports','cables','beidou','space'];
+const PANEL_ORDER = ['routes','military','aircraft','economy','stock','leaders','ports','cables','beidou','space','missiles','scs','taiwan','navy','cyber','influence','tariff'];
+
+// ── Screenshot button ──────────────────────────────────────────────────
+document.getElementById('screenshot-btn').addEventListener('click', () => {
+    // Force renderer to draw current frame with preserveDrawingBuffer
+    renderer.render(scene, camera);
+    const dataURL = renderer.domElement.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = dataURL;
+    a.download = `RedDragonTracker_${new Date().toISOString().slice(0,19).replace(/[T:]/g,'-')}.png`;
+    a.click();
+});
+// Enable preserveDrawingBuffer for screenshots (must re-init renderer)
+// Instead, re-render synchronously before capture (already done above)
 let swipeTouchX = 0, swipeTouchY = 0;
 document.addEventListener('touchstart', e => {
     swipeTouchX = e.touches[0].clientX;
