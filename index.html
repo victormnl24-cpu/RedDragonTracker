@@ -7746,11 +7746,13 @@ window.addEventListener('resize', () => {
 
 // ── Keys ───────────────────────────────────────────────────────────────
 window.addEventListener('keydown', e => {
-    if (e.code === 'Space') {
+    // Don't intercept shortcuts when user is typing in an input/textarea
+    const typing = e.target.closest('input, textarea, [contenteditable]');
+    if (e.code === 'Space' && !typing) {
         e.preventDefault();
         toggleRotation();
     }
-    if (e.code === 'KeyR') controls.reset();
+    if (e.code === 'KeyR' && !typing) controls.reset();
 });
 
 // ── Swipe gestures (mobile panel cycling) ─────────────────────────────
