@@ -258,6 +258,39 @@
         .tension-bar-fill { height:4px;border-radius:2px;transition:width 0.8s ease; }
         .tension-detail { font-size:9px;color:#444;line-height:1.5; }
 
+        /* ── Data source badges ─────────────────────────── */
+        .badge-live {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: rgba(0,204,68,0.12); border: 1px solid rgba(0,204,68,0.3);
+            color: #00cc44; font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; letter-spacing: 1.5px; padding: 1px 6px;
+            vertical-align: middle; margin-left: 6px;
+        }
+        .badge-live::before {
+            content: ''; width: 5px; height: 5px; border-radius: 50%;
+            background: #00cc44; animation: blink 1.5s step-end infinite;
+        }
+        .badge-osint {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: rgba(255,180,0,0.1); border: 1px solid rgba(255,180,0,0.25);
+            color: #FFB400; font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; letter-spacing: 1.5px; padding: 1px 6px;
+            vertical-align: middle; margin-left: 6px;
+        }
+        .badge-static {
+            display: inline-flex; align-items: center;
+            background: rgba(100,100,100,0.1); border: 1px solid rgba(100,100,100,0.2);
+            color: #555; font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; letter-spacing: 1.5px; padding: 1px 6px;
+            vertical-align: middle; margin-left: 6px;
+        }
+        /* ── Earthquake panel ───────────────────────────── */
+        .quake-item { display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04); }
+        .quake-mag { font-family:'Orbitron',monospace;font-weight:700;font-size:13px;min-width:36px;text-align:center;flex-shrink:0; }
+        .quake-place { font-size:10px;color:#ccc;margin-bottom:2px; }
+        .quake-time { font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:1px; }
+        .quake-depth { font-family:'Share Tech Mono',monospace;font-size:8px;color:#555; }
+
         /* ── Header nav (top-level features) ───────────── */
         #header-nav {
             display: flex; align-items: center; gap: 8px;
@@ -1557,6 +1590,10 @@
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5 L12 4.5 L12 9 Q12 12.5 7 13.5 Q2 12.5 2 9 L2 4.5 Z" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="4.5" y1="7" x2="9.5" y2="7" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="4.5" x2="7" y2="9.5" stroke="currentColor" stroke-width="1.2"/></svg></span>
         <span class="dock-label">CI</span>
     </button>
+    <button class="dock-btn" data-panel="quakes" data-tip="Live USGS Earthquakes">
+        <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 8 L3 6 L5 9 L7 4 L9 10 L11 6 L13 8" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linejoin="round"/><line x1="1" y1="11.5" x2="13" y2="11.5" stroke="currentColor" stroke-width="0.8" opacity="0.3"/></svg></span>
+        <span class="dock-label">SEISM</span>
+    </button>
     <button class="dock-btn" data-panel="tension" data-tip="Geopolitical Tension Meter">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11 A5.5 5.5 0 0 1 12 11" stroke="currentColor" stroke-width="1.2" fill="none"/><line x1="7" y1="5.5" x2="10.5" y2="9" stroke="#CC0000" stroke-width="1.4"/><circle cx="7" cy="11" r="1" fill="currentColor"/><line x1="4" y1="10" x2="2.5" y2="8" stroke="currentColor" stroke-width="0.9" opacity="0.5"/><line x1="7" y1="5.5" x2="7" y2="3.5" stroke="currentColor" stroke-width="0.9" opacity="0.5"/><line x1="10" y1="10" x2="11.5" y2="8" stroke="currentColor" stroke-width="0.9" opacity="0.5"/></svg></span>
         <span class="dock-label">TENS</span>
@@ -1648,18 +1685,6 @@
 
 <!-- Globe controls (bottom-center) -->
 <div id="globe-controls">
-    <div class="ctrl-seg">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 2 C3.5 2 2 3 2 4.5 L2 9 C2 10 2.5 10.5 3.5 10.5 L3.5 12 L5 12 L5 10.5 L9 10.5 L9 12 L10.5 12 L10.5 10.5 C11.5 10.5 12 10 12 9 L12 4.5 C12 3 10.5 2 9 2 Z" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="4.5" cy="6.5" r="0.8" fill="currentColor"/><circle cx="9.5" cy="6.5" r="0.8" fill="currentColor"/></svg>
-        DRAG
-    </div>
-    <div class="ctrl-seg">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M10.5 3.5 A5 5 0 1 0 12 7" stroke="currentColor" stroke-width="1.2" fill="none"/><polyline points="10,1 12,3.5 9.5,5.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/></svg>
-        ROTATE
-    </div>
-    <div class="ctrl-seg">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.2"/><line x1="9" y1="9" x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.3"/><line x1="4" y1="6" x2="8" y2="6" stroke="currentColor" stroke-width="1.1"/><line x1="6" y1="4" x2="6" y2="8" stroke="currentColor" stroke-width="1.1"/></svg>
-        ZOOM
-    </div>
     <button id="pause-btn" title="Pause / Resume rotation">
         <svg id="pause-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="2.5" width="2.5" height="9" stroke="currentColor" stroke-width="1.1"/><rect x="8.5" y="2.5" width="2.5" height="9" stroke="currentColor" stroke-width="1.1"/></svg>
         <span id="pause-label">PAUSE</span>
@@ -4187,6 +4212,109 @@ function scoreTensionFromNews(articles) {
     });
 }
 
+// ── USGS Live Earthquake Layer ─────────────────────────────────────────
+const quakeGroup = new THREE.Group();
+quakeGroup.visible = false;
+globeGroup.add(quakeGroup);
+
+const quakeMarkers = [];
+let quakeData = []; // raw GeoJSON features, cached
+
+function quakeMagColor(mag) {
+    if (mag < 4.5) return 0x44FF88;
+    if (mag < 5.5) return 0xFFDD00;
+    if (mag < 6.5) return 0xFF8800;
+    if (mag < 7.5) return 0xFF4400;
+    return 0xFF0000;
+}
+
+function makeQuakeSprite(mag) {
+    const col = quakeMagColor(mag);
+    const r=(col>>16)&255,g=(col>>8)&255,b=col&255;
+    const S = 40;
+    const cv = document.createElement('canvas'); cv.width = cv.height = S;
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0,0,S,S);
+    // Outer glow
+    const grd = ctx.createRadialGradient(20,20,2,20,20,18);
+    grd.addColorStop(0,`rgba(${r},${g},${b},0.85)`);
+    grd.addColorStop(0.4,`rgba(${r},${g},${b},0.25)`);
+    grd.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(20,20,18,0,Math.PI*2); ctx.fill();
+    // Seismic rings
+    ctx.strokeStyle=`rgba(${r},${g},${b},0.5)`; ctx.lineWidth=0.8;
+    ctx.beginPath(); ctx.arc(20,20,9,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath(); ctx.arc(20,20,14,0,Math.PI*2); ctx.stroke();
+    // Center
+    ctx.fillStyle=`rgb(${r},${g},${b})`; ctx.beginPath(); ctx.arc(20,20,3,0,Math.PI*2); ctx.fill();
+    return new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(cv), depthTest: false, transparent: true });
+}
+
+async function fetchUSGSEarthquakes() {
+    try {
+        // M4.5+ past 7 days — free, CORS-enabled USGS endpoint
+        const res = await fetch('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson',
+            { signal: AbortSignal.timeout(12000) });
+        const json = await res.json();
+        if (!json.features) return;
+
+        // Clear old markers
+        quakeMarkers.forEach(m => quakeGroup.remove(m));
+        quakeMarkers.length = 0;
+        quakeData = json.features;
+
+        json.features.forEach(f => {
+            const [lon, lat, depth] = f.geometry.coordinates;
+            const mag = f.properties.mag;
+            if (!mag || mag < 1) return;
+            const sp = new THREE.Sprite(makeQuakeSprite(mag));
+            const scale = 0.04 + Math.min((mag - 1) / 8, 1) * 0.08;
+            sp.scale.setScalar(scale);
+            sp.position.copy(ll2v(lat, lon, 1.01 + Math.min(depth, 600) / 60000));
+            sp.userData = {
+                type: 'quake',
+                mag: mag.toFixed(1),
+                place: f.properties.place || 'Unknown',
+                time: new Date(f.properties.time),
+                depth: Math.round(depth),
+                url: f.properties.url
+            };
+            quakeGroup.add(sp);
+            quakeMarkers.push(sp);
+        });
+
+        // If panel is open, refresh its content
+        if (activePanel === 'quakes') refreshQuakePanel();
+    } catch(e) { console.warn('USGS fetch failed:', e); }
+}
+
+function refreshQuakePanel() {
+    const el = document.getElementById('quake-list');
+    if (!el) return;
+    const sorted = [...quakeData].sort((a,b) => b.properties.mag - a.properties.mag).slice(0,40);
+    el.innerHTML = sorted.map(f => {
+        const [,,depth] = f.geometry.coordinates;
+        const mag = f.properties.mag || 0;
+        const col = '#' + quakeMagColor(mag).toString(16).padStart(6,'0');
+        const ago = newsTimeAgo(new Date(f.properties.time));
+        return `<div class="quake-item">
+            <div class="quake-mag" style="color:${col}">M${mag.toFixed(1)}</div>
+            <div style="flex:1">
+                <div class="quake-place">${f.properties.place || 'Unknown location'}</div>
+                <div style="display:flex;gap:10px">
+                    <span class="quake-time">◷ ${ago}</span>
+                    <span class="quake-depth">↓ ${Math.round(depth)} km depth</span>
+                </div>
+            </div>
+            ${f.properties.url ? `<div style="cursor:pointer;color:#444;font-size:10px;flex-shrink:0" onclick="window.open('${f.properties.url}','_blank')">↗</div>` : ''}
+        </div>`;
+    }).join('') || '<div style="color:#444;font-family:\'Share Tech Mono\',monospace;font-size:9px;padding:12px 0">No earthquakes M4.5+ this week.</div>';
+}
+
+// Fetch on load and every 15 minutes
+fetchUSGSEarthquakes();
+setInterval(fetchUSGSEarthquakes, 900000);
+
 // ── Aircraft Tracking ──────────────────────────────────────────────────
 // Chinese airline ICAO callsign prefixes (3-letter designators)
 const CHINESE_AIRLINE_PFXS = new Set([
@@ -4512,6 +4640,22 @@ renderer.domElement.addEventListener('mousemove', e => {
             tooltip.style.top  = (e.clientY - 8)  + 'px';
             tooltip.classList.add('show');
             return;
+        }
+    }
+
+    // ── Earthquakes ───────────────────────────────────
+    if (quakeGroup.visible && quakeMarkers.length) {
+        const qhits = raycaster.intersectObjects(quakeMarkers, false);
+        if (qhits.length) {
+            const d = qhits[0].object.userData;
+            const col = '#' + quakeMagColor(parseFloat(d.mag)).toString(16).padStart(6,'0');
+            const ago = newsTimeAgo(d.time);
+            tooltip.innerHTML = `<strong style="color:${col}">M${d.mag} Earthquake</strong><br>
+                <span style="color:#666;font-size:9px;letter-spacing:1px">USGS · ${ago}</span><br>
+                <span style="font-size:10px;color:#aaa;line-height:1.4;display:block;margin-top:4px">${d.place}</span>
+                <span style="font-size:9px;color:#555">Depth: ${d.depth} km</span>`;
+            tooltip.style.left=(e.clientX+14)+'px'; tooltip.style.top=(e.clientY-8)+'px';
+            tooltip.classList.add('show'); return;
         }
     }
 
@@ -5752,6 +5896,42 @@ const PANELS = {
         }
     },
 
+    quakes: {
+        title: 'Live Seismic Activity',
+        subtitle: 'USGS · M4.5+ · Past 7 Days · Real-Time',
+        legend: `
+            <div class="legend-item"><div class="lp" style="background:#44FF88"></div>M4.5–5.4</div>
+            <div class="legend-item"><div class="lp" style="background:#FFDD00"></div>M5.5–6.4</div>
+            <div class="legend-item"><div class="lp" style="background:#FF8800"></div>M6.5–7.4</div>
+            <div class="legend-item"><div class="lp" style="background:#FF0000"></div>M7.5+</div>
+        `,
+        html() {
+            const count = quakeData.length;
+            const big = quakeData.filter(f => f.properties.mag >= 6.5).length;
+            const near = quakeData.filter(f => {
+                const [lon,lat] = f.geometry.coordinates;
+                return lat > 10 && lat < 50 && lon > 90 && lon < 145;
+            }).length;
+            return `
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                <span class="badge-live">LIVE</span>
+                <span style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:1px">USGS · Updated every 15 min</span>
+                <button onclick="fetchUSGSEarthquakes()" style="background:none;border:1px solid #333;color:#555;font-family:'Share Tech Mono',monospace;font-size:8px;padding:2px 8px;cursor:pointer;letter-spacing:1px;margin-left:auto">↺ REFRESH</button>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:14px">
+                ${[{l:'Total M4.5+',v:count,c:'#FFD700'},{l:'Major M6.5+',v:big,c:'#FF4400'},{l:'Near Asia-Pacific',v:near,c:'#FF8800'}].map(s=>`
+                <div style="flex:1;background:rgba(255,150,0,0.06);border:1px solid rgba(255,150,0,0.15);padding:8px;text-align:center">
+                    <div style="font-family:'Orbitron',monospace;font-size:16px;color:${s.c}">${s.v}</div>
+                    <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#444;letter-spacing:1px;margin-top:2px">${s.l}</div>
+                </div>`).join('')}
+            </div>
+            <div class="section-label">Recent Earthquakes (sorted by magnitude)</div>
+            <div id="quake-list">
+                <div style="color:#333;font-family:'Share Tech Mono',monospace;font-size:9px;padding:12px 0;letter-spacing:1px">Loading USGS data…</div>
+            </div>`;
+        }
+    },
+
     police: {
         title: 'CCP Overseas Police Stations',
         subtitle: 'Safeguard Defenders · 53 Countries · 102+ Confirmed Stations',
@@ -5812,6 +5992,7 @@ const PANELS = {
         html() {
             const statusCol={CRITICAL:'#FF2222',DEFAULT:'#FF2222',DISTRESS:'#FF8800',RESTRUCTURED:'#FFD700',ACTIVE:'#FF6600',RENEGOTIATED:'#FFDD44'};
             return `
+            <div id="debt-wb-live" style="margin-bottom:10px"><span class="badge-osint">OSINT</span> <span style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#333;letter-spacing:1px">World Bank live figures loading…</span></div>
             <p class="intro-text">China's Belt & Road Initiative loans often come with opaque terms, secret "cross-default" clauses, and collateral arrangements involving sovereign assets. When countries can't repay, China gains strategic leverage.</p>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
                 ${[{l:'Countries in Distress',v:'10+',c:'#FF4444'},{l:'Total Debt at Risk',v:'$200B+',c:'#FFD700'},{l:'Asset Seizures',v:'3+',c:'#FF8800'}].map(s=>`
@@ -5822,6 +6003,7 @@ const PANELS = {
             </div>
             ${DEBT_TRAPS.map(d=>{
                 const col=statusCol[d.status]||'#888';
+                const wbId='wb-'+d.name.replace(/[^a-z]/gi,'_').toLowerCase();
                 return `<div class="debt-item">
                     <div class="debt-flag">${d.flag}</div>
                     <div style="flex:1">
@@ -5830,12 +6012,13 @@ const PANELS = {
                             <span style="font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:1.5px;padding:1px 6px;background:rgba(${col==='#FF2222'?'255,34,34':'255,150,0'},0.12);color:${col};border:1px solid ${col}44">${d.status}</span>
                         </div>
                         <div class="debt-amount">${d.debt}</div>
-                        <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#FF4444;margin:3px 0;letter-spacing:0.5px">⚠ ${d.collateral}</div>
+                        <div id="${wbId}" style="margin:2px 0;min-height:16px"></div>
+                        <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#FF4444;margin:2px 0;letter-spacing:0.5px">⚠ ${d.collateral}</div>
                         <div class="debt-detail">${d.desc}</div>
                     </div>
                 </div>`;
             }).join('')}
-            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Sources: AidData, Rhodium Group, IMF, Reuters · Data current to 2025</p>`;
+            <p style="font-size:9px;color:#2a2a2a;margin-top:14px;font-family:'Share Tech Mono',monospace">Sources: AidData, Rhodium Group, IMF, World Bank API · Reuters</p>`;
         }
     },
 
@@ -6270,6 +6453,7 @@ function openPanel(id) {
         aptGroup.visible       = id === 'apt';
         confuciusGroup.visible = id === 'confucius';
         tensionGroup.visible   = id === 'tension';
+        quakeGroup.visible     = id === 'quakes';
     }
 
     legendEl.innerHTML = p.legend;
@@ -6319,6 +6503,15 @@ function openPanel(id) {
     if (id === 'briefing') {
         requestAnimationFrame(generateBriefing);
     }
+    if (id === 'quakes') {
+        requestAnimationFrame(() => {
+            refreshQuakePanel();
+            if (quakeData.length === 0) fetchUSGSEarthquakes();
+        });
+    }
+    if (id === 'debt') {
+        requestAnimationFrame(fetchWorldBankDebt);
+    }
     if (id === 'tension') {
         requestAnimationFrame(async () => {
             const articles = newsCache.length ? newsCache : await fetchChineseNews();
@@ -6357,6 +6550,7 @@ function closePanel() {
         aqiGroup.visible = reGroup.visible = srvGroup.visible = false;
         policeGroup.visible = debtGroup.visible = silosGroup.visible = fleetGroup.visible = false;
         invasionGroup.visible = aptGroup.visible = confuciusGroup.visible = tensionGroup.visible = false;
+        quakeGroup.visible = false;
     }
     legendEl.style.display = 'none';
     activePanel = null;
@@ -6481,6 +6675,7 @@ function openAllLayers() {
     aptGroup.visible       = true;
     confuciusGroup.visible = true;
     tensionGroup.visible   = true;
+    quakeGroup.visible     = true;
 }
 
 function closeAllLayers() {
@@ -6495,6 +6690,7 @@ function closeAllLayers() {
     aqiGroup.visible = reGroup.visible = srvGroup.visible = false;
     policeGroup.visible = debtGroup.visible = silosGroup.visible = fleetGroup.visible = false;
     invasionGroup.visible = aptGroup.visible = confuciusGroup.visible = tensionGroup.visible = false;
+    quakeGroup.visible = false;
 }
 
 allBtn.addEventListener('click', () => {
@@ -7155,7 +7351,7 @@ window.addEventListener('keydown', e => {
 });
 
 // ── Swipe gestures (mobile panel cycling) ─────────────────────────────
-const PANEL_ORDER = ['routes','military','aircraft','economy','stock','leaders','ports','cables','beidou','space','missiles','scs','taiwan','navy','cyber','influence','tariff','aqi','rareearth','surveillance','briefing','comparison','police','debt','silos','fleet','invasion','apt','confucius','tension'];
+const PANEL_ORDER = ['routes','military','aircraft','economy','stock','leaders','ports','cables','beidou','space','missiles','scs','taiwan','navy','cyber','influence','tariff','aqi','rareearth','surveillance','briefing','comparison','police','debt','silos','fleet','invasion','apt','confucius','tension','quakes'];
 
 // ── Screenshot button ──────────────────────────────────────────────────
 document.getElementById('screenshot-btn').addEventListener('click', () => {
@@ -7193,11 +7389,18 @@ document.addEventListener('touchend', e => {
 
 // ── Live China News Feed ────────────────────────────────────────────────
 const NEWS_FEEDS = [
-    { name: 'BBC',      url: 'https://feeds.bbci.co.uk/news/world/asia/china/rss.xml',    color: '#CC1111', chinaOnly: true  },
-    { name: 'GUARDIAN', url: 'https://www.theguardian.com/world/china/rss',               color: '#005689', chinaOnly: true  },
-    { name: 'GT',       url: 'https://www.globaltimes.cn/rss/outbrain.xml',               color: '#D4A017', chinaOnly: true  },
-    { name: 'NPR',      url: 'https://feeds.npr.org/1004/rss.xml',                        color: '#4A90D9', chinaOnly: false },
-    { name: 'AL JAZ',   url: 'https://www.aljazeera.com/xml/rss/all.xml',                 color: '#E0A800', chinaOnly: false },
+    // China-specific feeds (chinaOnly: true = all articles used)
+    { name: 'BBC',      url: 'https://feeds.bbci.co.uk/news/world/asia/china/rss.xml',         color: '#CC1111', chinaOnly: true  },
+    { name: 'GUARDIAN', url: 'https://www.theguardian.com/world/china/rss',                    color: '#005689', chinaOnly: true  },
+    { name: 'GT',       url: 'https://www.globaltimes.cn/rss/outbrain.xml',                    color: '#D4A017', chinaOnly: true  },
+    { name: 'SCMP',     url: 'https://www.scmp.com/rss/91/feed',                               color: '#8B4513', chinaOnly: true  },
+    // Broad feeds (chinaOnly: false = keyword filtered)
+    { name: 'NPR',      url: 'https://feeds.npr.org/1004/rss.xml',                             color: '#4A90D9', chinaOnly: false },
+    { name: 'AL JAZ',   url: 'https://www.aljazeera.com/xml/rss/all.xml',                      color: '#E0A800', chinaOnly: false },
+    { name: 'AP',       url: 'https://feeds.apnews.com/apnews/worldnews',                      color: '#FF6B35', chinaOnly: false },
+    { name: 'REUTERS',  url: 'https://feeds.reuters.com/reuters/worldNews',                    color: '#FF8C00', chinaOnly: false },
+    { name: 'NIKKEI',   url: 'https://asia.nikkei.com/rss/feed/nar',                          color: '#C0392B', chinaOnly: false },
+    { name: 'FT',       url: 'https://www.ft.com/world/asia-pacific?format=rss',              color: '#FFC300', chinaOnly: false },
 ];
 
 let newsCache  = [];
@@ -7760,6 +7963,101 @@ document.getElementById('share-btn').addEventListener('click', () => {
 })();
 
 // ── Intelligence Briefing Generator ─────────────────────────────────────
+// ── World Bank Live Debt Data ───────────────────────────────────────────
+// ISO3 codes for BRI debt trap countries
+const DEBT_ISO3 = {
+    'Sri Lanka':'LKA','Pakistan':'PAK','Zambia':'ZMB','Djibouti':'DJI',
+    'Laos':'LAO','Montenegro':'MNE','Ecuador':'ECU','Kenya':'KEN',
+    'Ethiopia':'ETH','Myanmar':'MMR','Malaysia':'MYS','Angola':'AGO'
+};
+
+async function fetchWorldBankDebt() {
+    const panel = document.getElementById('panel-content');
+    if (!panel || activePanel !== 'debt') return;
+
+    // Add live badge and loading indicator to panel
+    const liveEl = document.getElementById('debt-wb-live');
+    if (liveEl) liveEl.innerHTML = '<span class="badge-live">FETCHING WORLD BANK DATA…</span>';
+
+    const results = {};
+    await Promise.allSettled(Object.entries(DEBT_ISO3).map(async ([country, iso]) => {
+        try {
+            // DT.DOD.DECT.GN.ZS = External debt stocks, % of GNI
+            const url = `https://api.worldbank.org/v2/country/${iso}/indicator/DT.DOD.DECT.GN.ZS?format=json&mrv=1&per_page=1`;
+            const r = await fetch(url, { signal: AbortSignal.timeout(8000) });
+            const d = await r.json();
+            if (d[1] && d[1][0] && d[1][0].value !== null) {
+                results[country] = { value: d[1][0].value.toFixed(1), year: d[1][0].date };
+            }
+        } catch(_) {}
+    }));
+
+    if (!panel || activePanel !== 'debt') return;
+
+    // Update each debt item with live World Bank figure
+    Object.entries(results).forEach(([country, data]) => {
+        const id = 'wb-' + country.replace(/[^a-z]/gi,'_').toLowerCase();
+        const el = document.getElementById(id);
+        if (el) {
+            el.innerHTML = `<span style="color:#44FFCC;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px">
+                WB ${data.year}: <strong style="color:#FFD700;font-size:10px">${data.value}%</strong> of GNI
+            </span>`;
+        }
+    });
+
+    if (liveEl) liveEl.innerHTML = `<span class="badge-live">LIVE</span>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#444;letter-spacing:1px">
+        World Bank External Debt · ${Object.keys(results).length}/${Object.keys(DEBT_ISO3).length} countries loaded
+        </span>`;
+}
+
+// ── LIVE / OSINT badge injection ────────────────────────────────────────
+// Called after openPanel renders content — adds data-source badge to subtitle
+const PANEL_DATA_SOURCE = {
+    // Fully live feeds
+    aircraft: 'live', stock: 'live', economy: 'live', news: 'live',
+    aqi: 'live', space: 'live', quakes: 'live', tension: 'live', briefing: 'live',
+    // Partially live (live scoring + static base data)
+    debt: 'partial',
+    // OSINT research-grade
+    military: 'osint', routes: 'osint', ports: 'osint', cables: 'osint',
+    beidou: 'osint', missiles: 'osint', scs: 'osint', taiwan: 'osint',
+    navy: 'osint', cyber: 'osint', influence: 'osint', tariff: 'osint',
+    rareearth: 'osint', surveillance: 'osint', police: 'osint',
+    silos: 'osint', fleet: 'osint', invasion: 'osint', apt: 'osint',
+    confucius: 'osint',
+    // Static reference
+    leaders: 'static', comparison: 'static',
+};
+
+const BADGE_HTML = {
+    live:    '<span class="badge-live">LIVE</span>',
+    partial: '<span class="badge-osint">LIVE + OSINT</span>',
+    osint:   '<span class="badge-osint">OSINT</span>',
+    static:  '<span class="badge-static">REFERENCE</span>',
+};
+
+// Patch openPanel to inject badge into subtitle
+const _origOpenPanel = openPanel;
+function openPanel(id) {
+    _origOpenPanel(id);
+    const src = PANEL_DATA_SOURCE[id];
+    if (src) {
+        const sub = document.getElementById('panel-subtitle');
+        if (sub && !sub.querySelector('.badge-live,.badge-osint,.badge-static')) {
+            sub.insertAdjacentHTML('beforeend', BADGE_HTML[src]);
+        }
+    }
+}
+
+// Re-register panel button listeners with patched openPanel
+document.querySelectorAll('.dock-btn:not(#dock-all-btn), .nav-btn, .hdr-nav-btn').forEach(btn => {
+    const clone = btn.cloneNode(true);
+    btn.parentNode.replaceChild(clone, btn);
+    clone.addEventListener('click', () => activePanel === clone.dataset.panel ? closePanel() : openPanel(clone.dataset.panel));
+});
+document.getElementById('panel-close').addEventListener('click', closePanel);
+
 async function generateBriefing() {
     const content = document.getElementById('briefing-content');
     if (!content || activePanel !== 'briefing') return;
