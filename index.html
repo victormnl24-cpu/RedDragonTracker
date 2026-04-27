@@ -81,7 +81,7 @@
             color: #CC0000; text-transform: uppercase; line-height: 1;
             text-shadow: 0 0 20px rgba(204,0,0,0.6), 0 0 40px rgba(204,0,0,0.3);
         }
-        #logo-name span { color: #FFD700; }
+        #logo-name span { color: #CC0000; }
         #logo-sub {
             font-family: 'Share Tech Mono', monospace;
             font-size: 8px; color: #333; letter-spacing: 3px; margin-top: 3px;
@@ -246,20 +246,32 @@
 
         #panel {
             position: fixed; top: 88px; right: 88px; width: 360px; height: calc(100vh - 88px);
-            background: rgba(4,4,8,0.96);
+            background: rgba(4,4,8,0.97);
             border-left: 1px solid rgba(180,0,0,0.3);
             border-right: 1px solid rgba(180,0,0,0.08);
-            transform: translateX(110%); transition: transform 0.32s cubic-bezier(.4,0,.2,1);
+            /* slide fully past dock + own width so nothing peeks through */
+            transform: translateX(calc(100% + 90px));
+            opacity: 0;
+            visibility: hidden;
+            transition: transform 0.35s cubic-bezier(.4,0,.2,1),
+                        opacity   0.30s cubic-bezier(.4,0,.2,1),
+                        visibility 0s linear 0.35s;
             z-index: 89; display: flex; flex-direction: column; overflow: hidden;
             backdrop-filter: blur(12px);
         }
-        /* corner accents */
         #panel::before {
             content: ''; position: absolute; top: 0; left: 0;
             width: 100%; height: 1px;
             background: linear-gradient(90deg, #CC0000, transparent 60%);
         }
-        #panel.open { transform: translateX(0); }
+        #panel.open {
+            transform: translateX(0);
+            opacity: 1;
+            visibility: visible;
+            transition: transform 0.35s cubic-bezier(.2,0,.1,1),
+                        opacity   0.30s cubic-bezier(.2,0,.1,1),
+                        visibility 0s linear 0s;
+        }
         #panel.wide { width: 480px; }
 
         #panel-header {
@@ -485,12 +497,22 @@
         /* ── Chat panel (left side) ────────────────────── */
         #chat-panel {
             position: fixed; top: 88px; left: 0; width: 290px; height: calc(100vh - 88px);
-            background: rgba(4,4,4,0.95); border-right: 1px solid rgba(255,255,255,0.08);
-            transform: translateX(-100%); transition: transform 0.38s cubic-bezier(.4,0,.2,1);
+            background: rgba(4,4,8,0.97); border-right: 1px solid rgba(180,0,0,0.2);
+            transform: translateX(-110%);
+            opacity: 0; visibility: hidden;
+            transition: transform 0.35s cubic-bezier(.4,0,.2,1),
+                        opacity   0.30s cubic-bezier(.4,0,.2,1),
+                        visibility 0s linear 0.35s;
             z-index: 90; display: flex; flex-direction: column; overflow: hidden;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
         }
-        #chat-panel.open { transform: translateX(0); }
+        #chat-panel.open {
+            transform: translateX(0);
+            opacity: 1; visibility: visible;
+            transition: transform 0.35s cubic-bezier(.2,0,.1,1),
+                        opacity   0.30s cubic-bezier(.2,0,.1,1),
+                        visibility 0s linear 0s;
+        }
 
         #chat-header {
             padding: 14px 16px 12px;
