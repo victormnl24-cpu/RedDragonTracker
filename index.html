@@ -8537,13 +8537,6 @@ window.submitNewsletter = async function() {
         return;
     }
 
-    // Rate limiting — max 3 attempts per hour
-    if (!nlCheckRateLimit()) {
-        errorEl.textContent = '⚠ Rate limit hit. Open browser console and run: localStorage.removeItem(\'rdt_nl_attempts\')';
-        errorEl.style.display = 'block';
-        return;
-    }
-
     // Email validation — length cap + format check
     if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         errorEl.textContent = '⚠ Please enter a valid email address.';
