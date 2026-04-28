@@ -2723,38 +2723,50 @@
         #auth-brand-name span { color: #fff; }
         #auth-brand-sub {
             font-family: 'Share Tech Mono', monospace; font-size: 9px;
-            letter-spacing: 2px; color: #444; margin-bottom: 40px;
-            text-transform: uppercase;
+            letter-spacing: 2px; color: rgba(255,255,255,0.55); margin-bottom: 40px;
+            text-transform: uppercase; text-shadow: 0 1px 4px rgba(0,0,0,0.8);
         }
         .auth-feature-row {
             display: flex; align-items: flex-start; gap: 12px;
             margin-bottom: 14px;
         }
         .auth-feature-icon {
-            font-size: 14px; flex-shrink: 0; margin-top: 1px;
+            font-size: 10px; flex-shrink: 0; margin-top: 2px;
+            color: #CC0000; font-family: 'Share Tech Mono', monospace;
+            font-weight: 700; letter-spacing: 0; line-height: 1;
         }
         .auth-feature-title {
             font-family: 'Share Tech Mono', monospace; font-size: 9px;
-            color: #ccc; letter-spacing: 1px; margin-bottom: 2px;
+            color: #fff; letter-spacing: 1px; margin-bottom: 2px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.9);
         }
         .auth-feature-desc {
-            font-size: 9px; color: #444; line-height: 1.5;
+            font-size: 9px; color: rgba(255,255,255,0.65); line-height: 1.55;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
         }
         #auth-security-note {
             margin-top: 40px; padding-top: 16px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255,255,255,0.08);
             font-family: 'Share Tech Mono', monospace; font-size: 7px;
-            color: #2a2a2a; letter-spacing: 1px; line-height: 1.8;
+            color: rgba(255,255,255,0.3); letter-spacing: 1px; line-height: 1.8;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
         #auth-right {
-            flex: 1; background: #060000;
+            flex: 1; position: relative;
+            background: url('auth-bg.jpg') center center / cover no-repeat;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
             padding: 48px 40px; overflow-y: auto;
         }
+        #auth-right::before {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(4,0,0,0.82) 0%, rgba(8,0,0,0.72) 60%, rgba(20,0,0,0.65) 100%);
+            pointer-events: none; z-index: 0;
+        }
+        #auth-form-wrap { position: relative; z-index: 1; }
         #auth-close {
             position: absolute; top: 16px; right: 20px;
-            background: none; border: none; color: #333;
+            background: none; border: none; color: rgba(255,255,255,0.4);
             font-size: 16px; cursor: pointer; z-index: 2;
             transition: color 0.15s;
         }
@@ -2764,16 +2776,16 @@
         }
         .auth-tab-bar {
             display: flex; gap: 0; margin-bottom: 32px;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
+            border-bottom: 1px solid rgba(255,255,255,0.15);
         }
         .auth-tab {
             font-family: 'Share Tech Mono', monospace; font-size: 9px;
             letter-spacing: 2px; text-transform: uppercase;
             padding: 10px 20px; background: none; border: none;
-            color: #333; cursor: pointer; transition: color 0.18s;
+            color: rgba(255,255,255,0.35); cursor: pointer; transition: color 0.18s;
             border-bottom: 2px solid transparent; margin-bottom: -1px;
         }
-        .auth-tab:hover { color: #888; }
+        .auth-tab:hover { color: rgba(255,255,255,0.7); }
         .auth-tab.active { color: #CC0000; border-bottom-color: #CC0000; }
         .auth-form-title {
             font-family: 'Orbitron', monospace; font-size: 16px;
@@ -2782,24 +2794,26 @@
         .auth-form-title span { color: #CC0000; }
         .auth-form-sub {
             font-family: 'Share Tech Mono', monospace; font-size: 8px;
-            color: #444; letter-spacing: 1px; margin-bottom: 28px;
+            color: rgba(255,255,255,0.45); letter-spacing: 1px; margin-bottom: 28px;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.9);
         }
         .auth-field { margin-bottom: 14px; }
         .auth-field label {
             display: block; font-family: 'Share Tech Mono', monospace;
-            font-size: 7px; letter-spacing: 2px; color: #555;
+            font-size: 7px; letter-spacing: 2px; color: rgba(255,255,255,0.6);
             text-transform: uppercase; margin-bottom: 5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
         .auth-field input {
             width: 100%; box-sizing: border-box;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: #ddd; font-family: 'Share Tech Mono', monospace;
+            background: rgba(0,0,0,0.45);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #fff; font-family: 'Share Tech Mono', monospace;
             font-size: 11px; padding: 10px 12px; outline: none;
-            transition: border-color 0.18s;
+            transition: border-color 0.18s; backdrop-filter: blur(4px);
         }
-        .auth-field input:focus { border-color: rgba(204,0,0,0.5); }
-        .auth-field input::placeholder { color: #2a2a2a; }
+        .auth-field input:focus { border-color: rgba(204,0,0,0.6); background: rgba(0,0,0,0.55); }
+        .auth-field input::placeholder { color: rgba(255,255,255,0.2); }
         .auth-submit {
             width: 100%; padding: 12px;
             background: rgba(204,0,0,0.15);
@@ -2817,12 +2831,12 @@
         }
         .auth-divider {
             margin: 20px 0; border: none;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            border-top: 1px solid rgba(255,255,255,0.12);
         }
         .auth-switch {
             font-family: 'Share Tech Mono', monospace; font-size: 8px;
-            color: #333; text-align: center; cursor: pointer;
-            transition: color 0.15s;
+            color: rgba(255,255,255,0.4); text-align: center; cursor: pointer;
+            transition: color 0.15s; text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
         .auth-switch span { color: #CC0000; text-decoration: underline; cursor: pointer; }
         .auth-switch span:hover { color: #FF4444; }
@@ -2843,7 +2857,8 @@
         }
         .auth-user-since {
             font-family: 'Share Tech Mono', monospace; font-size: 8px;
-            color: #333; margin-bottom: 28px;
+            color: rgba(255,255,255,0.4); margin-bottom: 28px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
         }
         .auth-signout-btn {
             padding: 10px 28px;
@@ -17890,28 +17905,28 @@ window.toggleAlert      = toggleAlert;
         <div id="auth-brand-name">Red <span>Dragon</span></div>
         <div id="auth-brand-sub">Intelligence Tracker · Member Portal</div>
         <div class="auth-feature-row">
-            <div class="auth-feature-icon">📡</div>
+            <div class="auth-feature-icon">▸</div>
             <div>
                 <div class="auth-feature-title">Personalized Intel Feed</div>
                 <div class="auth-feature-desc">Briefings calibrated to your tracked regions, threat categories, and analysis depth.</div>
             </div>
         </div>
         <div class="auth-feature-row">
-            <div class="auth-feature-icon">🔔</div>
+            <div class="auth-feature-icon">▸</div>
             <div>
                 <div class="auth-feature-title">Saved Alert Preferences</div>
                 <div class="auth-feature-desc">Your alert configuration persists across devices — never lose your signal setup.</div>
             </div>
         </div>
         <div class="auth-feature-row">
-            <div class="auth-feature-icon">📊</div>
+            <div class="auth-feature-icon">▸</div>
             <div>
                 <div class="auth-feature-title">Exclusive Member Analysis</div>
                 <div class="auth-feature-desc">PLA doctrine shifts, Taiwan scenario modeling, and economic coercion deep-dives.</div>
             </div>
         </div>
         <div class="auth-feature-row">
-            <div class="auth-feature-icon">🔐</div>
+            <div class="auth-feature-icon">▸</div>
             <div>
                 <div class="auth-feature-title">Zero Tracking Policy</div>
                 <div class="auth-feature-desc">No ad tracking. No data sales. Your account exists only to serve your analysis.</div>
