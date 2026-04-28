@@ -1,6 +1,16 @@
+# ── Cloudflare deployment: exclude server-only files ───────────────────
+push.sh
+supabase-setup.sql
+supabase/
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+
 # ── Credentials & secrets ──────────────────────────────────────────────
-.env
-.env.*
 *.pem
 *.key
 *.cert
