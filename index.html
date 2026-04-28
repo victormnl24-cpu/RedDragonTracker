@@ -138,27 +138,34 @@
         }
 
         /* ── Logo text ──────────────────────────────────── */
-        #logo-text { display: flex; flex-direction: column; margin-right: auto; }
+        #logo-text {
+            display: flex; flex-direction: column;
+            margin-right: auto; flex-shrink: 0;
+            max-width: 220px; min-width: 0;
+        }
         #logo-name {
             font-family: 'Orbitron', monospace;
             font-size: 15px; font-weight: 900; letter-spacing: 4px;
             color: #CC0000; text-transform: uppercase; line-height: 1;
             text-shadow: 0 0 20px rgba(204,0,0,0.6), 0 0 40px rgba(204,0,0,0.3);
+            white-space: nowrap;
         }
         #logo-name span { color: #CC0000; }
         #logo-sub {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 8px; color: #333; letter-spacing: 3px; margin-top: 3px;
-            text-transform: uppercase;
+            font-size: 7px; color: #333; letter-spacing: 1.5px; margin-top: 3px;
+            text-transform: uppercase; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis;
         }
 
         /* ── Header right cluster ───────────────────────── */
         #header-right {
-            display: flex; align-items: center; gap: 16px;
+            display: flex; align-items: center; gap: 10px; flex-shrink: 0;
         }
         .hdr-stat {
             display: flex; flex-direction: column; align-items: flex-end;
-            border-left: 1px solid rgba(255,255,255,0.05); padding-left: 14px;
+            border-left: 1px solid rgba(255,255,255,0.05); padding-left: 10px;
+            flex-shrink: 0;
         }
         .hdr-stat-label { font-size: 7px; letter-spacing: 2px; color: #555; text-transform: uppercase; font-family: 'Share Tech Mono', monospace; }
         .hdr-stat-val   { font-size: 11px; color: #888; font-family: 'Share Tech Mono', monospace; }
@@ -507,8 +514,8 @@
 
         /* ── Header nav (top-level features) ───────────── */
         #header-nav {
-            display: flex; align-items: center; gap: 8px;
-            margin-left: 28px;
+            display: flex; align-items: center; gap: 6px;
+            margin-left: 16px; flex-shrink: 0;
         }
         .hdr-nav-btn {
             display: flex; align-items: center; gap: 7px;
@@ -1360,11 +1367,14 @@
         /* ── Tension Meter ──────────────────────────────── */
         #tension-wrap {
             display: flex; flex-direction: column; align-items: flex-end;
-            border-left: 1px solid rgba(255,255,255,0.05); padding-left: 14px;
-            min-width: 110px;
+            border-left: 1px solid rgba(255,255,255,0.05); padding-left: 10px;
+            min-width: 100px; flex-shrink: 0;
         }
         #tension-label-row {
-            display: flex; align-items: center; gap: 6px; width: 100%; justify-content: flex-end;
+            display: flex; align-items: center; gap: 4px; width: 100%; justify-content: flex-end;
+        }
+        #tension-info-btn {
+            flex-shrink: 0; line-height: 1;
         }
         .hdr-stat-label { font-size: 7px; letter-spacing: 2px; color: #555; text-transform: uppercase; font-family: 'Share Tech Mono', monospace; }
         #tension-score {
@@ -2694,7 +2704,7 @@
     </div>
     <div id="logo-text">
         <div id="logo-name">Red <span>Dragon</span> Tracker</div>
-        <div id="logo-sub">Track China's military, economic, cyber &amp; geopolitical activity — live.</div>
+        <div id="logo-sub" title="Track China's military, economic, cyber &amp; geopolitical activity in real time">China Military · Economic · Cyber · Geopolitical · Live</div>
     </div>
     <div id="header-nav">
         <button class="hdr-nav-btn" id="history-btn" data-panel="history">
