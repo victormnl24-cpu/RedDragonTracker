@@ -7771,27 +7771,6 @@ document.getElementById('screenshot-btn').addEventListener('click', () => {
 });
 // Enable preserveDrawingBuffer for screenshots (must re-init renderer)
 // Instead, re-render synchronously before capture (already done above)
-let swipeTouchX = 0, swipeTouchY = 0;
-document.addEventListener('touchstart', e => {
-    swipeTouchX = e.touches[0].clientX;
-    swipeTouchY = e.touches[0].clientY;
-}, { passive: true });
-document.addEventListener('touchend', e => {
-    const dx = e.changedTouches[0].clientX - swipeTouchX;
-    const dy = e.changedTouches[0].clientY - swipeTouchY;
-    // Only fire on clear horizontal swipes (> 55px, 2x more horizontal than vertical)
-    if (Math.abs(dx) < 55 || Math.abs(dx) < Math.abs(dy) * 2) return;
-    const cur = PANEL_ORDER.indexOf(activePanel);
-    if (dx < 0) {
-        // Swipe left → next panel
-        const next = cur < 0 ? 0 : (cur + 1) % PANEL_ORDER.length;
-        openPanel(PANEL_ORDER[next]);
-    } else {
-        // Swipe right → prev panel / close
-        if (cur <= 0) closePanel();
-        else openPanel(PANEL_ORDER[cur - 1]);
-    }
-}, { passive: true });
 
 // ── Live China News Feed ────────────────────────────────────────────────
 const NEWS_FEEDS = [
