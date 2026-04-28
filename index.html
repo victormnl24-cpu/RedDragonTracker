@@ -654,13 +654,24 @@
         .dock-icon svg { display: block; }
         .dock-btn span.dock-label {
             font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; letter-spacing: 2px;
+            font-size: 8px; letter-spacing: 0.5px;
             text-transform: uppercase; color: #333;
             transition: color 0.15s;
+            white-space: nowrap; overflow: hidden; max-width: 46px;
         }
         .dock-btn:hover { background: rgba(204,0,0,0.08); border-left-color: rgba(204,0,0,0.4); }
         .dock-btn:hover .dock-icon { border-color: #CC0000; color: #CC0000; }
         .dock-btn:hover span.dock-label { color: #CC0000; }
+        /* data-tip tooltip */
+        .dock-btn[data-tip] { position: relative; }
+        .dock-btn[data-tip]:hover::after {
+            content: attr(data-tip);
+            position: absolute; left: calc(100% + 8px); top: 50%; transform: translateY(-50%);
+            background: rgba(8,0,0,0.97); border: 1px solid rgba(204,0,0,0.3);
+            color: #ccc; font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 1px; white-space: nowrap;
+            padding: 5px 10px; pointer-events: none; z-index: 200;
+        }
         .dock-btn.active { background: rgba(204,0,0,0.14); border-left-color: #CC0000; }
         .dock-btn.active .dock-icon { border-color: #FF4444; color: #FF4444; background: rgba(204,0,0,0.12); }
         .dock-btn.active span.dock-label { color: #FF4444; }
@@ -1184,9 +1195,9 @@
         #chat-toggle {
             position: fixed; top: 50%; left: 0; transform: translateY(-50%);
             z-index: 94; writing-mode: vertical-rl; text-orientation: mixed;
-            padding: 14px 8px; background: rgba(0,0,0,0.85);
-            border: 1px solid rgba(255,255,255,0.1); border-left: none;
-            border-radius: 0 6px 6px 0; color: #888; font-size: 10px;
+            padding: 14px 8px; background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.06); border-left: none;
+            border-radius: 0 6px 6px 0; color: #3a3a3a; font-size: 9px;
             font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
             cursor: pointer; transition: all 0.2s; backdrop-filter: blur(8px);
             display: flex; align-items: center; gap: 7px;
@@ -2683,12 +2694,9 @@
     </div>
     <div id="logo-text">
         <div id="logo-name">Red <span>Dragon</span> Tracker</div>
-        <div id="logo-sub">Global Intelligence Platform · v2.0</div>
+        <div id="logo-sub">Track China's military, economic, cyber &amp; geopolitical activity — live.</div>
     </div>
     <div id="header-nav">
-        <button class="hdr-nav-btn" id="news-btn" data-panel="news">
-            <span class="hdr-nav-icon"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><circle cx="5" cy="5" r="1.5" fill="currentColor"/><circle cx="5" cy="5" r="3.5" stroke="currentColor" stroke-width="1" fill="none" stroke-dasharray="1.5 1"/></svg></span>NEWS FEED
-        </button>
         <button class="hdr-nav-btn" id="history-btn" data-panel="history">
             <span class="hdr-nav-icon" style="font-size:11px;line-height:1;margin-right:1px">☭</span>HISTORY INTEL
         </button>
@@ -2702,6 +2710,7 @@
             <div id="tension-label-row">
                 <span class="hdr-stat-label">Tension</span>
                 <span id="tension-score">0.0</span>
+                <span id="tension-info-btn" title="Scores 0–10. Driven by live news frequency: military, Taiwan, cyber, and nuclear keywords raise the score. Updates every 5 minutes." style="cursor:help;color:#333;font-family:'Share Tech Mono',monospace;font-size:8px;margin-left:3px;border:1px solid #222;border-radius:50%;width:12px;height:12px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0">?</span>
             </div>
             <div id="tension-bar-track"><div id="tension-bar-fill"></div></div>
             <div style="display:flex;align-items:center;gap:6px;margin-top:3px">
@@ -2762,134 +2771,134 @@
     <div class="dock-divider"></div>
     <button class="dock-btn" data-panel="routes" data-tip="BRI Trade Routes">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M7 1.5 Q9.5 4 9.5 7 Q9.5 10 7 12.5" stroke="currentColor" stroke-width="1.1" fill="none"/><path d="M7 1.5 Q4.5 4 4.5 7 Q4.5 10 7 12.5" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="1.5" y1="7" x2="12.5" y2="7" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">BRI</span>
+        <span class="dock-label">Routes</span>
     </button>
     <button class="dock-btn" data-panel="military" data-tip="Military Installations">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5 L12 3.5 L12 8.5 Q12 12 7 13.5 Q2 12 2 8.5 L2 3.5 Z" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">MIL</span>
+        <span class="dock-label">Military</span>
     </button>
     <button class="dock-btn" data-panel="aircraft" data-tip="Live Aircraft Tracking">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M13 7 L3 3.5 L3 5.5 L8 7 L3 8.5 L3 10.5 Z" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="1.5" y1="10.5" x2="4" y2="10.5" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">AIR</span>
+        <span class="dock-label">Aircraft</span>
     </button>
     <div class="dock-divider"></div>
     <button class="dock-btn" data-panel="economy" data-tip="Economy · NBS Data">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="9" width="2.5" height="3.5" stroke="currentColor" stroke-width="1.1"/><rect x="5.8" y="6" width="2.5" height="6.5" stroke="currentColor" stroke-width="1.1"/><rect x="9.5" y="3" width="2.5" height="9.5" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">ECON</span>
+        <span class="dock-label">Economy</span>
     </button>
     <button class="dock-btn" data-panel="stock" data-tip="Markets · TradingView">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="1,11 4,7 7,9 10,4.5 13,6.5" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linejoin="round"/></svg></span>
-        <span class="dock-label">MKT</span>
+        <span class="dock-label">Markets</span>
     </button>
     <button class="dock-btn" data-panel="leaders" data-tip="Politburo Leadership">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="2" y1="4.5" x2="12" y2="4.5" stroke="currentColor" stroke-width="1.1"/><line x1="2" y1="12.5" x2="12" y2="12.5" stroke="currentColor" stroke-width="1.1"/><line x1="4" y1="4.5" x2="4" y2="12.5" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="4.5" x2="7" y2="12.5" stroke="currentColor" stroke-width="1.1"/><line x1="10" y1="4.5" x2="10" y2="12.5" stroke="currentColor" stroke-width="1.1"/><path d="M7 1.5 L12 4.5 L2 4.5 Z" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">GOV</span>
+        <span class="dock-label">Leaders</span>
     </button>
     <div class="dock-divider"></div>
     <button class="dock-btn" data-panel="ports" data-tip="Chinese Port Control">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="3.5" r="1.5" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="5" x2="7" y2="12" stroke="currentColor" stroke-width="1.1"/><line x1="4" y1="7" x2="10" y2="7" stroke="currentColor" stroke-width="1.1"/><path d="M3 12 Q5.5 10.5 7 12 Q8.5 13.5 11 12" stroke="currentColor" stroke-width="1.1" fill="none"/></svg></span>
-        <span class="dock-label">PORT</span>
+        <span class="dock-label">Ports</span>
     </button>
     <button class="dock-btn" data-panel="cables" data-tip="Submarine Cable Network">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="4.5" width="8" height="4" rx="2" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="1.5" x2="7" y2="4.5" stroke="currentColor" stroke-width="1.1"/><path d="M1 10.5 Q3 8.5 5 10.5 Q7 12.5 9 10.5 Q11 8.5 13 10.5" stroke="currentColor" stroke-width="1.1" fill="none"/></svg></span>
-        <span class="dock-label">SUB</span>
+        <span class="dock-label">Cables</span>
     </button>
     <button class="dock-btn" data-panel="beidou" data-tip="Beidou Satellite Network">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.1"/><line x1="1" y1="7" x2="5" y2="7" stroke="currentColor" stroke-width="1.3"/><line x1="9" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="1.3"/><line x1="7" y1="1" x2="7" y2="5" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="9" x2="7" y2="13" stroke="currentColor" stroke-width="1.1"/><line x1="3" y1="3" x2="5.5" y2="5.5" stroke="currentColor" stroke-width="1.1"/><line x1="8.5" y1="8.5" x2="11" y2="11" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">SAT</span>
+        <span class="dock-label">Beidou</span>
     </button>
     <button class="dock-btn" data-panel="space" data-tip="Chinese Space Program · Tiangong Live">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5 L8.5 5.5 L12.5 6 L9.5 9 L10.5 13 L7 11 L3.5 13 L4.5 9 L1.5 6 L5.5 5.5 Z" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">SPC</span>
+        <span class="dock-label">Space</span>
     </button>
     <div class="dock-divider"></div>
     <button class="dock-btn" data-panel="missiles" data-tip="DF Missile Strike Ranges">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5 L8 4 L7 3.5 L6 4 Z" stroke="currentColor" stroke-width="1" fill="currentColor"/><line x1="7" y1="3.5" x2="7" y2="10" stroke="currentColor" stroke-width="1.3"/><path d="M4.5 10 L7 12.5 L9.5 10" stroke="currentColor" stroke-width="1" fill="none"/><line x1="4" y1="7.5" x2="7" y2="6.5" stroke="currentColor" stroke-width="1" opacity="0.6"/><line x1="10" y1="7.5" x2="7" y2="6.5" stroke="currentColor" stroke-width="1" opacity="0.6"/></svg></span>
-        <span class="dock-label">MIS</span>
+        <span class="dock-label">Missiles</span>
     </button>
     <button class="dock-btn" data-panel="scs" data-tip="South China Sea · Nine-Dash Line">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11 Q4 6 7 5 Q10 4 12 7" stroke="currentColor" stroke-width="1.1" fill="none" stroke-dasharray="2 1.5"/><circle cx="5" cy="8" r="1" fill="currentColor" opacity="0.7"/><circle cx="8" cy="6.5" r="1" fill="currentColor" opacity="0.7"/><circle cx="10.5" cy="8.5" r="1" fill="currentColor" opacity="0.7"/></svg></span>
-        <span class="dock-label">SCS</span>
+        <span class="dock-label">S.China Sea</span>
     </button>
     <button class="dock-btn" data-panel="taiwan" data-tip="Taiwan Strait · ADIZ Incursions">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.1" stroke-dasharray="2 1.5"/><line x1="7" y1="2" x2="7" y2="12" stroke="currentColor" stroke-width="1" opacity="0.5"/><circle cx="7" cy="7" r="1.5" fill="currentColor" opacity="0.8"/></svg></span>
-        <span class="dock-label">TWN</span>
+        <span class="dock-label">Taiwan</span>
     </button>
     <div class="dock-divider"></div>
     <button class="dock-btn" data-panel="navy" data-tip="PLA Navy · Live Ship Tracking">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 9 L4 7 L6 8 L8 6 L10 7 L12 9" stroke="currentColor" stroke-width="1.1" fill="none"/><path d="M1 9.5 Q3.5 11.5 7 11 Q10.5 10.5 13 9.5" stroke="currentColor" stroke-width="1" fill="none" opacity="0.5"/><line x1="7" y1="3" x2="7" y2="7" stroke="currentColor" stroke-width="1.1"/><line x1="5" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">NAV</span>
+        <span class="dock-label">Navy</span>
     </button>
     <button class="dock-btn" data-panel="cyber" data-tip="Live Cyber Threat Intelligence">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="3" y="2.5" width="8" height="6" rx="1" stroke="currentColor" stroke-width="1.1"/><line x1="5" y1="4.5" x2="9" y2="4.5" stroke="currentColor" stroke-width="1" opacity="0.7"/><line x1="5" y1="6" x2="7.5" y2="6" stroke="currentColor" stroke-width="1" opacity="0.7"/><path d="M5 8.5 L3.5 12" stroke="currentColor" stroke-width="1.1"/><path d="M9 8.5 L10.5 12" stroke="currentColor" stroke-width="1.1"/><line x1="2.5" y1="12" x2="11.5" y2="12" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">CYB</span>
+        <span class="dock-label">Cyber</span>
     </button>
     <button class="dock-btn" data-panel="influence" data-tip="China Global Influence Index">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M7 1.5 Q9.5 4 9.5 7 Q9.5 10 7 12.5" stroke="currentColor" stroke-width="0.9" fill="none"/><path d="M7 1.5 Q4.5 4 4.5 7 Q4.5 10 7 12.5" stroke="currentColor" stroke-width="0.9" fill="none"/><circle cx="4" cy="5" r="0.8" fill="currentColor"/><circle cx="10" cy="5" r="0.8" fill="currentColor"/><circle cx="3" cy="9" r="0.8" fill="currentColor"/></svg></span>
-        <span class="dock-label">INF</span>
+        <span class="dock-label">Influence</span>
     </button>
     <button class="dock-btn" data-panel="tariff" data-tip="US-China Trade War · Tariffs">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="5" width="5" height="7" rx="0.5" stroke="currentColor" stroke-width="1.1"/><rect x="7.5" y="2" width="5" height="10" rx="0.5" stroke="currentColor" stroke-width="1.1" stroke-dasharray="1.5 1"/><line x1="4" y1="5" x2="4" y2="1.5" stroke="currentColor" stroke-width="1.1"/><polyline points="2.5,3 4,1.5 5.5,3" stroke="currentColor" stroke-width="1.1" fill="none"/></svg></span>
-        <span class="dock-label">TAR</span>
+        <span class="dock-label">Tariffs</span>
     </button>
     <div class="dock-divider"></div>
     <button class="dock-btn" data-panel="aqi" data-tip="Live Air Quality · PM2.5">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 9 Q4 6 7 7 Q10 8 12 5" stroke="currentColor" stroke-width="1.2" fill="none"/><circle cx="4" cy="8" r="1" fill="currentColor" opacity="0.6"/><circle cx="7" cy="7" r="1" fill="currentColor" opacity="0.8"/><circle cx="10.5" cy="5.5" r="1" fill="currentColor" opacity="0.6"/><line x1="2" y1="12" x2="12" y2="12" stroke="currentColor" stroke-width="0.8" opacity="0.3"/></svg></span>
-        <span class="dock-label">AQI</span>
+        <span class="dock-label">Air Quality</span>
     </button>
     <button class="dock-btn" data-panel="rareearth" data-tip="Rare Earth Supply Chain">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polygon points="7,1.5 12.5,4.5 12.5,10.5 7,13.5 1.5,10.5 1.5,4.5" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="7" cy="7" r="2" stroke="currentColor" stroke-width="1.1"/><line x1="7" y1="1.5" x2="7" y2="5" stroke="currentColor" stroke-width="1"/><line x1="7" y1="9" x2="7" y2="12.5" stroke="currentColor" stroke-width="1"/></svg></span>
-        <span class="dock-label">REE</span>
+        <span class="dock-label">Rare Earth</span>
     </button>
     <button class="dock-btn" data-panel="surveillance" data-tip="Xinjiang · Tibet · OSINT">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="6" r="3" stroke="currentColor" stroke-width="1.1"/><circle cx="7" cy="6" r="1" fill="currentColor"/><path d="M3 11 Q5 9 7 10 Q9 11 11 9" stroke="currentColor" stroke-width="1" fill="none" opacity="0.6"/><line x1="7" y1="9" x2="7" y2="12" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">SRV</span>
+        <span class="dock-label">Surveillance</span>
     </button>
     <div class="dock-divider"></div>
     <button class="dock-btn" data-panel="briefing" data-tip="Daily Intelligence Briefing">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="1" stroke="currentColor" stroke-width="1.1"/><line x1="4.5" y1="5" x2="9.5" y2="5" stroke="currentColor" stroke-width="1.1"/><line x1="4.5" y1="7" x2="9.5" y2="7" stroke="currentColor" stroke-width="1.1"/><line x1="4.5" y1="9" x2="7.5" y2="9" stroke="currentColor" stroke-width="1.1"/><circle cx="11" cy="3" r="2" fill="#CC0000"/></svg></span>
-        <span class="dock-label">BRIEF</span>
+        <span class="dock-label">Briefing</span>
     </button>
     <button class="dock-btn" data-panel="comparison" data-tip="China vs USA Military">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1.5" y="3" width="4.5" height="8" rx="0.5" stroke="currentColor" stroke-width="1.1"/><rect x="8" y="5.5" width="4.5" height="5.5" rx="0.5" stroke="currentColor" stroke-width="1.1" opacity="0.6"/><line x1="7" y1="1" x2="7" y2="13" stroke="currentColor" stroke-width="0.8" stroke-dasharray="1.5 1" opacity="0.4"/></svg></span>
-        <span class="dock-label">VS</span>
+        <span class="dock-label">USA vs China</span>
     </button>
     <div class="dock-divider"></div>
     <button class="dock-btn" data-panel="police" data-tip="CCP Overseas Police Stations">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4" r="2" stroke="currentColor" stroke-width="1.1"/><path d="M3 13 Q3 9 7 9 Q11 9 11 13" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="5" y1="6.5" x2="9" y2="6.5" stroke="currentColor" stroke-width="1" opacity="0.5"/><path d="M2 3 L5 1 L7 2.5 L9 1 L12 3" stroke="currentColor" stroke-width="0.9" fill="none" opacity="0.6"/></svg></span>
-        <span class="dock-label">POL</span>
+        <span class="dock-label">Police</span>
     </button>
     <button class="dock-btn" data-panel="debt" data-tip="BRI Debt Trap Countries">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1"/><path d="M7 3.5 L7 7.5 L9.5 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><line x1="7" y1="3" x2="7" y2="2" stroke="currentColor" stroke-width="1.1"/><line x1="10.9" y1="4.1" x2="11.6" y2="3.4" stroke="currentColor" stroke-width="1"/><line x1="12" y1="7" x2="13" y2="7" stroke="currentColor" stroke-width="1.1"/></svg></span>
-        <span class="dock-label">DEBT</span>
+        <span class="dock-label">Debt</span>
     </button>
     <button class="dock-btn" data-panel="silos" data-tip="New ICBM Silo Fields · 2021">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.1" stroke-dasharray="2 1.5"/><circle cx="7" cy="7" r="3" stroke="currentColor" stroke-width="1" opacity="0.6"/><circle cx="7" cy="7" r="1" fill="currentColor"/><line x1="7" y1="1.5" x2="7" y2="12.5" stroke="currentColor" stroke-width="0.8" opacity="0.3"/><line x1="1.5" y1="7" x2="12.5" y2="7" stroke="currentColor" stroke-width="0.8" opacity="0.3"/></svg></span>
-        <span class="dock-label">SILO</span>
+        <span class="dock-label">Silos</span>
     </button>
     <button class="dock-btn" data-panel="fleet" data-tip="PLAN Carrier Strike Groups">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 8.5 L4.5 6 L9 6.5 L13 5.5" stroke="currentColor" stroke-width="1.2" fill="none"/><path d="M3.5 6 L3.5 3.5 L7 3.5 L8.5 2 L8.5 6" stroke="currentColor" stroke-width="1" fill="none"/><path d="M0.5 9.5 Q3.5 11.5 7 11 Q10.5 10.5 13.5 9.5" stroke="currentColor" stroke-width="0.9" fill="none" opacity="0.5"/><circle cx="5.5" cy="4.5" r="0.7" fill="currentColor" opacity="0.7"/></svg></span>
-        <span class="dock-label">FLEET</span>
+        <span class="dock-label">Fleet</span>
     </button>
     <button class="dock-btn" data-panel="invasion" data-tip="Taiwan Invasion Scenarios">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="5" y="2" width="4" height="7" rx="0.5" stroke="currentColor" stroke-width="1.1" stroke-dasharray="1.5 1"/><path d="M2 12 L5 9 L7 11 L9 9 L12 12" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="7" y1="9" x2="7" y2="7" stroke="currentColor" stroke-width="1.1"/><polyline points="5,3.5 7,1.5 9,3.5" stroke="currentColor" stroke-width="1" fill="none"/></svg></span>
-        <span class="dock-label">TWN2</span>
+        <span class="dock-label">Invasion</span>
     </button>
     <button class="dock-btn" data-panel="apt" data-tip="APT Hacking Groups · Attribution">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2.5" y="3" width="9" height="7" rx="1" stroke="currentColor" stroke-width="1.1"/><path d="M5 3 L5 1.5 L9 1.5 L9 3" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="4.5" y1="5.5" x2="9.5" y2="5.5" stroke="currentColor" stroke-width="1" opacity="0.8"/><line x1="4.5" y1="7" x2="7" y2="7" stroke="currentColor" stroke-width="1" opacity="0.6"/><circle cx="11" cy="2.5" r="1.5" fill="#CC0000"/><line x1="10.3" y1="1.8" x2="11.7" y2="3.2" stroke="white" stroke-width="1.2"/><line x1="11.7" y1="1.8" x2="10.3" y2="3.2" stroke="white" stroke-width="1.2"/></svg></span>
-        <span class="dock-label">APT</span>
+        <span class="dock-label">Hackers</span>
     </button>
     <button class="dock-btn" data-panel="confucius" data-tip="Confucius Institute Network">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5 L12 4.5 L12 9 Q12 12.5 7 13.5 Q2 12.5 2 9 L2 4.5 Z" stroke="currentColor" stroke-width="1.1" fill="none"/><line x1="4.5" y1="7" x2="9.5" y2="7" stroke="currentColor" stroke-width="1.2"/><line x1="7" y1="4.5" x2="7" y2="9.5" stroke="currentColor" stroke-width="1.2"/></svg></span>
-        <span class="dock-label">CI</span>
+        <span class="dock-label">Confucius</span>
     </button>
     <button class="dock-btn" data-panel="quakes" data-tip="Live USGS Earthquakes">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 8 L3 6 L5 9 L7 4 L9 10 L11 6 L13 8" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linejoin="round"/><line x1="1" y1="11.5" x2="13" y2="11.5" stroke="currentColor" stroke-width="0.8" opacity="0.3"/></svg></span>
-        <span class="dock-label">SEISM</span>
+        <span class="dock-label">Earthquakes</span>
     </button>
     <button class="dock-btn" data-panel="tension" data-tip="Geopolitical Tension Meter">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11 A5.5 5.5 0 0 1 12 11" stroke="currentColor" stroke-width="1.2" fill="none"/><line x1="7" y1="5.5" x2="10.5" y2="9" stroke="#CC0000" stroke-width="1.4"/><circle cx="7" cy="11" r="1" fill="currentColor"/><line x1="4" y1="10" x2="2.5" y2="8" stroke="currentColor" stroke-width="0.9" opacity="0.5"/><line x1="7" y1="5.5" x2="7" y2="3.5" stroke="currentColor" stroke-width="0.9" opacity="0.5"/><line x1="10" y1="10" x2="11.5" y2="8" stroke="currentColor" stroke-width="0.9" opacity="0.5"/></svg></span>
-        <span class="dock-label">TENS</span>
+        <span class="dock-label">Tension</span>
     </button>
     <button class="dock-btn" data-panel="alerts" data-tip="Alert System">
         <span class="dock-icon" style="position:relative">
@@ -2936,15 +2945,15 @@
 <div id="tooltip"></div>
 
 <!-- Chat toggle tab -->
-<button id="chat-toggle" title="Open / Close Chat">
-    CHAT
+<button id="chat-toggle" title="Community chat — not an official source">
+    <span class="chat-icon">💬</span> COMMUNITY
     <span id="chat-unread"></span>
 </button>
 
 <!-- Chat panel (left) -->
 <div id="chat-panel">
     <div id="chat-header">
-        <div id="chat-title">GLOBAL CHAT</div>
+        <div id="chat-title">COMMUNITY CHAT <span style="font-size:7px;color:#333;letter-spacing:1px;font-family:'Share Tech Mono',monospace"> · Not an official source</span></div>
         <div id="chat-live"><span class="live-dot"></span> LIVE</div>
         <button id="chat-close">X</button>
     </div>
@@ -3017,7 +3026,7 @@
         <span class="news-mini-dot"></span>LATEST INTEL
     </div>
     <div id="news-mini-list"></div>
-    <div id="news-mini-more" onclick="document.getElementById('news-btn').click()">VIEW ALL NEWS &rsaquo;</div>
+    <div id="news-mini-more" onclick="openPanel('news')">VIEW ALL NEWS &rsaquo;</div>
 </div>
 
 <!-- Live video player — bottom left -->
@@ -3026,16 +3035,17 @@
         <div id="video-live-dot"></div>
         <div id="video-player-title">CGTN LIVE</div>
         <div id="video-channel-switcher">
-            <button class="vchan-btn active" data-channel="cgtn" data-title="CGTN LIVE">CGTN</button>
-            <button class="vchan-btn" data-channel="aljazeera" data-title="AL JAZEERA">AJ</button>
-            <button class="vchan-btn" data-channel="bloomberg" data-title="BLOOMBERG">BTV</button>
-            <button class="vchan-btn" data-channel="dw" data-title="DW NEWS">DW</button>
+            <button class="vchan-btn active" data-channel="cgtn" data-title="CGTN LIVE" title="CGTN — Chinese state media (CPC-controlled)">CGTN <span style="font-size:6px;color:#FF8800;letter-spacing:0.5px">STATE</span></button>
+            <button class="vchan-btn" data-channel="aljazeera" data-title="AL JAZEERA" title="Al Jazeera — Qatar public broadcaster">AL JAZEERA</button>
+            <button class="vchan-btn" data-channel="bloomberg" data-title="BLOOMBERG" title="Bloomberg TV — US financial news">BLOOMBERG</button>
+            <button class="vchan-btn" data-channel="dw" data-title="DW NEWS" title="Deutsche Welle — German public broadcaster">DW NEWS</button>
         </div>
         <div id="video-collapse-btn" title="Collapse">▾</div>
     </div>
     <div id="video-screen">
         <iframe id="video-iframe" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         <div id="video-mute-overlay">MUTED · CLICK TO UNMUTE</div>
+        <div style="position:absolute;top:4px;left:6px;z-index:3;font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:1px;color:rgba(255,255,255,0.35);pointer-events:none" id="video-source-label">CGTN · Chinese State Media</div>
         <div id="video-reload-btn" onclick="event.stopPropagation();loadVideoChannel(currentChannel)" title="Reload stream"
             style="position:absolute;bottom:6px;left:6px;z-index:2;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);color:#555;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px;padding:3px 7px;cursor:pointer;border-radius:2px;">↺ RELOAD</div>
     </div>
@@ -15906,6 +15916,12 @@ const videoTitle    = document.getElementById('video-player-title');
 const videoMuteBtn  = document.getElementById('video-mute-overlay');
 const videoColBtn   = document.getElementById('video-collapse-btn');
 
+const VIDEO_SOURCE_LABELS = {
+    cgtn:      'CGTN · Chinese State Media (CPC)',
+    aljazeera: 'Al Jazeera · Qatar Public Broadcaster',
+    bloomberg: 'Bloomberg TV · Independent Financial News',
+    dw:        'Deutsche Welle · German Public Broadcaster',
+};
 function loadVideoChannel(key) {
     const ch = VIDEO_CHANNELS[key];
     if (!ch) return;
@@ -15914,6 +15930,8 @@ function loadVideoChannel(key) {
     videoIframe.src = url;
     videoTitle.textContent = ch.title;
     document.querySelectorAll('.vchan-btn').forEach(b => b.classList.toggle('active', b.dataset.channel === key));
+    const lbl = document.getElementById('video-source-label');
+    if (lbl) lbl.textContent = VIDEO_SOURCE_LABELS[key] || ch.title;
 }
 
 // Channel switcher buttons
