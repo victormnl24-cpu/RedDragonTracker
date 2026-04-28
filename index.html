@@ -15831,10 +15831,12 @@ if (!_nlShown) {
         // Scroll back to top when reopened
         if (scrollEl) scrollEl.scrollTop = 0;
         setTimeout(() => activateSection(0), 100);
+        sessionStorage.setItem('cc_state', 'open');
     }
     function closeCC() {
         overlay.classList.remove('open');
         if (returnBtn) returnBtn.style.display = 'flex';
+        sessionStorage.setItem('cc_state', 'closed');
     }
 
     // ── Activate a section ──────────────────────────────────────────────
@@ -15870,7 +15872,6 @@ if (!_nlShown) {
         const btn = e.target.closest('[data-cc]');
         if (!btn || btn.classList.contains('locked')) return;
         const action = btn.dataset.cc;
-        sessionStorage.setItem('cc_dismissed', '1');
         switch (action) {
             case 'enter':
                 closeCC(); break;
@@ -15888,7 +15889,6 @@ if (!_nlShown) {
 
     // ── Close button ────────────────────────────────────────────────────
     document.getElementById('cc-close')?.addEventListener('click', () => {
-        sessionStorage.setItem('cc_dismissed', '1');
         closeCC();
     });
 
@@ -15899,7 +15899,6 @@ if (!_nlShown) {
     // ── Escape key ──────────────────────────────────────────────────────
     document.addEventListener('keydown', e => {
         if (e.key === 'Escape' && overlay.classList.contains('open')) {
-            sessionStorage.setItem('cc_dismissed', '1');
             closeCC();
         }
     });
@@ -15911,10 +15910,9 @@ if (!_nlShown) {
         coverLogo.querySelector('img').style.cssText = 'width:100%;height:100%;object-fit:contain;display:block;';
     }
 
-    // ── Show on first visit ──────────────────────────────────────────────
+    // ── Restore state on load: open if was open (or first visit), closed if explicitly closed ──
     if (returnBtn) returnBtn.style.display = 'flex';
-    if (!sessionStorage.getItem('cc_dismissed')) openCC();
-    else if (returnBtn) returnBtn.style.display = 'flex';
+    if (sessionStorage.getItem('cc_state') !== 'closed') openCC();
 
 })();
 
