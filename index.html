@@ -2230,18 +2230,6 @@
         }
         #cc-open-btn:hover { background: rgba(204,0,0,0.16); color: #FF4444; border-left-color: #FF4444; }
         /* ── Persistent return btn ───────────────────────────────────── */
-        #cc-return-btn {
-            position: fixed; bottom: 20px; right: 100px; z-index: 88;
-            background: rgba(4,0,0,0.88);
-            border: 1px solid rgba(204,0,0,0.32);
-            border-left: 2px solid #CC0000;
-            color: #CC0000; font-family: 'Share Tech Mono', monospace;
-            font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
-            padding: 7px 12px; cursor: pointer; transition: all 0.18s;
-            display: none; align-items: center; gap: 7px;
-            backdrop-filter: blur(8px);
-        }
-        #cc-return-btn:hover { background: rgba(204,0,0,0.14); color: #FF4444; border-left-color: #FF4444; }
         /* ── Mobile ──────────────────────────────────────────────────── */
         @media (max-width: 700px) {
             .cc-sec-content { padding: 0 24px 56px 24px; }
@@ -2694,6 +2682,195 @@
             font-family: 'Share Tech Mono', monospace; font-size: 8px;
             color: #2a2a2a; letter-spacing: 1px;
         }
+
+        /* ══ AUTH SCREEN ═════════════════════════════════════════ */
+        #auth-screen {
+            position: fixed; inset: 0; z-index: 10001;
+            display: flex;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+        }
+        #auth-screen.open {
+            opacity: 1; visibility: visible;
+            transition: opacity 0.35s ease, visibility 0s linear 0s;
+        }
+        #auth-left {
+            width: 42%; flex-shrink: 0;
+            background: linear-gradient(160deg, #0d0000 0%, #1a0000 50%, #0a0000 100%);
+            border-right: 1px solid rgba(204,0,0,0.2);
+            display: flex; flex-direction: column;
+            justify-content: center; padding: 60px 48px;
+            position: relative; overflow: hidden;
+        }
+        #auth-left::before {
+            content: ''; position: absolute; inset: 0;
+            background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(204,0,0,0.015) 2px, rgba(204,0,0,0.015) 4px);
+            pointer-events: none;
+        }
+        #auth-left::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, #CC0000, transparent);
+        }
+        #auth-brand-logo {
+            width: 56px; height: 56px; margin-bottom: 20px;
+            filter: drop-shadow(0 0 12px rgba(255,160,0,0.7));
+        }
+        #auth-brand-name {
+            font-family: 'Orbitron', monospace; font-size: 20px; font-weight: 900;
+            letter-spacing: 3px; color: #CC0000; margin-bottom: 6px;
+            text-shadow: 0 0 20px rgba(204,0,0,0.5);
+        }
+        #auth-brand-name span { color: #fff; }
+        #auth-brand-sub {
+            font-family: 'Share Tech Mono', monospace; font-size: 9px;
+            letter-spacing: 2px; color: #444; margin-bottom: 40px;
+            text-transform: uppercase;
+        }
+        .auth-feature-row {
+            display: flex; align-items: flex-start; gap: 12px;
+            margin-bottom: 14px;
+        }
+        .auth-feature-icon {
+            font-size: 14px; flex-shrink: 0; margin-top: 1px;
+        }
+        .auth-feature-title {
+            font-family: 'Share Tech Mono', monospace; font-size: 9px;
+            color: #ccc; letter-spacing: 1px; margin-bottom: 2px;
+        }
+        .auth-feature-desc {
+            font-size: 9px; color: #444; line-height: 1.5;
+        }
+        #auth-security-note {
+            margin-top: 40px; padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-family: 'Share Tech Mono', monospace; font-size: 7px;
+            color: #2a2a2a; letter-spacing: 1px; line-height: 1.8;
+        }
+        #auth-right {
+            flex: 1; background: #060000;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 48px 40px; overflow-y: auto;
+        }
+        #auth-close {
+            position: absolute; top: 16px; right: 20px;
+            background: none; border: none; color: #333;
+            font-size: 16px; cursor: pointer; z-index: 2;
+            transition: color 0.15s;
+        }
+        #auth-close:hover { color: #CC0000; }
+        #auth-form-wrap {
+            width: 100%; max-width: 360px;
+        }
+        .auth-tab-bar {
+            display: flex; gap: 0; margin-bottom: 32px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+        .auth-tab {
+            font-family: 'Share Tech Mono', monospace; font-size: 9px;
+            letter-spacing: 2px; text-transform: uppercase;
+            padding: 10px 20px; background: none; border: none;
+            color: #333; cursor: pointer; transition: color 0.18s;
+            border-bottom: 2px solid transparent; margin-bottom: -1px;
+        }
+        .auth-tab:hover { color: #888; }
+        .auth-tab.active { color: #CC0000; border-bottom-color: #CC0000; }
+        .auth-form-title {
+            font-family: 'Orbitron', monospace; font-size: 16px;
+            font-weight: 700; color: #fff; margin-bottom: 6px;
+        }
+        .auth-form-title span { color: #CC0000; }
+        .auth-form-sub {
+            font-family: 'Share Tech Mono', monospace; font-size: 8px;
+            color: #444; letter-spacing: 1px; margin-bottom: 28px;
+        }
+        .auth-field { margin-bottom: 14px; }
+        .auth-field label {
+            display: block; font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; letter-spacing: 2px; color: #555;
+            text-transform: uppercase; margin-bottom: 5px;
+        }
+        .auth-field input {
+            width: 100%; box-sizing: border-box;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #ddd; font-family: 'Share Tech Mono', monospace;
+            font-size: 11px; padding: 10px 12px; outline: none;
+            transition: border-color 0.18s;
+        }
+        .auth-field input:focus { border-color: rgba(204,0,0,0.5); }
+        .auth-field input::placeholder { color: #2a2a2a; }
+        .auth-submit {
+            width: 100%; padding: 12px;
+            background: rgba(204,0,0,0.15);
+            border: 1px solid rgba(204,0,0,0.4);
+            color: #CC0000; font-family: 'Share Tech Mono', monospace;
+            font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+            cursor: pointer; transition: all 0.18s; margin-top: 6px;
+        }
+        .auth-submit:hover { background: rgba(204,0,0,0.25); border-color: #CC0000; color: #FF4444; }
+        .auth-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+        .auth-msg {
+            font-family: 'Share Tech Mono', monospace; font-size: 8px;
+            letter-spacing: 1px; min-height: 18px; margin-top: 10px;
+            line-height: 1.6;
+        }
+        .auth-divider {
+            margin: 20px 0; border: none;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .auth-switch {
+            font-family: 'Share Tech Mono', monospace; font-size: 8px;
+            color: #333; text-align: center; cursor: pointer;
+            transition: color 0.15s;
+        }
+        .auth-switch span { color: #CC0000; text-decoration: underline; cursor: pointer; }
+        .auth-switch span:hover { color: #FF4444; }
+        /* Logged-in state */
+        #auth-user-panel {
+            text-align: center; padding: 20px 0;
+        }
+        .auth-avatar {
+            width: 56px; height: 56px; border-radius: 50%;
+            background: rgba(204,0,0,0.15); border: 2px solid rgba(204,0,0,0.4);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Orbitron', monospace; font-size: 18px; font-weight: 700;
+            color: #CC0000; margin: 0 auto 16px;
+        }
+        .auth-user-email {
+            font-family: 'Share Tech Mono', monospace; font-size: 10px;
+            color: #ccc; margin-bottom: 4px;
+        }
+        .auth-user-since {
+            font-family: 'Share Tech Mono', monospace; font-size: 8px;
+            color: #333; margin-bottom: 28px;
+        }
+        .auth-signout-btn {
+            padding: 10px 28px;
+            background: none; border: 1px solid rgba(255,255,255,0.1);
+            color: #555; font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 2px; cursor: pointer;
+            transition: all 0.18s;
+        }
+        .auth-signout-btn:hover { border-color: #CC0000; color: #CC0000; }
+        /* Header user badge */
+        #hdr-user-badge {
+            display: none; align-items: center; gap: 6px;
+            font-family: 'Share Tech Mono', monospace; font-size: 8px;
+            color: #00cc44; letter-spacing: 1px;
+            border: 1px solid rgba(0,204,68,0.25); padding: 4px 9px;
+            cursor: pointer; transition: all 0.18s; flex-shrink: 0;
+        }
+        #hdr-user-badge:hover { border-color: rgba(0,204,68,0.5); }
+        #hdr-user-badge.visible { display: flex; }
+        #hdr-user-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: #00cc44; flex-shrink: 0;
+        }
+        @media (max-width: 768px) {
+            #auth-left { display: none; }
+            #auth-right { padding: 32px 24px; }
+        }
     </style>
 </head>
 <body>
@@ -2757,6 +2934,10 @@
             <span id="alert-badge">0</span>
         </button>
         <button id="upgrade-btn">✦ UPGRADE</button>
+        <div id="hdr-user-badge" title="Signed in — click to manage account">
+            <span id="hdr-user-dot"></span>
+            <span id="hdr-user-label">MEMBER</span>
+        </div>
         <button id="nl-trigger" onclick="document.getElementById('nl-overlay').classList.add('show')">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
                 <rect x="1" y="3" width="11" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/>
@@ -16600,7 +16781,6 @@ const SFX = (() => {
     const dots     = Array.from(document.querySelectorAll('.cc-dot'));
     const fill     = document.getElementById('cc-progress-fill');
     const hint     = document.getElementById('cc-scroll-hint');
-    const returnBtn= document.getElementById('cc-return-btn');
     if (!overlay) return;
 
     let currentIdx = 0;
@@ -16610,7 +16790,6 @@ const SFX = (() => {
     function openCC() {
         SFX.ccOpen();
         overlay.classList.add('open');
-        if (returnBtn) returnBtn.style.display = 'none';
         // Scroll back to top when reopened
         if (scrollEl) scrollEl.scrollTop = 0;
         ccOpenTime = Date.now();
@@ -16620,7 +16799,6 @@ const SFX = (() => {
     function closeCC() {
         SFX.ccClose();
         overlay.classList.remove('open');
-        if (returnBtn) returnBtn.style.display = 'flex';
         sessionStorage.setItem('cc_state', 'closed');
     }
 
@@ -16672,6 +16850,9 @@ const SFX = (() => {
             case 'methodology':
                 closeCC();
                 setTimeout(() => openMethReader(), 550); break;
+            case 'account':
+                closeCC();
+                setTimeout(() => openAuthScreen(), 550); break;
         }
     });
 
@@ -16680,9 +16861,8 @@ const SFX = (() => {
         closeCC();
     });
 
-    // ── Header open button + return button ──────────────────────────────
+    // ── Header open button ───────────────────────────────────────────────
     document.getElementById('cc-open-btn')?.addEventListener('click', openCC);
-    returnBtn?.addEventListener('click', openCC);
 
     // ── Escape key ──────────────────────────────────────────────────────
     document.addEventListener('keydown', e => {
@@ -16712,7 +16892,6 @@ const SFX = (() => {
     setInterval(updateCCTime, 1000);
 
     // ── Restore state on load: open if was open (or first visit), closed if explicitly closed ──
-    if (returnBtn) returnBtn.style.display = 'flex';
     if (sessionStorage.getItem('cc_state') !== 'closed') openCC();
 
 })();
@@ -17117,6 +17296,210 @@ window.hideUpgradeModal = hideUpgradeModal;
 window.submitUpgrade    = submitUpgrade;
 window.toggleAlert      = toggleAlert;
 
+// ══════════════════════════════════════════════════════════════════════════
+//  AUTH SYSTEM — Supabase-backed login / signup
+// ══════════════════════════════════════════════════════════════════════════
+
+(function initAuth() {
+    // ── DOM refs ──────────────────────────────────────────────────────────
+    const screen       = document.getElementById('auth-screen');
+    const closeBtn     = document.getElementById('auth-close');
+    const tabSignin    = document.getElementById('auth-tab-signin');
+    const tabSignup    = document.getElementById('auth-tab-signup');
+    const formSignin   = document.getElementById('auth-signin-form');
+    const formSignup   = document.getElementById('auth-signup-form');
+    const userPanel    = document.getElementById('auth-user-panel');
+
+    const siEmail      = document.getElementById('auth-si-email');
+    const siPass       = document.getElementById('auth-si-pass');
+    const siBtn        = document.getElementById('auth-si-btn');
+    const siMsg        = document.getElementById('auth-si-msg');
+
+    const suEmail      = document.getElementById('auth-su-email');
+    const suPass       = document.getElementById('auth-su-pass');
+    const suPass2      = document.getElementById('auth-su-pass2');
+    const suBtn        = document.getElementById('auth-su-btn');
+    const suMsg        = document.getElementById('auth-su-msg');
+
+    const avatarEl     = document.getElementById('auth-avatar-initials');
+    const emailEl      = document.getElementById('auth-user-email');
+    const sinceEl      = document.getElementById('auth-user-since');
+    const signoutBtn   = document.getElementById('auth-signout-btn');
+    const signoutMsg   = document.getElementById('auth-signout-msg');
+
+    const hdrBadge     = document.getElementById('hdr-user-badge');
+    const hdrLabel     = document.getElementById('hdr-user-label');
+
+    if (!screen) return; // safety: elements missing
+
+    // ── Open / close ──────────────────────────────────────────────────────
+    function openAuthScreen() {
+        screen.classList.add('open');
+        // Show correct view based on auth state
+        _sb.auth.getSession().then(({ data }) => {
+            if (data?.session?.user) {
+                showUserPanel(data.session.user);
+            } else {
+                showSigninForm();
+            }
+        });
+    }
+
+    function closeAuthScreen() {
+        screen.classList.remove('open');
+        clearMsgs();
+    }
+
+    window.openAuthScreen  = openAuthScreen;
+    window.closeAuthScreen = closeAuthScreen;
+
+    closeBtn?.addEventListener('click', closeAuthScreen);
+    screen.addEventListener('click', e => {
+        if (e.target === screen) closeAuthScreen();
+    });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && screen.classList.contains('open')) closeAuthScreen();
+    });
+
+    // ── Tab switching ─────────────────────────────────────────────────────
+    function showSigninForm() {
+        formSignin.style.display = '';
+        formSignup.style.display = 'none';
+        userPanel.style.display  = 'none';
+        tabSignin.classList.add('active');
+        tabSignup.classList.remove('active');
+        clearMsgs();
+    }
+    function showSignupForm() {
+        formSignin.style.display = 'none';
+        formSignup.style.display = '';
+        userPanel.style.display  = 'none';
+        tabSignin.classList.remove('active');
+        tabSignup.classList.add('active');
+        clearMsgs();
+    }
+    function showUserPanel(user) {
+        formSignin.style.display = 'none';
+        formSignup.style.display = 'none';
+        userPanel.style.display  = '';
+        const email = user.email || '';
+        const initials = email.slice(0, 2).toUpperCase();
+        avatarEl.textContent  = initials;
+        emailEl.textContent   = email;
+        const created = user.created_at ? new Date(user.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long' }) : '—';
+        sinceEl.textContent   = `Member since ${created}`;
+    }
+
+    tabSignin?.addEventListener('click', showSigninForm);
+    tabSignup?.addEventListener('click', showSignupForm);
+    document.getElementById('auth-goto-signup')?.addEventListener('click', showSignupForm);
+    document.getElementById('auth-goto-signin')?.addEventListener('click', showSigninForm);
+
+    // ── Header badge ──────────────────────────────────────────────────────
+    function updateHeaderBadge(user) {
+        if (!hdrBadge) return;
+        if (user) {
+            const label = user.email ? user.email.split('@')[0].toUpperCase().slice(0, 8) : 'MEMBER';
+            if (hdrLabel) hdrLabel.textContent = label;
+            hdrBadge.classList.add('visible');
+            hdrBadge.onclick = openAuthScreen;
+        } else {
+            hdrBadge.classList.remove('visible');
+            hdrBadge.onclick = null;
+        }
+    }
+
+    // ── Sign in ───────────────────────────────────────────────────────────
+    siBtn?.addEventListener('click', async () => {
+        const email = (siEmail?.value || '').trim();
+        const pass  = (siPass?.value || '');
+        if (!email || !pass) { setMsg(siMsg, 'Enter your email and password.', '#FF4444'); return; }
+        siBtn.disabled = true;
+        siBtn.textContent = 'AUTHENTICATING…';
+        setMsg(siMsg, '', '');
+        try {
+            const { error } = await _sb.auth.signInWithPassword({ email, password: pass });
+            if (error) throw error;
+            setMsg(siMsg, 'Access granted.', '#00cc44');
+            siPass.value = '';
+        } catch (e) {
+            setMsg(siMsg, e.message || 'Authentication failed.', '#FF4444');
+        } finally {
+            siBtn.disabled = false;
+            siBtn.textContent = 'AUTHENTICATE →';
+        }
+    });
+    siPass?.addEventListener('keydown', e => { if (e.key === 'Enter') siBtn?.click(); });
+
+    // ── Sign up ───────────────────────────────────────────────────────────
+    suBtn?.addEventListener('click', async () => {
+        const email = (suEmail?.value || '').trim();
+        const pass  = (suPass?.value || '');
+        const pass2 = (suPass2?.value || '');
+        if (!email || !pass) { setMsg(suMsg, 'Enter email and password.', '#FF4444'); return; }
+        if (pass !== pass2)  { setMsg(suMsg, 'Passwords do not match.', '#FF4444'); return; }
+        if (pass.length < 8) { setMsg(suMsg, 'Password must be at least 8 characters.', '#FF4444'); return; }
+        suBtn.disabled = true;
+        suBtn.textContent = 'CREATING ACCOUNT…';
+        setMsg(suMsg, '', '');
+        try {
+            const { error } = await _sb.auth.signUp({ email, password: pass });
+            if (error) throw error;
+            setMsg(suMsg, 'Account created. Check your email to confirm, then sign in.', '#00cc44');
+            suPass.value  = '';
+            suPass2.value = '';
+        } catch (e) {
+            setMsg(suMsg, e.message || 'Registration failed.', '#FF4444');
+        } finally {
+            suBtn.disabled = false;
+            suBtn.textContent = 'CREATE ACCOUNT →';
+        }
+    });
+    suPass2?.addEventListener('keydown', e => { if (e.key === 'Enter') suBtn?.click(); });
+
+    // ── Sign out ──────────────────────────────────────────────────────────
+    signoutBtn?.addEventListener('click', async () => {
+        signoutBtn.disabled = true;
+        signoutBtn.textContent = 'SIGNING OUT…';
+        try {
+            await _sb.auth.signOut();
+            setMsg(signoutMsg, 'Signed out.', '#888');
+            setTimeout(closeAuthScreen, 800);
+        } catch (e) {
+            setMsg(signoutMsg, 'Sign-out failed. Try again.', '#FF4444');
+        } finally {
+            signoutBtn.disabled = false;
+            signoutBtn.textContent = 'SIGN OUT';
+        }
+    });
+
+    // ── Auth state listener ───────────────────────────────────────────────
+    _sb.auth.onAuthStateChange((event, session) => {
+        const user = session?.user || null;
+        updateHeaderBadge(user);
+        // If auth screen is open, switch view
+        if (screen.classList.contains('open')) {
+            if (user) showUserPanel(user);
+            else      showSigninForm();
+        }
+    });
+
+    // ── Restore session on load ───────────────────────────────────────────
+    _sb.auth.getSession().then(({ data }) => {
+        updateHeaderBadge(data?.session?.user || null);
+    });
+
+    // ── Helpers ───────────────────────────────────────────────────────────
+    function setMsg(el, text, color) {
+        if (!el) return;
+        el.textContent   = text;
+        el.style.color   = color;
+    }
+    function clearMsgs() {
+        [siMsg, suMsg, signoutMsg].forEach(el => { if (el) el.textContent = ''; });
+    }
+})();
+
 </script>
 
 
@@ -17228,9 +17611,9 @@ window.toggleAlert      = toggleAlert;
                 <div class="cc-sec-num">05</div>
                 <div class="cc-sec-label">Member Access</div>
                 <div class="cc-sec-title">Secure<br>Account</div>
-                <div class="cc-sec-status locked"><span class="cc-sec-status-dot"></span>Locked &nbsp;&middot;&nbsp; Pending Deployment</div>
+                <div class="cc-sec-status free"><span class="cc-sec-status-dot"></span>Free &nbsp;&middot;&nbsp; Secure &nbsp;&middot;&nbsp; No Tracking</div>
                 <div class="cc-sec-desc">Save intelligence preferences, receive personalized briefings calibrated to your areas of focus, and access member-only analysis on PLA doctrine and Chinese foreign policy shifts.</div>
-                <button class="cc-sec-btn locked" data-cc="account">Pending Deployment</button>
+                <button class="cc-sec-btn primary" data-cc="account">Sign In / Create Account &nbsp;&rarr;</button>
                 <div class="cc-sec-meta">
                     <span>Personalized Briefings</span>
                     <span>Saved Preferences</span>
@@ -17282,10 +17665,6 @@ window.toggleAlert      = toggleAlert;
 </div>
 
 <!-- Persistent return button ─────────────────────────────────────────── -->
-<button id="cc-return-btn" title="Return to Command Center">
-    <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="0.5" y="0.5" width="3.2" height="3.2" stroke="currentColor" stroke-width="0.9"/><rect x="5.3" y="0.5" width="3.2" height="3.2" stroke="currentColor" stroke-width="0.9"/><rect x="0.5" y="5.3" width="3.2" height="3.2" stroke="currentColor" stroke-width="0.9"/><rect x="5.3" y="5.3" width="3.2" height="3.2" stroke="#CC0000" stroke-width="0.9" fill="rgba(204,0,0,0.2)"/></svg>
-    MAIN MENU
-</button>
 
 
 
@@ -17500,6 +17879,113 @@ window.toggleAlert      = toggleAlert;
         </div><!-- /meth-reader-inner -->
     </div>
 </div>
+
+<!-- ── Auth Screen ─────────────────────────────────────────────────────── -->
+<div id="auth-screen">
+    <!-- Left: branding panel -->
+    <div id="auth-left">
+        <div id="auth-brand-logo">
+            <img src="dragon.png" alt="Dragon" style="width:56px;height:56px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(255,140,0,0.7))">
+        </div>
+        <div id="auth-brand-name">Red <span>Dragon</span></div>
+        <div id="auth-brand-sub">Intelligence Tracker · Member Portal</div>
+        <div class="auth-feature-row">
+            <div class="auth-feature-icon">📡</div>
+            <div>
+                <div class="auth-feature-title">Personalized Intel Feed</div>
+                <div class="auth-feature-desc">Briefings calibrated to your tracked regions, threat categories, and analysis depth.</div>
+            </div>
+        </div>
+        <div class="auth-feature-row">
+            <div class="auth-feature-icon">🔔</div>
+            <div>
+                <div class="auth-feature-title">Saved Alert Preferences</div>
+                <div class="auth-feature-desc">Your alert configuration persists across devices — never lose your signal setup.</div>
+            </div>
+        </div>
+        <div class="auth-feature-row">
+            <div class="auth-feature-icon">📊</div>
+            <div>
+                <div class="auth-feature-title">Exclusive Member Analysis</div>
+                <div class="auth-feature-desc">PLA doctrine shifts, Taiwan scenario modeling, and economic coercion deep-dives.</div>
+            </div>
+        </div>
+        <div class="auth-feature-row">
+            <div class="auth-feature-icon">🔐</div>
+            <div>
+                <div class="auth-feature-title">Zero Tracking Policy</div>
+                <div class="auth-feature-desc">No ad tracking. No data sales. Your account exists only to serve your analysis.</div>
+            </div>
+        </div>
+        <div id="auth-security-note">
+            SECURED · END-TO-END ENCRYPTED<br>
+            NO AD TRACKING · NO DATA SALES<br>
+            OPEN SOURCE PLATFORM
+        </div>
+    </div>
+    <!-- Right: form panel -->
+    <div id="auth-right">
+        <button id="auth-close" title="Close">✕</button>
+        <div id="auth-form-wrap">
+
+            <!-- Sign-in / sign-up tabs -->
+            <div class="auth-tab-bar">
+                <button class="auth-tab active" id="auth-tab-signin">SIGN IN</button>
+                <button class="auth-tab" id="auth-tab-signup">CREATE ACCOUNT</button>
+            </div>
+
+            <!-- Sign-in form -->
+            <div id="auth-signin-form">
+                <div class="auth-form-title">Welcome <span>Back</span></div>
+                <div class="auth-form-sub">ENTER YOUR CREDENTIALS TO ACCESS INTEL</div>
+                <div class="auth-field">
+                    <label for="auth-si-email">Email Address</label>
+                    <input type="email" id="auth-si-email" placeholder="analyst@example.com" maxlength="254" autocomplete="email">
+                </div>
+                <div class="auth-field">
+                    <label for="auth-si-pass">Password</label>
+                    <input type="password" id="auth-si-pass" placeholder="••••••••••••" maxlength="128" autocomplete="current-password">
+                </div>
+                <button class="auth-submit" id="auth-si-btn">AUTHENTICATE →</button>
+                <div class="auth-msg" id="auth-si-msg"></div>
+                <hr class="auth-divider">
+                <div class="auth-switch">No account? <span id="auth-goto-signup">Create one free →</span></div>
+            </div>
+
+            <!-- Sign-up form -->
+            <div id="auth-signup-form" style="display:none">
+                <div class="auth-form-title">Create <span>Account</span></div>
+                <div class="auth-form-sub">FREE ACCESS · NO CREDIT CARD REQUIRED</div>
+                <div class="auth-field">
+                    <label for="auth-su-email">Email Address</label>
+                    <input type="email" id="auth-su-email" placeholder="analyst@example.com" maxlength="254" autocomplete="email">
+                </div>
+                <div class="auth-field">
+                    <label for="auth-su-pass">Password</label>
+                    <input type="password" id="auth-su-pass" placeholder="Min. 8 characters" maxlength="128" autocomplete="new-password">
+                </div>
+                <div class="auth-field">
+                    <label for="auth-su-pass2">Confirm Password</label>
+                    <input type="password" id="auth-su-pass2" placeholder="••••••••••••" maxlength="128" autocomplete="new-password">
+                </div>
+                <button class="auth-submit" id="auth-su-btn">CREATE ACCOUNT →</button>
+                <div class="auth-msg" id="auth-su-msg"></div>
+                <hr class="auth-divider">
+                <div class="auth-switch">Already a member? <span id="auth-goto-signin">Sign in →</span></div>
+            </div>
+
+            <!-- Logged-in panel (shown when authed) -->
+            <div id="auth-user-panel" style="display:none">
+                <div class="auth-avatar" id="auth-avatar-initials">?</div>
+                <div class="auth-user-email" id="auth-user-email">—</div>
+                <div class="auth-user-since" id="auth-user-since">Member since —</div>
+                <button class="auth-signout-btn" id="auth-signout-btn">SIGN OUT</button>
+                <div class="auth-msg" id="auth-signout-msg" style="text-align:center;margin-top:12px"></div>
+            </div>
+
+        </div><!-- /auth-form-wrap -->
+    </div><!-- /auth-right -->
+</div><!-- /auth-screen -->
 
 </body>
 </html>
