@@ -30,7 +30,6 @@
                         https://*.tradingview.com;
             worker-src  blob: 'self';
             connect-src 'self'
-                        https://api.waqi.info
                         https://api.worldbank.org
                         https://earthquake.usgs.gov
                         https://tle.ivanstanojevic.me
@@ -45,13 +44,11 @@
                         https://asia.nikkei.com
                         https://www.ft.com
                         https://www.aljazeera.com
-                        https://api.allorigins.win
                         https://raw.githubusercontent.com
                         https://geo.datav.aliyun.com
                         https://api.airplanes.live
                         https://en.wikipedia.org
                         https://cdn.jsdelivr.net
-                        https://www.stats.gov.cn
                         https://*.tradingview.com
                         wss://*.tradingview.com
                         https://jcwmkpwcbfszsxbylnbf.supabase.co
@@ -4457,7 +4454,7 @@ AQI_CITIES.forEach(city => {
 async function fetchAQI() {
     for (const { sp, city } of aqiMarkers) {
         try {
-            const r = await secureFetch(`https://api.waqi.info/feed/${encodeURIComponent(city.name)}/?token=b5e76857130c5163eafdb937bfa4e98c19b27237`);
+            const r = await secureFetch(`/api/aqi?city=${encodeURIComponent(city.name)}`);
             const d = await r.json();
             if (d.status === 'ok' && d.data && d.data.aqi) {
                 const aqi = typeof d.data.aqi === 'number' ? d.data.aqi : parseInt(d.data.aqi)||0;
@@ -14532,7 +14529,7 @@ function initEconomyCharts() {
 
 // ── NBS Live Feed ──────────────────────────────────────────────────────
 const NBS_URL = 'https://www.stats.gov.cn/english/PressRelease/';
-const PROXY   = 'https://api.allorigins.win/get?url=';
+const PROXY   = '/api/proxy?url=';
 let nbsCache  = [];
 let nbsTimer  = null;
 
