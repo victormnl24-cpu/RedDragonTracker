@@ -1170,6 +1170,35 @@
             padding: 6px 0; text-transform: uppercase;
         }
 
+        /* ── Channel tabs ──────────────────────────────────────────────── */
+        #chat-channels {
+            display: flex; overflow-x: auto; flex-shrink: 0;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            background: rgba(0,0,0,0.25); scrollbar-width: none;
+        }
+        #chat-channels::-webkit-scrollbar { display: none; }
+        .chat-ch {
+            flex-shrink: 0; padding: 8px 11px;
+            background: none; border: none; border-bottom: 2px solid transparent;
+            color: #3a3a3a; font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 1px; text-transform: uppercase;
+            cursor: pointer; transition: color 0.15s; white-space: nowrap;
+            margin-bottom: -1px;
+        }
+        .chat-ch:hover { color: #888; }
+        .chat-ch.active { color: #CC0000; border-bottom-color: #CC0000; }
+
+        /* ── Verified member badge ─────────────────────────────────────── */
+        .chat-verified {
+            color: #CC0000; font-size: 8px; font-weight: 900;
+            margin-left: 3px; font-family: 'Share Tech Mono', monospace;
+            letter-spacing: 0;
+        }
+        .chat-meta { font-size: 9px; color: #555; margin-bottom: 2px; }
+        .chat-msg.own .chat-meta { color: #FFD700; opacity: 0.7; }
+        #username-bar.auth-linked #username-change-btn { display: none; }
+        #username-bar.auth-linked #username-display strong { color: #CC0000; }
+
         #chat-empty {
             flex: 1; display: flex; flex-direction: column;
             align-items: center; justify-content: center; color: #333;
@@ -3170,10 +3199,10 @@
 
     <!-- Username setup (shown until name is set) -->
     <div id="username-setup">
-        <p>Choose a name to start chatting — no account needed.</p>
+        <p style="font-size:10px;color:#666;margin-bottom:8px">Guest name or <span id="chat-auth-link" style="color:#CC0000;cursor:pointer;text-decoration:underline">sign in</span> for a verified account.</p>
         <div class="name-row">
             <input id="username-input" placeholder="Your name…" maxlength="20" autocomplete="off">
-            <button id="username-set-btn">Join</button>
+            <button id="username-set-btn">JOIN</button>
         </div>
     </div>
 
@@ -3181,6 +3210,15 @@
     <div id="username-bar" style="display:none">
         <div id="username-display">Chatting as <strong id="username-tag"></strong></div>
         <button id="username-change-btn">Change</button>
+    </div>
+
+    <!-- Channel tabs -->
+    <div id="chat-channels">
+        <button class="chat-ch active" data-ch="global">GLOBAL</button>
+        <button class="chat-ch" data-ch="military">MILITARY</button>
+        <button class="chat-ch" data-ch="taiwan">TAIWAN</button>
+        <button class="chat-ch" data-ch="economy">ECONOMY</button>
+        <button class="chat-ch" data-ch="cyber">CYBER</button>
     </div>
 
     <!-- Messages -->
@@ -15436,15 +15474,25 @@ function renderFeed(items, freshCount) {
 window.refreshNBSFeed = refreshNBSFeed;
 
 // ── Chat Room ──────────────────────────────────────────────────────────
-const CHAT_NS  = 'china-global-watch-chat-v3';
+// ══════════════════════════════════════════════════════════════════════════
+//  COMMUNITY CHAT
+//  Supabase table: chat_messages (id, username, text, created_at,
+//                                  channel text DEFAULT 'global',
+//                                  user_id uuid REFERENCES auth.users)
+// ══════════════════════════════════════════════════════════════════════════
+
 const HOUR24   = 24 * 60 * 60 * 1000;
 const MAX_MSGS = 120;
 
-let chatUsername  = localStorage.getItem('cgw-username') || '';
-let chatOpen      = false;
-let unreadCount   = 0;
-let seenMsgIds    = new Set();
-let renderedMsgs  = [];  // [{id, time, user, text}]
+let chatUsername    = localStorage.getItem('cgw-username') || '';
+let chatIsVerified  = false;   // true when username comes from signed-in account
+let chatAuthUserId  = null;    // Supabase user_id when signed in
+let chatOpen        = false;
+let unreadCount     = 0;
+let seenMsgIds      = new Set();
+let renderedMsgs    = [];
+let currentChannel  = 'global';
+let chatRealtimeSub = null;
 
 // DOM refs
 const chatPanel     = document.getElementById('chat-panel');
@@ -15463,29 +15511,33 @@ const chatUnread    = document.getElementById('chat-unread');
 const chatEmpty     = document.getElementById('chat-empty');
 
 // ── Username management ────────────────────────────────────────────────
-function applyUsername(name) {
+function applyUsername(name, fromAuth = false) {
     name = sanitizeInput(name, 20);
-    // Reject blank or purely non-printable input
     if (!name || !/\S/.test(name)) return;
-    // Allow only printable ASCII + accented letters (no HTML special chars as the whole value)
     name = name.replace(/[<>"'`]/g, '').trim().slice(0, 20);
     if (!name) return;
     chatUsername = name;
-    localStorage.setItem('cgw-username', name);
+    if (!fromAuth) localStorage.setItem('cgw-username', name);
     usernameTag.textContent = name;
     usernameSetup.style.display = 'none';
     usernameBar.style.display   = 'flex';
-    chatInput.disabled    = false;
-    chatSendBtn.disabled  = false;
-    chatInput.focus();
+    if (fromAuth) {
+        usernameBar.classList.add('auth-linked');
+    } else {
+        usernameBar.classList.remove('auth-linked');
+    }
+    chatInput.disabled   = false;
+    chatSendBtn.disabled = false;
+    if (chatOpen) chatInput.focus();
 }
 
 function resetUsername() {
+    if (chatIsVerified) return; // locked when signed in
     usernameSetup.style.display = 'block';
     usernameBar.style.display   = 'none';
-    chatInput.disabled    = true;
-    chatSendBtn.disabled  = true;
-    usernameInput.value   = chatUsername;
+    chatInput.disabled   = true;
+    chatSendBtn.disabled = true;
+    usernameInput.value  = chatUsername;
     usernameInput.focus();
 }
 
@@ -15494,6 +15546,30 @@ if (chatUsername) applyUsername(chatUsername);
 usernameSetBtn.addEventListener('click', () => applyUsername(usernameInput.value));
 usernameInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyUsername(usernameInput.value); });
 usernameChBtn.addEventListener('click', resetUsername);
+
+// Sign-in link inside setup panel
+document.getElementById('chat-auth-link')?.addEventListener('click', () => {
+    toggleChat(false);
+    setTimeout(() => openAuthScreen?.(), 300);
+});
+
+// ── Auth bridge — called by initAuth() when session changes ───────────
+window.setChatAuthUser = function(user) {
+    if (user) {
+        const uname = user.user_metadata?.username || user.email?.split('@')[0] || 'member';
+        chatIsVerified = true;
+        chatAuthUserId = user.id;
+        applyUsername(uname, true);
+    } else {
+        chatIsVerified = false;
+        chatAuthUserId = null;
+        usernameBar.classList.remove('auth-linked');
+        // Restore guest username if any
+        const guest = localStorage.getItem('cgw-username') || '';
+        if (guest) applyUsername(guest, false);
+        else { usernameSetup.style.display = 'block'; usernameBar.style.display = 'none'; chatInput.disabled = true; chatSendBtn.disabled = true; }
+    }
+};
 
 // ── Toggle panel ───────────────────────────────────────────────────────
 function toggleChat(forceOpen) {
@@ -15514,9 +15590,9 @@ chatCloseBtn.addEventListener('click',  () => toggleChat(false));
 // ── Helpers ────────────────────────────────────────────────────────────
 function relTime(ts) {
     const diff = Date.now() - ts;
-    if (diff < 60000)  return 'just now';
+    if (diff < 60000)   return 'just now';
     if (diff < 3600000) return `${Math.floor(diff/60000)}m ago`;
-    if (diff < 86400000) return `${Math.floor(diff/3600000)}h ago`;
+    if (diff < 86400000)return `${Math.floor(diff/3600000)}h ago`;
     return new Date(ts).toLocaleDateString();
 }
 
@@ -15524,23 +15600,16 @@ function sanitize(str) {
     return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ── Render a single message ─────────────────────────────────────────────
+// ── Render a single message ────────────────────────────────────────────
 function renderChatMessage(id, data) {
-    if (!data || !data.text || !data.user || !data.time) return;
+    if (!data?.text || !data?.user || !data?.time) return;
     if (seenMsgIds.has(id)) return;
     if (Date.now() - data.time > HOUR24) return;
-
     seenMsgIds.add(id);
     renderedMsgs.push({ id, ...data });
     renderedMsgs.sort((a,b) => a.time - b.time);
-
-    // Remove too-old or too-many
     while (renderedMsgs.length > MAX_MSGS) renderedMsgs.shift();
-
-    // Re-render all (simple approach; fast enough for chat scale)
     rebuildChatDOM();
-
-    // Unread badge
     if (!chatOpen) {
         unreadCount++;
         chatUnread.textContent = unreadCount > 9 ? '9+' : unreadCount;
@@ -15557,23 +15626,19 @@ function rebuildChatDOM() {
         return;
     }
     if (chatEmpty.parentNode === chatMessages) chatMessages.removeChild(chatEmpty);
-
     const isAtBottom = chatMessages.scrollHeight - chatMessages.scrollTop - chatMessages.clientHeight < 80;
-
     chatMessages.innerHTML = renderedMsgs.map(m => {
-        const isOwn = m.user === chatUsername;
+        const isOwn      = m.user === chatUsername;
+        const verifiedBadge = m.verified ? '<span class="chat-verified">&#10003;</span>' : '';
         return `<div class="chat-msg${isOwn ? ' own' : ''}">
-            <div class="chat-meta">${sanitize(m.user)} · ${relTime(m.time)}</div>
+            <div class="chat-meta">${sanitize(m.user)}${verifiedBadge} · ${relTime(m.time)}</div>
             <div class="chat-bubble">${sanitize(m.text)}</div>
         </div>`;
     }).join('');
-
-    if (isAtBottom || chatMessages.scrollTop === 0) {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
+    if (isAtBottom || chatMessages.scrollTop === 0) chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// ── Supabase Realtime chat ─────────────────────────────────────────────
+// ── Rate limiter ───────────────────────────────────────────────────────
 const _chatTimes = [];
 function chatAllowed() {
     const now = Date.now();
@@ -15583,60 +15648,88 @@ function chatAllowed() {
     return true;
 }
 
-// Load recent messages (last 24h) on open
+// ── Supabase: load + subscribe ─────────────────────────────────────────
 async function loadChatHistory() {
     if (!_sb) return;
-    const { data, error } = await _sb
+    let q = _sb
         .from('chat_messages')
-        .select('id, username, text, created_at')
+        .select('id, username, text, created_at, user_id, channel')
         .gte('created_at', new Date(Date.now() - HOUR24).toISOString())
         .order('created_at', { ascending: true })
         .limit(100);
+    // Filter by channel if column exists (graceful if not)
+    q = q.eq('channel', currentChannel);
+    const { data, error } = await q;
     if (error || !data) return;
     data.forEach(row => {
         const safe = {
-            text: sanitizeInput(row.text, 300),
-            user: sanitizeInput(row.username, 20),
-            time: new Date(row.created_at).getTime(),
+            text:     sanitizeInput(row.text, 300),
+            user:     sanitizeInput(row.username, 20),
+            time:     new Date(row.created_at).getTime(),
+            verified: !!row.user_id,
         };
         if (safe.text && safe.user) renderChatMessage(row.id, safe);
     });
 }
 
-// Subscribe to new messages via Realtime (only if Supabase loaded)
-if (_sb) {
-    _sb.channel('chat_messages')
+function subscribeChatChannel() {
+    if (!_sb) return;
+    // Unsubscribe from previous channel if any
+    if (chatRealtimeSub) { _sb.removeChannel(chatRealtimeSub); chatRealtimeSub = null; }
+    chatRealtimeSub = _sb
+        .channel(`chat_ch_${currentChannel}`)
         .on('postgres_changes',
-            { event: 'INSERT', schema: 'public', table: 'chat_messages' },
+            { event: 'INSERT', schema: 'public', table: 'chat_messages',
+              filter: `channel=eq.${currentChannel}` },
             payload => {
                 const row = payload.new;
                 if (!row) return;
                 const safe = {
-                    text: sanitizeInput(row.text, 300),
-                    user: sanitizeInput(row.username, 20),
-                    time: new Date(row.created_at).getTime(),
+                    text:     sanitizeInput(row.text, 300),
+                    user:     sanitizeInput(row.username, 20),
+                    time:     new Date(row.created_at).getTime(),
+                    verified: !!row.user_id,
                 };
                 if (safe.text && safe.user) renderChatMessage(row.id, safe);
             }
         )
         .subscribe();
+}
 
+// ── Channel switching ──────────────────────────────────────────────────
+function switchChannel(ch) {
+    currentChannel = ch;
+    seenMsgIds.clear();
+    renderedMsgs = [];
+    rebuildChatDOM();
+    document.querySelectorAll('.chat-ch').forEach(b => b.classList.toggle('active', b.dataset.ch === ch));
+    chatInput.placeholder = `Message #${ch}…`;
+    subscribeChatChannel();
     loadChatHistory();
 }
 
-// Send message via Supabase
+document.querySelectorAll('.chat-ch').forEach(btn => {
+    btn.addEventListener('click', () => switchChannel(btn.dataset.ch));
+});
+
+// Initial load
+if (_sb) { subscribeChatChannel(); loadChatHistory(); }
+
+// ── Send message ───────────────────────────────────────────────────────
 async function sendChatMsg(text) {
     if (!_sb || !chatUsername || !text.trim()) return;
     if (!chatAllowed()) return;
     const cleanText = sanitizeInput(text, 300);
     if (!cleanText) return;
-    await _sb.from('chat_messages').insert({
+    const payload = {
         username: chatUsername.slice(0, 20),
-        text: cleanText,
-    });
+        text:     cleanText,
+        channel:  currentChannel,
+    };
+    if (chatIsVerified && chatAuthUserId) payload.user_id = chatAuthUserId;
+    await _sb.from('chat_messages').insert(payload);
 }
 
-// Input handlers
 chatSendBtn.addEventListener('click', () => {
     const txt = chatInput.value.trim();
     if (!txt || !chatUsername) return;
@@ -17336,6 +17429,7 @@ window.closePanel       = closePanel;
     const siBtn        = document.getElementById('auth-si-btn');
     const siMsg        = document.getElementById('auth-si-msg');
 
+    const suUsername   = document.getElementById('auth-su-username');
     const suEmail      = document.getElementById('auth-su-email');
     const suPass       = document.getElementById('auth-su-pass');
     const suPass2      = document.getElementById('auth-su-pass2');
@@ -17454,21 +17548,28 @@ window.closePanel       = closePanel;
 
     // ── Sign up ───────────────────────────────────────────────────────────
     suBtn?.addEventListener('click', async () => {
-        const email = (suEmail?.value || '').trim();
-        const pass  = (suPass?.value || '');
-        const pass2 = (suPass2?.value || '');
-        if (!email || !pass) { setMsg(suMsg, 'Enter email and password.', '#FF4444'); return; }
-        if (pass !== pass2)  { setMsg(suMsg, 'Passwords do not match.', '#FF4444'); return; }
-        if (pass.length < 8) { setMsg(suMsg, 'Password must be at least 8 characters.', '#FF4444'); return; }
+        const username = (suUsername?.value || '').replace(/[<>"'`]/g,'').trim().slice(0, 20);
+        const email    = (suEmail?.value || '').trim();
+        const pass     = (suPass?.value || '');
+        const pass2    = (suPass2?.value || '');
+        if (!username)           { setMsg(suMsg, 'Choose a username.', '#FF4444'); return; }
+        if (username.length < 3) { setMsg(suMsg, 'Username must be at least 3 characters.', '#FF4444'); return; }
+        if (!email || !pass)     { setMsg(suMsg, 'Enter email and password.', '#FF4444'); return; }
+        if (pass !== pass2)      { setMsg(suMsg, 'Passwords do not match.', '#FF4444'); return; }
+        if (pass.length < 8)     { setMsg(suMsg, 'Password must be at least 8 characters.', '#FF4444'); return; }
         suBtn.disabled = true;
         suBtn.textContent = 'CREATING ACCOUNT…';
         setMsg(suMsg, '', '');
         try {
-            const { error } = await _sb.auth.signUp({ email, password: pass });
+            const { error } = await _sb.auth.signUp({
+                email, password: pass,
+                options: { data: { username } }
+            });
             if (error) throw error;
             setMsg(suMsg, 'Account created. Check your email to confirm, then sign in.', '#00cc44');
-            suPass.value  = '';
-            suPass2.value = '';
+            suUsername.value = '';
+            suPass.value     = '';
+            suPass2.value    = '';
         } catch (e) {
             setMsg(suMsg, e.message || 'Registration failed.', '#FF4444');
         } finally {
@@ -17498,6 +17599,7 @@ window.closePanel       = closePanel;
     _sb.auth.onAuthStateChange((event, session) => {
         const user = session?.user || null;
         updateHeaderBadge(user);
+        window.setChatAuthUser?.(user);
         // If auth screen is open, switch view
         if (screen.classList.contains('open')) {
             if (user) showUserPanel(user);
@@ -17507,7 +17609,9 @@ window.closePanel       = closePanel;
 
     // ── Restore session on load ───────────────────────────────────────────
     _sb.auth.getSession().then(({ data }) => {
-        updateHeaderBadge(data?.session?.user || null);
+        const user = data?.session?.user || null;
+        updateHeaderBadge(user);
+        window.setChatAuthUser?.(user);
     });
 
     // ── Helpers ───────────────────────────────────────────────────────────
@@ -17977,6 +18081,10 @@ window.closePanel       = closePanel;
             <div id="auth-signup-form" style="display:none">
                 <div class="auth-form-title">Create <span>Account</span></div>
                 <div class="auth-form-sub">FREE ACCESS · NO CREDIT CARD REQUIRED</div>
+                <div class="auth-field">
+                    <label for="auth-su-username">Username</label>
+                    <input type="text" id="auth-su-username" placeholder="analyst_01" maxlength="20" autocomplete="off" spellcheck="false">
+                </div>
                 <div class="auth-field">
                     <label for="auth-su-email">Email Address</label>
                     <input type="email" id="auth-su-email" placeholder="analyst@example.com" maxlength="254" autocomplete="email">
