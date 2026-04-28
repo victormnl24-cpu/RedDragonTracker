@@ -3455,7 +3455,7 @@ try {
         );
     }
 } catch(e) {
-    console.warn('Supabase init failed:', e);
+    /* Supabase unavailable — chat and auth disabled */
 }
 
 // ── Constants ──────────────────────────────────────────────────────────
@@ -3883,7 +3883,7 @@ secureFetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json')
             else if (g.type === 'MultiPolygon') g.coordinates.forEach(p => p.forEach(addBorder));
         });
     })
-    .catch(() => console.warn('Border load failed'));
+    .catch(() => {});
 
 // ── China Provinces ────────────────────────────────────────────────────
 const provincesGroup = new THREE.Group();
@@ -4065,7 +4065,7 @@ loadProvinces(PROVINCE_URLS)
             provincesGroup.add(sprite);
         });
     })
-    .catch(e => console.warn('Province load failed (all sources):', e));
+    .catch(() => {});
 
 // ── BRI Routes ─────────────────────────────────────────────────────────
 const BRI = [
@@ -4714,7 +4714,7 @@ async function fetchTiangongTLE() {
             drawTiangongTrack();
         }
     } catch(e) {
-        console.warn('TLE fetch failed, using fallback', e);
+        /* TLE fetch failed — using fallback */
         // Fallback TLE (from May 2025 epoch — approximate)
         const l1 = '1 48274U 21035A   25130.50000000  .00015000  00000-0  17000-3 0  9990';
         const l2 = '2 48274  41.5000 200.0000 0002000  90.0000 270.0000 15.61000000  9999';
@@ -5976,7 +5976,7 @@ async function fetchUSGSEarthquakes() {
 
         // If panel is open, refresh its content
         if (activePanel === 'quakes') refreshQuakePanel();
-    } catch(e) { console.warn('USGS fetch failed:', e); }
+    } catch(_) {}
 }
 
 function refreshQuakePanel() {
@@ -6131,7 +6131,7 @@ async function fetchChineseFlights() {
         }
 
     } catch(err) {
-        console.warn('OpenSky fetch failed:', err);
+        /* fetch failed — will retry */
         if (statusEl) statusEl.textContent = 'Fetch error — will retry in 60 s';
     }
 }
