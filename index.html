@@ -1970,23 +1970,79 @@
             border-left: 3px solid #CC0000;
             background: rgba(204,0,0,0.1);
             color: #CC0000; cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
             display: inline-flex; align-items: center; gap: 10px;
         }
         .cc-sec-btn:hover {
-            background: rgba(204,0,0,0.2);
+            background: rgba(204,0,0,0.22);
             border-color: #FF4444; border-left-color: #FF4444;
             color: #FF4444;
-            box-shadow: 0 0 24px rgba(204,0,0,0.15);
+            box-shadow: 0 0 32px rgba(204,0,0,0.22), inset 0 0 12px rgba(204,0,0,0.06);
+            transform: translateX(4px);
         }
         .cc-sec-btn.locked {
-            opacity: 0.4; cursor: default; pointer-events: none;
+            opacity: 0.35; cursor: default; pointer-events: none;
+        }
+        /* Primary action button — Intel Terminal only */
+        .cc-sec-btn.primary {
+            font-size: 11px; letter-spacing: 5px;
+            padding: 18px 52px;
+            border-width: 1px; border-left-width: 4px;
+            border-color: #CC0000;
+            background: rgba(204,0,0,0.14);
+            color: #FF5555;
+            animation: primaryPulse 3.5s ease-in-out infinite;
+        }
+        .cc-sec-btn.primary:hover {
+            background: rgba(204,0,0,0.3);
+            color: #FF8888;
+            box-shadow: 0 0 48px rgba(204,0,0,0.35), 0 0 96px rgba(204,0,0,0.12), inset 0 0 20px rgba(204,0,0,0.08);
+            transform: translateX(6px);
+        }
+        @keyframes primaryPulse {
+            0%, 100% { box-shadow: 0 0 12px rgba(204,0,0,0.12); }
+            50%       { box-shadow: 0 0 28px rgba(204,0,0,0.28), 0 0 0 1px rgba(204,0,0,0.18); }
         }
         .cc-sec.cover .cc-sec-btn {
-            font-size: 11px; letter-spacing: 5px;
-            padding: 16px 48px;
-            border-width: 1px; border-left-width: 4px;
+            font-size: 10px; letter-spacing: 5px;
+            padding: 15px 44px;
+            border-width: 1px; border-left-width: 3px;
         }
+        /* ── Section meta line (small data row at bottom) ─────────────── */
+        .cc-sec-meta {
+            margin-top: 22px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(204,0,0,0.08);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; letter-spacing: 2px;
+            color: rgba(80,80,80,0.9); text-transform: uppercase;
+            display: flex; gap: 20px; flex-wrap: wrap;
+        }
+        .cc-sec-meta span { display: flex; align-items: center; gap: 5px; }
+        .cc-sec-meta span::before {
+            content: ''; display: block;
+            width: 4px; height: 4px; border-radius: 50%;
+            background: rgba(204,0,0,0.4);
+        }
+        /* ── Cover system header line ────────────────────────────────── */
+        .cc-sys-header {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 4px; color: rgba(204,0,0,0.45);
+            text-transform: uppercase; margin-bottom: 28px;
+        }
+        /* ── Primary tag on Intel Terminal ───────────────────────────── */
+        .cc-primary-tag {
+            display: inline-block;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; letter-spacing: 3px;
+            color: #FF5555; border: 1px solid rgba(255,85,85,0.35);
+            background: rgba(255,85,85,0.07);
+            padding: 3px 8px; margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        /* ── Blinking cursor ─────────────────────────────────────────── */
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+        .cc-cursor { animation: blink 1.1s step-end infinite; color: #CC0000; }
         /* ── Fixed overlay UI ─────────────────────────────────────────── */
         #cc-fixed {
             position: fixed; inset: 0; z-index: 10000;
@@ -16134,9 +16190,10 @@ document.addEventListener('keydown', e => {
                 <div id="cc-cover-logo">
                     <img src="dragon.png" alt="Dragon">
                 </div>
-                <div class="cc-sec-title">Red <span>Dragon</span><br>Command Center</div>
-                <div class="cc-sec-desc">Global Intelligence Platform  Unclassified OSINT  v2.0</div>
-                <button class="cc-sec-btn" data-cc="enter">Enter Intel Terminal</button>
+                <div class="cc-sys-header">Red Dragon Command System &nbsp;&middot;&nbsp; SYS://RDT-v2.0 &nbsp;&middot;&nbsp; Unclassified OSINT<span class="cc-cursor">_</span></div>
+                <div class="cc-sec-title">Red <span>Dragon</span><br>Command System</div>
+                <div class="cc-sec-desc">Real-time geopolitical intelligence on the People's Republic of China. Select an access point to continue.</div>
+                <button class="cc-sec-btn" data-cc="enter">Access Intel Terminal</button>
             </div>
         </section>
 
@@ -16145,11 +16202,18 @@ document.addEventListener('keydown', e => {
             <div class="cc-sec-bg" style="background-image:url('bg1.jpg')"></div>
             <div class="cc-sec-content">
                 <div class="cc-sec-num">01</div>
-                <div class="cc-sec-label">Primary Module</div>
-                <div class="cc-sec-title">Intel Terminal</div>
-                <div class="cc-sec-status online"><span class="cc-sec-status-dot"></span>Online  Live Data</div>
-                <div class="cc-sec-desc">Access live China geopolitical tracking. 3D globe, live aircraft, PLA Navy, missile ranges, BRI network, economy data, and 30 plus intelligence layers updated in real time.</div>
-                <button class="cc-sec-btn" data-cc="enter">Enter Terminal</button>
+                <div class="cc-primary-tag">Primary Access Point</div>
+                <div class="cc-sec-label">Intel Terminal</div>
+                <div class="cc-sec-title">Monitor Global<br>Activity<br><span>In Real Time</span></div>
+                <div class="cc-sec-status online"><span class="cc-sec-status-dot"></span>Online &nbsp;&middot;&nbsp; Live &nbsp;&middot;&nbsp; 30+ Active Sources</div>
+                <div class="cc-sec-desc">Track PLA military deployments, live aircraft, naval movements, missile ranges, BRI infrastructure, and economic warfare across 30+ intelligence layers &mdash; updated continuously.</div>
+                <button class="cc-sec-btn primary" data-cc="enter">Access Terminal &nbsp;&rarr;</button>
+                <div class="cc-sec-meta">
+                    <span>ADS-B Tracking</span>
+                    <span>USGS Seismic</span>
+                    <span>World Bank Feed</span>
+                    <span>Satellite Layer</span>
+                </div>
             </div>
         </section>
 
@@ -16160,9 +16224,14 @@ document.addEventListener('keydown', e => {
                 <div class="cc-sec-num">02</div>
                 <div class="cc-sec-label">Strategic Analysis</div>
                 <div class="cc-sec-title">Intelligence<br>Archive</div>
-                <div class="cc-sec-status files"><span class="cc-sec-status-dot"></span>21 Classified Files</div>
-                <div class="cc-sec-desc">Long form strategic analysis on Communist China's history, power structure, and military doctrine. From the 1911 Revolution through Xi Jinping's consolidation of absolute power.</div>
-                <button class="cc-sec-btn" data-cc="history">Open Archive</button>
+                <div class="cc-sec-status files"><span class="cc-sec-status-dot"></span>21 Files &nbsp;&middot;&nbsp; Declassified &nbsp;&middot;&nbsp; OSINT</div>
+                <div class="cc-sec-desc">Strategic analysis on CCP power structure, military doctrine, and 115 years of modern Chinese history. From the 1911 Revolution to Xi Jinping's consolidation of absolute authority.</div>
+                <button class="cc-sec-btn" data-cc="history">Open Archive &nbsp;&rarr;</button>
+                <div class="cc-sec-meta">
+                    <span>1911 to Present</span>
+                    <span>Military Doctrine</span>
+                    <span>Party Structure</span>
+                </div>
             </div>
         </section>
 
@@ -16171,11 +16240,16 @@ document.addEventListener('keydown', e => {
             <div class="cc-sec-bg" style="background-image:url('bg3.jpg')"></div>
             <div class="cc-sec-content">
                 <div class="cc-sec-num">03</div>
-                <div class="cc-sec-label">Weekly Digest</div>
+                <div class="cc-sec-label">Weekly Intelligence Digest</div>
                 <div class="cc-sec-title">Red Dragon<br>Brief</div>
-                <div class="cc-sec-status free"><span class="cc-sec-status-dot"></span>Free  Weekly</div>
-                <div class="cc-sec-desc">Intelligence digest delivered weekly. PLA force structure updates, BRI developments, Taiwan Strait ADIZ incursions, economic warfare, and geopolitical shifts in the Indo-Pacific.</div>
-                <button class="cc-sec-btn" data-cc="newsletter">Subscribe Free</button>
+                <div class="cc-sec-status free"><span class="cc-sec-status-dot"></span>Free &nbsp;&middot;&nbsp; Weekly &nbsp;&middot;&nbsp; Secure Delivery</div>
+                <div class="cc-sec-desc">Weekly intelligence digest covering PLA force structure shifts, Taiwan Strait incursions, BRI expansion, Indo-Pacific power dynamics, and economic warfare &mdash; straight to your inbox.</div>
+                <button class="cc-sec-btn" data-cc="newsletter">Subscribe Free &nbsp;&rarr;</button>
+                <div class="cc-sec-meta">
+                    <span>Every Monday</span>
+                    <span>No Spam</span>
+                    <span>Unsubscribe Anytime</span>
+                </div>
             </div>
         </section>
 
@@ -16184,11 +16258,16 @@ document.addEventListener('keydown', e => {
             <div class="cc-sec-bg" style="background-image:url('bg4.jpg')"></div>
             <div class="cc-sec-content">
                 <div class="cc-sec-num">04</div>
-                <div class="cc-sec-label">Advanced Access</div>
-                <div class="cc-sec-title">Premium<br>Access</div>
-                <div class="cc-sec-status premium"><span class="cc-sec-status-dot"></span>5 Dollars Per Month  Coming Soon</div>
-                <div class="cc-sec-desc">Unlock real time threat alerts, deep dive analysis reports, advanced geospatial filters, export capabilities, and early access to new intelligence modules before public release.</div>
-                <button class="cc-sec-btn locked" data-cc="premium">Coming Soon</button>
+                <div class="cc-sec-label">Restricted Access</div>
+                <div class="cc-sec-title">Premium<br>Intelligence</div>
+                <div class="cc-sec-status premium"><span class="cc-sec-status-dot"></span>Restricted &nbsp;&middot;&nbsp; $5/Month &nbsp;&middot;&nbsp; Q3 2026</div>
+                <div class="cc-sec-desc">Real-time threat alerts, deep-dive analysis reports, advanced geospatial filters, export capabilities, and early access to new intelligence modules before public release.</div>
+                <button class="cc-sec-btn locked" data-cc="premium">Access Restricted &nbsp;&middot;&nbsp; Q3 2026</button>
+                <div class="cc-sec-meta">
+                    <span>Threat Alerts</span>
+                    <span>Deep Analysis</span>
+                    <span>Export Tools</span>
+                </div>
             </div>
         </section>
 
@@ -16198,10 +16277,14 @@ document.addEventListener('keydown', e => {
             <div class="cc-sec-content">
                 <div class="cc-sec-num">05</div>
                 <div class="cc-sec-label">Member Access</div>
-                <div class="cc-sec-title">Create<br>Account</div>
-                <div class="cc-sec-status locked"><span class="cc-sec-status-dot"></span>Coming Soon</div>
-                <div class="cc-sec-desc">Save intelligence preferences, receive personalized briefings calibrated to your areas of focus, and access member only analysis on PLA doctrine and Chinese foreign policy.</div>
-                <button class="cc-sec-btn locked" data-cc="account">Coming Soon</button>
+                <div class="cc-sec-title">Secure<br>Account</div>
+                <div class="cc-sec-status locked"><span class="cc-sec-status-dot"></span>Locked &nbsp;&middot;&nbsp; Pending Deployment</div>
+                <div class="cc-sec-desc">Save intelligence preferences, receive personalized briefings calibrated to your areas of focus, and access member-only analysis on PLA doctrine and Chinese foreign policy shifts.</div>
+                <button class="cc-sec-btn locked" data-cc="account">Pending Deployment</button>
+                <div class="cc-sec-meta">
+                    <span>Personalized Briefings</span>
+                    <span>Saved Preferences</span>
+                </div>
             </div>
         </section>
 
@@ -16212,9 +16295,14 @@ document.addEventListener('keydown', e => {
                 <div class="cc-sec-num">06</div>
                 <div class="cc-sec-label">Transparency</div>
                 <div class="cc-sec-title">About and<br>Methodology</div>
-                <div class="cc-sec-status free"><span class="cc-sec-status-dot"></span>Open Source  OSINT</div>
-                <div class="cc-sec-desc">RedDragonTracker aggregates public data sources. ADS-B feeds, USGS, World Bank, NBS China, satellite imagery analysis, and open source intelligence. No classified data. No government affiliation.</div>
-                <button class="cc-sec-btn" data-cc="methodology">Read Methodology</button>
+                <div class="cc-sec-status free"><span class="cc-sec-status-dot"></span>Open Source &nbsp;&middot;&nbsp; OSINT &nbsp;&middot;&nbsp; No Gov. Affiliation</div>
+                <div class="cc-sec-desc">All data aggregated from verified public sources &mdash; ADS-B telemetry, USGS seismic feeds, World Bank, NBS China. No classified data. No government affiliation.</div>
+                <button class="cc-sec-btn" data-cc="methodology">Read Methodology &nbsp;&rarr;</button>
+                <div class="cc-sec-meta">
+                    <span>Fully Transparent</span>
+                    <span>Source Cited</span>
+                    <span>OSINT Only</span>
+                </div>
             </div>
         </section>
 
