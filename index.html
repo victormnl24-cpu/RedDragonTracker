@@ -3294,7 +3294,7 @@
         <iframe id="video-iframe" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         <div id="video-mute-overlay">MUTED · CLICK TO UNMUTE</div>
         <div style="position:absolute;top:4px;left:6px;z-index:3;font-family:'Share Tech Mono',monospace;font-size:7px;letter-spacing:1px;color:rgba(255,255,255,0.35);pointer-events:none" id="video-source-label">CGTN · Chinese State Media</div>
-        <div id="video-reload-btn" onclick="event.stopPropagation();loadVideoChannel(currentChannel)" title="Reload stream"
+        <div id="video-reload-btn" onclick="event.stopPropagation();loadVideoChannel(currentVideoCh)" title="Reload stream"
             style="position:absolute;bottom:6px;left:6px;z-index:2;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);color:#555;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1px;padding:3px 7px;cursor:pointer;border-radius:2px;">↺ RELOAD</div>
     </div>
 </div>
@@ -16211,7 +16211,7 @@ const VIDEO_CHANNELS = {
 
 let videoMuted = true;
 let videoCollapsed = false;
-let currentChannel = 'cgtn';
+let currentVideoCh = 'cgtn';
 
 const videoPlayer   = document.getElementById('video-player');
 const videoIframe   = document.getElementById('video-iframe');
@@ -16228,7 +16228,7 @@ const VIDEO_SOURCE_LABELS = {
 function loadVideoChannel(key) {
     const ch = VIDEO_CHANNELS[key];
     if (!ch) return;
-    currentChannel = key;
+    currentVideoCh = key;
     const url = videoMuted ? ch.url : ch.url.replace('mute=1', 'mute=0');
     videoIframe.src = url;
     videoTitle.textContent = ch.title;
@@ -16248,7 +16248,7 @@ videoMuteBtn.addEventListener('click', e => {
     videoMuted = !videoMuted;
     videoMuteBtn.textContent = videoMuted ? 'MUTED · CLICK TO UNMUTE' : 'SOUND ON · CLICK TO MUTE';
     // Reload iframe with updated mute param
-    const ch = VIDEO_CHANNELS[currentChannel];
+    const ch = VIDEO_CHANNELS[currentVideoCh];
     videoIframe.src = videoMuted ? ch.url : ch.url.replace('mute=1', 'mute=0');
 });
 
