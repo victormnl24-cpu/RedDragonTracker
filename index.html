@@ -557,6 +557,7 @@
         }
         .news-item:last-child { border-bottom: none; }
         .news-item-clickable {
+            display: block; text-decoration: none;
             cursor: pointer; transition: background 0.15s, padding-left 0.15s;
             border-radius: 2px; padding-left: 4px; margin-left: -4px;
         }
@@ -15551,12 +15552,12 @@ async function renderNewsPanel() {
 
     const updated = new Date(newsLastFetch);
     const items = articles.slice(0, 40).map(a => `
-        <div class="news-item news-item-clickable" onclick="window.open(${JSON.stringify(safeUrl(a.link))},'_blank','noopener,noreferrer')">
+        <a class="news-item news-item-clickable" href="${escapeHtml(safeUrl(a.link))}" target="_blank" rel="noopener noreferrer">
             <span class="news-badge" style="color:${a.color}">${a.source}</span>
             <div class="news-title">${a.title}</div>
             ${a.desc ? `<div class="news-desc">${a.desc}…</div>` : ''}
-            <div class="news-time">◷ ${newsTimeAgo(a.date)} &nbsp;·&nbsp; tap to read →</div>
-        </div>`).join('');
+            <div class="news-time">◷ ${newsTimeAgo(a.date)} &nbsp;·&nbsp; read article →</div>
+        </a>`).join('');
 
     content.innerHTML = `
         <div class="news-refresh-bar">
