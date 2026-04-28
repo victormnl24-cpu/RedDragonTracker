@@ -2102,6 +2102,91 @@
             #cc-nav { display: none; }
             #cc-top-name { font-size: 9px; letter-spacing: 2.5px; }
         }
+
+        /* ══ History Full-Screen Reader ══════════════════════════════════ */
+        #hist-reader {
+            position: fixed; inset: 0; z-index: 9998;
+            background: #050101;
+            display: flex; flex-direction: column;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+        }
+        #hist-reader.open {
+            opacity: 1; visibility: visible;
+            transition: opacity 0.35s ease, visibility 0s linear 0s;
+        }
+        #hist-reader-topbar {
+            flex-shrink: 0;
+            display: flex; align-items: center; gap: 16px;
+            padding: 0 32px;
+            height: 52px;
+            border-bottom: 1px solid rgba(204,0,0,0.18);
+            background: rgba(5,0,0,0.95);
+        }
+        #hist-reader-topbar::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, #CC0000, rgba(204,0,0,0.2) 60%, transparent);
+        }
+        #hist-reader-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 3px; color: #CC0000;
+            text-transform: uppercase; flex: 1;
+        }
+        #hist-reader-meta {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; color: #333; letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        #hist-reader-close {
+            background: none;
+            border: 1px solid rgba(204,0,0,0.22);
+            color: #444; font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 2px; padding: 5px 12px;
+            cursor: pointer; transition: all 0.18s; flex-shrink: 0;
+        }
+        #hist-reader-close:hover { border-color: #CC0000; color: #CC0000; }
+        #hist-reader-body {
+            flex: 1; overflow-y: auto;
+            padding: 48px 0;
+            display: flex; justify-content: center;
+        }
+        #hist-reader-body::-webkit-scrollbar { width: 4px; }
+        #hist-reader-body::-webkit-scrollbar-track { background: transparent; }
+        #hist-reader-body::-webkit-scrollbar-thumb { background: rgba(204,0,0,0.25); border-radius: 2px; }
+        #hist-reader-inner {
+            width: min(820px, 92vw);
+            padding: 0 24px;
+        }
+        /* Override hist-doc inside reader for better full-screen reading */
+        #hist-reader .hist-doc {
+            font-size: 13.5px;
+            line-height: 1.75;
+            color: #c8c8c8;
+        }
+        #hist-reader .hist-doc h2 {
+            font-size: 11px;
+            margin-top: 32px;
+        }
+        #hist-reader .hist-doc h3 {
+            font-size: 10.5px;
+        }
+        #hist-reader .hist-doc .infobox {
+            width: 260px;
+        }
+        #hist-reader .hist-doc figure.thumb {
+            width: 240px;
+        }
+        #hist-reader .hist-doc p {
+            margin-bottom: 11px;
+        }
+        @media (max-width: 600px) {
+            #hist-reader-topbar { padding: 0 16px; }
+            #hist-reader-body { padding: 24px 0; }
+            #hist-reader-title { font-size: 8px; letter-spacing: 2px; }
+            #hist-reader-meta { display: none; }
+        }
     </style>
 </head>
 <body>
@@ -15791,7 +15876,7 @@ if (!_nlShown) {
                 closeCC(); break;
             case 'history':
                 closeCC();
-                setTimeout(() => openPanel('history'), 400); break;
+                setTimeout(() => openHistReader(), 400); break;
             case 'newsletter':
                 closeCC();
                 setTimeout(() => openPanel('briefing'), 400); break;
@@ -15832,6 +15917,39 @@ if (!_nlShown) {
     else if (returnBtn) returnBtn.style.display = 'flex';
 
 })();
+
+
+// ══ History Full-Screen Reader ════════════════════════════════════════════
+function openHistReader() {
+    const overlay = document.getElementById('hist-reader');
+    const inner   = document.getElementById('hist-reader-inner');
+    if (!overlay || !inner) { openPanel('history'); return; }
+    // Populate content from the same PANELS data
+    if (!inner.dataset.loaded) {
+        inner.innerHTML = PANELS.history.html();
+        inner.dataset.loaded = '1';
+        // Wire anchor links to scroll within reader body
+        const body = document.getElementById('hist-reader-body');
+        inner.addEventListener('click', e => {
+            const a = e.target.closest('[data-hist-anchor]');
+            if (!a) return;
+            e.preventDefault();
+            const id = a.dataset.histAnchor;
+            const target = inner.querySelector('#' + id) || inner.querySelector('[id="' + id + '"]');
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    }
+    document.getElementById('hist-reader-body').scrollTop = 0;
+    overlay.classList.add('open');
+}
+document.getElementById('hist-reader-close')?.addEventListener('click', () => {
+    document.getElementById('hist-reader').classList.remove('open');
+});
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        document.getElementById('hist-reader')?.classList.remove('open');
+    }
+});
 
 </script>
 
@@ -15964,5 +16082,17 @@ if (!_nlShown) {
 </button>
 
 
+
+<!-- ══ History Full-Screen Reader ════════════════════════════════════════ -->
+<div id="hist-reader">
+    <div id="hist-reader-topbar">
+        <div id="hist-reader-title">Intelligence Archive</div>
+        <div id="hist-reader-meta">Modern China 1911 to Present  21 Files  Unclassified</div>
+        <button id="hist-reader-close">Close Reader</button>
+    </div>
+    <div id="hist-reader-body">
+        <div id="hist-reader-inner"></div>
+    </div>
+</div>
 </body>
 </html>
