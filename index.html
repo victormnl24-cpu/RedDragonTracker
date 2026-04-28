@@ -2429,6 +2429,250 @@
             #meth-reader-meta { display: none; }
             .meth-h1 { font-size: 18px; }
         }
+
+        /* ══ ALERT & PREMIUM SYSTEM ══════════════════════════════ */
+
+        /* ── Header buttons ─────────────────────────────────── */
+        #alert-btn {
+            position: relative;
+            background: none; border: 1px solid rgba(204,0,0,0.25);
+            color: #888; font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 1.5px;
+            padding: 5px 10px; cursor: pointer; transition: all 0.18s;
+            display: flex; align-items: center; gap: 5px;
+        }
+        #alert-btn:hover { border-color: #CC0000; color: #CC0000; }
+        #alert-badge {
+            display: none; position: absolute; top: -5px; right: -5px;
+            background: #CC0000; color: #fff;
+            font-size: 7px; font-weight: 700; letter-spacing: 0;
+            width: 16px; height: 16px; border-radius: 50%;
+            align-items: center; justify-content: center;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        #upgrade-btn {
+            background: linear-gradient(135deg, rgba(255,180,0,0.12), rgba(204,0,0,0.08));
+            border: 1px solid rgba(255,180,0,0.35);
+            color: #FFB400; font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 1.5px;
+            padding: 5px 10px; cursor: pointer; transition: all 0.18s;
+        }
+        #upgrade-btn:hover { background: rgba(255,180,0,0.18); border-color: #FFB400; }
+        #upgrade-btn.premium-active { color: #FFD700; border-color: rgba(255,215,0,0.4); }
+
+        /* ── Toast system ───────────────────────────────────── */
+        #rdt-toasts {
+            position: fixed; bottom: 24px; right: 24px; z-index: 11000;
+            display: flex; flex-direction: column; gap: 10px;
+            pointer-events: none; max-width: 320px;
+        }
+        .rdt-toast {
+            pointer-events: all;
+            display: flex; align-items: stretch; gap: 0;
+            background: rgba(8,0,0,0.97); border: 1px solid rgba(204,0,0,0.22);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.03);
+            overflow: hidden; min-width: 280px;
+            opacity: 0; transform: translateX(24px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .rdt-toast.show { opacity: 1; transform: translateX(0); }
+        .rdt-toast-accent { width: 3px; flex-shrink: 0; }
+        .rdt-toast-body { flex: 1; padding: 10px 12px; }
+        .rdt-toast-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 1.5px; color: #ddd;
+            margin-bottom: 3px; font-weight: 700;
+        }
+        .rdt-toast-text {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; color: #666; line-height: 1.5;
+        }
+        .rdt-toast-link {
+            display: inline-block; margin-top: 5px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; color: #CC0000; text-decoration: none;
+        }
+        .rdt-toast-link:hover { text-decoration: underline; }
+        .rdt-toast-close {
+            background: none; border: none; color: #333;
+            font-size: 10px; padding: 8px 10px; cursor: pointer;
+            flex-shrink: 0; transition: color 0.15s; align-self: flex-start;
+        }
+        .rdt-toast-close:hover { color: #CC0000; }
+
+        /* ── Alert panel ────────────────────────────────────── */
+        .alert-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            cursor: pointer; transition: background 0.15s;
+            border-radius: 2px; margin: 0 -6px; padding-left: 6px;
+        }
+        .alert-row:hover { background: rgba(255,255,255,0.03); }
+        .alert-row:last-child { border-bottom: none; }
+        .alert-locked { opacity: 0.5; }
+        .alert-toggle {
+            width: 30px; height: 16px; border-radius: 8px;
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+            position: relative; flex-shrink: 0; transition: background 0.2s, border-color 0.2s;
+        }
+        .alert-toggle.on { background: rgba(204,0,0,0.3); border-color: #CC0000; }
+        .alert-toggle-knob {
+            position: absolute; top: 2px; left: 2px;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: #444; transition: left 0.2s, background 0.2s;
+        }
+        .alert-toggle.on .alert-toggle-knob { left: 16px; background: #CC0000; }
+        .alert-info { flex: 1; min-width: 0; }
+        .alert-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; color: #ccc; letter-spacing: 0.5px;
+            margin-bottom: 2px; display: flex; align-items: center; gap: 6px;
+        }
+        .alert-desc { font-size: 9px; color: #444; line-height: 1.4; }
+        .alert-lock-tag {
+            font-size: 6px; letter-spacing: 1.5px; padding: 1px 5px;
+            background: rgba(204,0,0,0.1); border: 1px solid rgba(204,0,0,0.25);
+            color: #CC0000;
+        }
+        .alert-hist-item {
+            display: flex; align-items: flex-start; gap: 8px;
+            padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .alert-hist-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+        .alert-hist-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; color: #ccc; margin-bottom: 2px;
+        }
+        .alert-hist-body { font-size: 9px; color: #555; line-height: 1.4; }
+        .alert-hist-time {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; color: #333; flex-shrink: 0; margin-top: 2px;
+        }
+
+        /* ── Premium lock overlay ───────────────────────────── */
+        .premium-lock {
+            text-align: center; padding: 40px 20px;
+            border: 1px solid rgba(255,180,0,0.15);
+            background: rgba(255,180,0,0.03);
+        }
+        .premium-lock-icon { font-size: 28px; margin-bottom: 12px; }
+        .premium-lock-title {
+            font-family: 'Orbitron', monospace; font-size: 12px;
+            color: #FFB400; letter-spacing: 2px; margin-bottom: 8px;
+        }
+        .premium-lock-desc {
+            font-size: 10px; color: #555; line-height: 1.6; margin-bottom: 16px;
+        }
+        .premium-lock-btn {
+            background: rgba(255,180,0,0.1); border: 1px solid rgba(255,180,0,0.35);
+            color: #FFB400; font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 2px; padding: 8px 20px;
+            cursor: pointer; transition: all 0.18s;
+        }
+        .premium-lock-btn:hover { background: rgba(255,180,0,0.18); }
+        .premium-unlock-row {
+            display: flex; align-items: center; gap: 8px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; color: #555; padding: 6px 0;
+        }
+        .premium-unlock-row::before {
+            content: '✓'; color: #FFB400; font-size: 10px; flex-shrink: 0;
+        }
+
+        /* ── Predictive panel ───────────────────────────────── */
+        .pred-scenario {
+            padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .pred-scenario:last-child { border-bottom: none; }
+        .pred-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .pred-prob {
+            font-family: 'Share Tech Mono', monospace; font-size: 7px;
+            letter-spacing: 1.5px; padding: 2px 7px;
+        }
+        .pred-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; color: #ccc; font-weight: 700;
+        }
+        .pred-text { font-size: 10px; color: #777; line-height: 1.6; }
+        .pred-timeframe {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; color: #444; margin-top: 4px; letter-spacing: 1px;
+        }
+
+        /* ── Upgrade modal ──────────────────────────────────── */
+        #upgrade-modal {
+            position: fixed; inset: 0; z-index: 11000;
+            background: rgba(0,0,0,0.88);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+        #upgrade-modal.show {
+            opacity: 1; visibility: visible;
+            transition: opacity 0.3s ease, visibility 0s linear 0s;
+        }
+        #upgrade-modal-inner {
+            background: #070000; border: 1px solid rgba(255,180,0,0.25);
+            padding: 40px 36px; max-width: 480px; width: 92vw;
+            position: relative;
+            box-shadow: 0 24px 80px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,180,0,0.08);
+        }
+        #upgrade-close {
+            position: absolute; top: 14px; right: 14px;
+            background: none; border: none; color: #333;
+            font-size: 14px; cursor: pointer; transition: color 0.15s;
+        }
+        #upgrade-close:hover { color: #CC0000; }
+        .upgr-tag {
+            font-family: 'Share Tech Mono', monospace; font-size: 7px;
+            letter-spacing: 3px; color: #FFB400;
+            background: rgba(255,180,0,0.08); border: 1px solid rgba(255,180,0,0.2);
+            display: inline-block; padding: 3px 10px; margin-bottom: 16px;
+        }
+        .upgr-h1 {
+            font-family: 'Orbitron', monospace; font-size: 24px; font-weight: 700;
+            color: #fff; margin-bottom: 6px; line-height: 1.2;
+        }
+        .upgr-h1 span { color: #CC0000; }
+        .upgr-price {
+            font-family: 'Orbitron', monospace; font-size: 32px; font-weight: 700;
+            color: #FFB400; margin-bottom: 4px;
+        }
+        .upgr-price span { font-size: 14px; color: #555; }
+        .upgr-tagline {
+            font-family: 'Share Tech Mono', monospace; font-size: 9px;
+            color: #555; letter-spacing: 1px; margin-bottom: 24px;
+        }
+        .upgr-features { margin-bottom: 24px; }
+        .upgr-feat-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+            font-size: 11px; color: #bbb;
+        }
+        .upgr-feat-row::before { content: '→'; color: #FFB400; font-size: 10px; }
+        .upgr-form { display: flex; gap: 8px; margin-bottom: 10px; }
+        .upgr-form input {
+            flex: 1; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.1); color: #ddd;
+            font-family: 'Share Tech Mono', monospace; font-size: 10px;
+            padding: 9px 12px; outline: none; transition: border-color 0.18s;
+        }
+        .upgr-form input:focus { border-color: rgba(255,180,0,0.4); }
+        .upgr-form button {
+            background: rgba(255,180,0,0.12); border: 1px solid rgba(255,180,0,0.4);
+            color: #FFB400; font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 1.5px; padding: 9px 16px;
+            cursor: pointer; transition: all 0.18s; white-space: nowrap;
+        }
+        .upgr-form button:hover { background: rgba(255,180,0,0.2); }
+        #upgr-msg {
+            font-family: 'Share Tech Mono', monospace; font-size: 8px;
+            min-height: 16px; margin-bottom: 10px; letter-spacing: 1px;
+        }
+        .upgr-disclaimer {
+            font-family: 'Share Tech Mono', monospace; font-size: 8px;
+            color: #2a2a2a; letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -2485,6 +2729,15 @@
             <span class="hdr-stat-label" id="hdr-tz-label">UTC</span>
             <span class="hdr-stat-val" id="hdr-clock">00:00:00</span>
         </div>
+        <button id="alert-btn" onclick="activePanel==='alerts'?closePanel():openPanel('alerts')">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                <path d="M5.5 1 C3.5 1 2 2.8 2 5 L2 7.5 L1 8.5 L10 8.5 L9 7.5 L9 5 C9 2.8 7.5 1 5.5 1Z" stroke="currentColor" stroke-width="1" fill="none"/>
+                <path d="M4 8.5 C4 9.3 4.7 10 5.5 10 C6.3 10 7 9.3 7 8.5" stroke="currentColor" stroke-width="1" fill="none"/>
+            </svg>
+            ALERTS
+            <span id="alert-badge">0</span>
+        </button>
+        <button id="upgrade-btn" onclick="showUpgradeModal()">✦ UPGRADE</button>
         <button id="nl-trigger" onclick="document.getElementById('nl-overlay').classList.add('show')">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
                 <rect x="1" y="3" width="11" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/>
@@ -2637,6 +2890,18 @@
     <button class="dock-btn" data-panel="tension" data-tip="Geopolitical Tension Meter">
         <span class="dock-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 11 A5.5 5.5 0 0 1 12 11" stroke="currentColor" stroke-width="1.2" fill="none"/><line x1="7" y1="5.5" x2="10.5" y2="9" stroke="#CC0000" stroke-width="1.4"/><circle cx="7" cy="11" r="1" fill="currentColor"/><line x1="4" y1="10" x2="2.5" y2="8" stroke="currentColor" stroke-width="0.9" opacity="0.5"/><line x1="7" y1="5.5" x2="7" y2="3.5" stroke="currentColor" stroke-width="0.9" opacity="0.5"/><line x1="10" y1="10" x2="11.5" y2="8" stroke="currentColor" stroke-width="0.9" opacity="0.5"/></svg></span>
         <span class="dock-label">TENS</span>
+    </button>
+    <button class="dock-btn" data-panel="alerts" data-tip="Alert System">
+        <span class="dock-icon" style="position:relative">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.5 C4.5 1.5 2.5 3.8 2.5 6.5 L2.5 9.5 L1 11 L13 11 L11.5 9.5 L11.5 6.5 C11.5 3.8 9.5 1.5 7 1.5Z" stroke="currentColor" stroke-width="1.1" fill="none"/><path d="M5 11 C5 12.1 5.9 13 7 13 C8.1 13 9 12.1 9 11" stroke="currentColor" stroke-width="1.1" fill="none"/></svg>
+        </span>
+        <span class="dock-label">ALERTS</span>
+    </button>
+    <button class="dock-btn" data-panel="predictive" data-tip="Predictive Analysis · Premium">
+        <span class="dock-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polyline points="1.5,11 4.5,6 7,8.5 10,3.5 12.5,5" stroke="currentColor" stroke-width="1.1" fill="none"/><circle cx="12.5" cy="5" r="1.2" fill="#FFB400"/></svg>
+        </span>
+        <span class="dock-label" style="color:#FFB400">PREDICT</span>
     </button>
     </div><!-- end #dock-wheel -->
 </div>
@@ -14137,6 +14402,38 @@ corrections welcome.
         }
     },
 
+    alerts: {
+        title: 'Alert System',
+        subtitle: 'Signal-Driven Intelligence Notifications',
+        legend: '',
+        html() { return renderAlertsPanel(); },
+    },
+
+    predictive: {
+        title: 'Predictive Analysis',
+        subtitle: 'Scenario Modeling · What Happens Next · Premium',
+        legend: '',
+        html() {
+            if (!RDT.isPremium()) {
+                return `<div class="premium-lock">
+                    <div class="premium-lock-icon">🔒</div>
+                    <div class="premium-lock-title">PREMIUM FEATURE</div>
+                    <div class="premium-lock-desc">
+                        Predictive analysis models likely next-move scenarios based on live news, tension scores, and historical PRC behavior patterns.
+                    </div>
+                    <div style="text-align:left;max-width:260px;margin:0 auto 20px">
+                        <div class="premium-unlock-row">Scenario probability scoring</div>
+                        <div class="premium-unlock-row">30–90 day outlook per flashpoint</div>
+                        <div class="premium-unlock-row">Historical pattern matching</div>
+                        <div class="premium-unlock-row">Early warning indicators</div>
+                    </div>
+                    <button class="premium-lock-btn" onclick="showUpgradeModal()">UNLOCK — $5/MO EARLY ACCESS</button>
+                </div>`;
+            }
+            return renderPredictive();
+        },
+    },
+
 };
 
 // ── TradingView Widget helpers ─────────────────────────────────────────
@@ -14245,6 +14542,8 @@ const PANEL_DATA_SOURCE = {
     silos: 'osint', fleet: 'osint', invasion: 'osint', apt: 'osint',
     confucius: 'osint', leaders: 'static', comparison: 'static',
     history: 'static',
+    alerts: 'live',
+    predictive: 'osint',
 };
 const BADGE_HTML = {
     live:    '<span class="badge-live">LIVE</span>',
@@ -15332,6 +15631,8 @@ async function fetchChineseNews(force = false) {
     updateTensionMeter(articles);
     renderIntelPanel();
     renderMiniTicker();
+    checkNewsAlerts(articles);
+    checkDailySummary();
     return articles;
 }
 
@@ -15445,6 +15746,9 @@ function updateTensionMeter(articles) {
     fillEl.style.boxShadow  = `0 0 8px ${col}`;
     statusEl.textContent    = label;
     statusEl.style.color    = col;
+
+    // ── Fire tension alert if level changed ────────────
+    checkTensionAlert(label, col);
 
     // ── Sparkline history ──────────────────────────────
     tensionHistory.push(score);
@@ -16430,7 +16734,346 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
         document.getElementById('hist-reader')?.classList.remove('open');
         document.getElementById('meth-reader')?.classList.remove('open');
+        hideUpgradeModal();
     }
+});
+
+// ══ ALERT & PREMIUM SYSTEM ════════════════════════════════════════════════
+
+// ── State management ──────────────────────────────────────────────────────
+const RDT = {
+    isPremium() { return localStorage.getItem('rdt_premium') === '1'; },
+    setPremium(v) { localStorage.setItem('rdt_premium', v ? '1' : '0'); },
+    getAlerts() {
+        try { return JSON.parse(localStorage.getItem('rdt_alerts') || '["tension","daily"]'); }
+        catch { return ['tension','daily']; }
+    },
+    saveAlerts(arr) { localStorage.setItem('rdt_alerts', JSON.stringify(arr)); },
+    getHistory() {
+        try { return JSON.parse(localStorage.getItem('rdt_alert_hist') || '[]'); }
+        catch { return []; }
+    },
+    addHistory(item) {
+        const h = RDT.getHistory();
+        h.unshift({ ...item, ts: Date.now() });
+        localStorage.setItem('rdt_alert_hist', JSON.stringify(h.slice(0, 30)));
+        updateAlertBadge();
+    },
+    getUnread() {
+        const lastSeen = parseInt(localStorage.getItem('rdt_alerts_seen') || '0');
+        return RDT.getHistory().filter(h => h.ts > lastSeen).length;
+    },
+    markRead() {
+        localStorage.setItem('rdt_alerts_seen', Date.now().toString());
+        updateAlertBadge();
+    },
+};
+
+// ── Alert definitions ─────────────────────────────────────────────────────
+const ALERT_DEFS = [
+    { id: 'tension',  label: 'Tension Level Changes',     desc: 'Alert when score shifts between NOMINAL / ELEVATED / HIGH / SEVERE', free: true  },
+    { id: 'taiwan',   label: 'Taiwan Activity',            desc: 'Airspace violations, naval activity, military movements near the Strait', free: true  },
+    { id: 'military', label: 'Military Movements',         desc: 'PLA exercises, deployments, and troop mobilisation detected in feeds',  free: false },
+    { id: 'cyber',    label: 'Cyber Operations',           desc: 'New APT activity, government advisories, or confirmed intrusions',       free: false },
+    { id: 'economic', label: 'Economic Signals',           desc: 'Tariffs, sanctions, export controls, and supply chain disruptions',      free: false },
+    { id: 'daily',    label: 'Daily Intelligence Summary', desc: 'Morning briefing — what changed in the past 24 hours',                  free: true  },
+];
+const FREE_LIMIT = 2;
+
+// ── Toast notifications ───────────────────────────────────────────────────
+function showToast(title, body, color = '#CC0000', link = null) {
+    const container = document.getElementById('rdt-toasts');
+    if (!container) return;
+    const id = 'toast_' + Date.now() + '_' + Math.random().toString(36).slice(2,6);
+    const el = document.createElement('div');
+    el.className = 'rdt-toast';
+    el.id = id;
+    el.innerHTML = `
+        <div class="rdt-toast-accent" style="background:${color}"></div>
+        <div class="rdt-toast-body">
+            <div class="rdt-toast-title">${escapeHtml(title)}</div>
+            <div class="rdt-toast-text">${escapeHtml(body)}</div>
+            ${link ? `<a class="rdt-toast-link" href="${escapeHtml(safeUrl(link))}" target="_blank" rel="noopener noreferrer">Read source →</a>` : ''}
+        </div>
+        <button class="rdt-toast-close" onclick="document.getElementById(${JSON.stringify(id)})?.remove()">✕</button>`;
+    container.appendChild(el);
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+    const timer = setTimeout(() => {
+        el.classList.remove('show');
+        setTimeout(() => el.remove(), 400);
+    }, 8000);
+    el.addEventListener('click', e => {
+        if (e.target.classList.contains('rdt-toast-close')) return;
+        clearTimeout(timer);
+        el.classList.remove('show');
+        setTimeout(() => el.remove(), 400);
+    });
+}
+
+// ── Alert firing ──────────────────────────────────────────────────────────
+function fireAlert(type, title, body, color = '#CC0000', link = null) {
+    RDT.addHistory({ type, title, body, color, link });
+    showToast(`🔔 ${title}`, body, color, link);
+    if (Notification?.permission === 'granted') {
+        try { new Notification(`Red Dragon · ${title}`, { body, icon: 'dragon.png' }); } catch(_) {}
+    }
+    // Refresh alert panel if open
+    if (activePanel === 'alerts') {
+        document.getElementById('panel-content').innerHTML = renderAlertsPanel();
+    }
+}
+
+// ── Tension alert ─────────────────────────────────────────────────────────
+let _lastTensionLabel = null;
+function checkTensionAlert(label, col) {
+    if (!_lastTensionLabel) { _lastTensionLabel = label; return; }
+    if (_lastTensionLabel === label) return;
+    const prev = _lastTensionLabel;
+    _lastTensionLabel = label;
+    if (!RDT.getAlerts().includes('tension')) return;
+    fireAlert('tension', `Tension: ${prev} → ${label}`,
+        `China's geopolitical tension level has shifted.`, col || '#CC0000');
+}
+
+// ── News alerts ───────────────────────────────────────────────────────────
+let _lastNewsAlertCheck = 0;
+const _seenAlertLinks = new Set();
+
+function checkNewsAlerts(articles) {
+    const now = Date.now();
+    if (now - _lastNewsAlertCheck < 90000) return;
+    _lastNewsAlertCheck = now;
+    const active = RDT.getAlerts();
+    const fresh = articles.filter(a => a.link && !_seenAlertLinks.has(a.link));
+    fresh.forEach(a => _seenAlertLinks.add(a.link));
+    if (_seenAlertLinks.size > 500) {
+        const trimmed = [..._seenAlertLinks].slice(-200);
+        _seenAlertLinks.clear();
+        trimmed.forEach(l => _seenAlertLinks.add(l));
+    }
+    if (!fresh.length) return;
+
+    [
+        { id: 'taiwan',   rx: /taiwan|strait|adiz|taipei|tsai|pelosi|pla.*enter/i,            label: 'Taiwan Alert',    col: '#FF4444' },
+        { id: 'military', rx: /military|pla exercise|warship|troops|naval|drill|deployment/i,  label: 'Military Alert',  col: '#FF8800' },
+        { id: 'cyber',    rx: /cyber|hack|apt\d|intrusion|malware|breach|volt typhoon|salt typhoon/i, label: 'Cyber Alert', col: '#00FFCC' },
+        { id: 'economic', rx: /tariff|sanction|export control|trade war|chip ban|supply chain/i, label: 'Economic Alert', col: '#FFD700' },
+    ].forEach(({ id, rx, label, col }) => {
+        if (!active.includes(id)) return;
+        const hit = fresh.find(a => rx.test(a.title + ' ' + (a.desc || '')));
+        if (hit) fireAlert(id, label, hit.title.slice(0, 100), col, hit.link);
+    });
+}
+
+// ── Daily summary ─────────────────────────────────────────────────────────
+function checkDailySummary() {
+    if (!RDT.getAlerts().includes('daily')) return;
+    const today = new Date().toDateString();
+    if (localStorage.getItem('rdt_daily_date') === today) return;
+    if (newsCache.length < 3) return;
+    localStorage.setItem('rdt_daily_date', today);
+    const top = newsCache[0];
+    fireAlert('daily', 'Daily Intelligence Summary',
+        `${newsCache.length} stories tracked today. Top: "${top.title.slice(0, 65)}…"`,
+        '#4A90D9', top.link);
+}
+
+// ── Badge counter ─────────────────────────────────────────────────────────
+function updateAlertBadge() {
+    const badge = document.getElementById('alert-badge');
+    if (!badge) return;
+    const count = RDT.getUnread();
+    badge.textContent = count > 9 ? '9+' : String(count);
+    badge.style.display = count > 0 ? 'flex' : 'none';
+}
+updateAlertBadge(); // init on load
+
+// ── Alerts panel renderer ─────────────────────────────────────────────────
+function renderAlertsPanel() {
+    const active = RDT.getAlerts();
+    const premium = RDT.isPremium();
+    const history = RDT.getHistory();
+    RDT.markRead();
+
+    return `
+    <p class="intro-text">Subscribe to signals. Get notified the moment something changes.
+    ${!premium
+        ? `<span style="color:#FFB400;font-size:8px;letter-spacing:1px;cursor:pointer;margin-left:4px" onclick="showUpgradeModal()">↑ UPGRADE FOR UNLIMITED</span>`
+        : `<span style="color:#FFB400;font-size:8px;letter-spacing:1.5px">✦ PREMIUM ACTIVE</span>`}
+    </p>
+
+    <div class="section-label">ALERT SUBSCRIPTIONS</div>
+    ${ALERT_DEFS.map(def => {
+        const enabled = active.includes(def.id);
+        const locked = !def.free && !premium;
+        const atLimit = !enabled && !premium && active.length >= FREE_LIMIT;
+        const clickAction = locked || atLimit ? 'showUpgradeModal()' : `toggleAlert('${def.id}')`;
+        return `<div class="alert-row ${locked ? 'alert-locked' : ''}" onclick="${clickAction}">
+            <div class="alert-toggle ${enabled && !locked ? 'on' : ''}">
+                <div class="alert-toggle-knob"></div>
+            </div>
+            <div class="alert-info">
+                <div class="alert-label">${escapeHtml(def.label)}
+                    ${locked ? `<span class="alert-lock-tag">PREMIUM</span>` : ''}
+                </div>
+                <div class="alert-desc">${escapeHtml(def.desc)}</div>
+            </div>
+        </div>`;
+    }).join('')}
+
+    ${!premium ? `
+    <div onclick="showUpgradeModal()" style="margin:14px 0 4px;padding:12px 14px;background:rgba(255,180,0,0.05);border:1px solid rgba(255,180,0,0.18);cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='rgba(255,180,0,0.1)'" onmouseout="this.style.background='rgba(255,180,0,0.05)'">
+        <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#FFB400;letter-spacing:2px;margin-bottom:4px">↑ UNLOCK ALL ALERTS — $5/MO EARLY ACCESS</div>
+        <div style="font-size:9px;color:#555;line-height:1.5">Military · Cyber · Economic · Unlimited filters · Real-time browser notifications</div>
+    </div>` : ''}
+
+    <div class="section-label" style="margin-top:18px">ALERT HISTORY</div>
+    ${history.length ? history.slice(0, 12).map(h => {
+        const ago = Math.round((Date.now() - h.ts) / 60000);
+        const t = ago < 60 ? `${ago}m ago` : ago < 1440 ? `${Math.round(ago/60)}h ago` : `${Math.round(ago/1440)}d ago`;
+        return `<div class="alert-hist-item" ${h.link ? `onclick="window.open(${JSON.stringify(safeUrl(h.link))},'_blank','noopener')"` : ''} style="${h.link ? 'cursor:pointer' : ''}">
+            <div class="alert-hist-dot" style="background:${h.color}"></div>
+            <div style="flex:1;min-width:0">
+                <div class="alert-hist-title">${escapeHtml(h.title)}</div>
+                <div class="alert-hist-body">${escapeHtml(h.body)}</div>
+            </div>
+            <div class="alert-hist-time">${t}</div>
+        </div>`;
+    }).join('') : `<div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:#333;padding:14px 0">No alerts yet. Subscribe above — alerts trigger automatically as news refreshes.</div>`}`;
+}
+
+// ── Toggle alert subscription ─────────────────────────────────────────────
+function toggleAlert(id) {
+    const def = ALERT_DEFS.find(d => d.id === id);
+    if (!def) return;
+    const premium = RDT.isPremium();
+    if (!def.free && !premium) { showUpgradeModal(); return; }
+    const active = RDT.getAlerts();
+    if (!premium && !active.includes(id) && active.length >= FREE_LIMIT) { showUpgradeModal(); return; }
+    const idx = active.indexOf(id);
+    if (idx >= 0) active.splice(idx, 1);
+    else active.push(id);
+    RDT.saveAlerts(active);
+    if (activePanel === 'alerts') {
+        document.getElementById('panel-content').innerHTML = renderAlertsPanel();
+    }
+    // Request browser notification permission when first alert enabled
+    if (active.length === 1 && Notification?.permission === 'default') {
+        Notification.requestPermission();
+    }
+}
+
+// ── Predictive analysis renderer ──────────────────────────────────────────
+function renderPredictive() {
+    const score = parseFloat(document.getElementById('tension-score')?.textContent || '0');
+    const articles = newsCache.slice(0, 10);
+    const topTopics = { taiwan: 0, military: 0, cyber: 0, economic: 0, space: 0 };
+    articles.forEach(a => {
+        const t = (a.title + ' ' + (a.desc || '')).toLowerCase();
+        if (/taiwan|strait/i.test(t)) topTopics.taiwan++;
+        if (/military|pla|naval|warship/i.test(t)) topTopics.military++;
+        if (/cyber|hack|apt/i.test(t)) topTopics.cyber++;
+        if (/tariff|trade|sanction/i.test(t)) topTopics.economic++;
+        if (/space|missile|satellite/i.test(t)) topTopics.space++;
+    });
+
+    const scenarios = [];
+    if (topTopics.taiwan >= 2 || score >= 5) {
+        scenarios.push({ prob: 'ELEVATED', col: '#FF8800', label: 'Taiwan Strait Provocation',
+            text: 'Current news volume and tension indicators suggest continued PLA air incursions into Taiwan\'s ADIZ are likely within 7–14 days. Watch for concurrent naval drills in the SCS.',
+            frame: 'Outlook: 7–14 days' });
+    }
+    if (topTopics.cyber >= 1 || score >= 4) {
+        scenarios.push({ prob: 'LIKELY', col: '#00FFCC', label: 'Cyber Espionage Activity',
+            text: 'Salt Typhoon and Volt Typhoon remain active. Infrastructure sectors (telecom, energy, water) are primary targets. New CISA advisories probable if activity escalates.',
+            frame: 'Outlook: ongoing / 30 days' });
+    }
+    if (topTopics.economic >= 2) {
+        scenarios.push({ prob: 'HIGH', col: '#FFD700', label: 'Trade Escalation',
+            text: 'Elevated tariff coverage in current feeds indicates further retaliatory measures are possible. Rare earth export controls remain a primary leverage tool for Beijing.',
+            frame: 'Outlook: 30–60 days' });
+    }
+    if (score >= 7) {
+        scenarios.push({ prob: 'WATCH', col: '#FF4444', label: 'Rapid Escalation Risk',
+            text: 'Tension score above SEVERE threshold. Historical pattern suggests diplomatic statements will escalate before de-escalation. Naval movements near Taiwan or SCS are the primary early-warning indicator.',
+            frame: 'Watch window: 72 hours' });
+    }
+    if (!scenarios.length) {
+        scenarios.push({ prob: 'LOW', col: '#00cc44', label: 'Status Nominal',
+            text: 'Current news signals and tension score indicate routine geopolitical activity. No imminent escalation patterns detected across monitored flashpoints.',
+            frame: 'Reassess: next news refresh' });
+    }
+
+    return `
+    <p class="intro-text">Scenario modeling based on live tension score (${score.toFixed(1)}/10), news signal frequency, and documented PRC behavioral patterns.</p>
+    <div class="section-label">ACTIVE SCENARIOS</div>
+    ${scenarios.map(s => `
+    <div class="pred-scenario">
+        <div class="pred-header">
+            <span class="pred-prob" style="background:${s.col}22;border:1px solid ${s.col}44;color:${s.col}">${s.prob}</span>
+            <span class="pred-label">${s.label}</span>
+        </div>
+        <div class="pred-text">${s.text}</div>
+        <div class="pred-timeframe">${s.frame}</div>
+    </div>`).join('')}
+    <div class="ctx-sources" style="margin-top:16px">
+        <div class="ctx-sources-label">BASED ON</div>
+        <div class="ctx-source-row">
+            <a class="ctx-source-link" href="https://www.cfr.org/global-conflict-tracker" target="_blank" rel="noopener">CFR Tracker</a>
+            <a class="ctx-source-link" href="https://www.cisa.gov/topics/cyber-threats-and-advisories" target="_blank" rel="noopener">CISA</a>
+            <a class="ctx-source-link" href="https://www.sipri.org" target="_blank" rel="noopener">SIPRI</a>
+        </div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#2a2a2a;margin-top:6px">Scenarios are pattern-based projections, not intelligence assessments.</div>
+    </div>`;
+}
+
+// ── Upgrade modal ─────────────────────────────────────────────────────────
+function showUpgradeModal() {
+    document.getElementById('upgrade-modal')?.classList.add('show');
+}
+function hideUpgradeModal() {
+    document.getElementById('upgrade-modal')?.classList.remove('show');
+    document.getElementById('upgr-msg').textContent = '';
+}
+
+async function submitUpgrade() {
+    const emailEl = document.getElementById('upgr-email');
+    const msgEl   = document.getElementById('upgr-msg');
+    const btn     = document.querySelector('#upgrade-modal .upgr-form button');
+    const email   = emailEl?.value.trim().toLowerCase();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msgEl.style.color = '#FF4444';
+        msgEl.textContent = 'Please enter a valid email address.';
+        return;
+    }
+    btn.textContent = 'SENDING…';
+    btn.disabled = true;
+    try {
+        const res = await fetch('https://jcwmkpwcbfszsxbylnbf.supabase.co/functions/v1/subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, source: 'RedDragonTracker-Premium' }),
+        });
+        const data = await res.json();
+        if (data.ok || data.error === '23505') {
+            msgEl.style.color = '#FFB400';
+            msgEl.textContent = '✓ You\'re on the early access list. We\'ll be in touch soon.';
+            btn.textContent = '✓ JOINED';
+            emailEl.value = '';
+        } else {
+            throw new Error(data.error || 'Server error');
+        }
+    } catch(e) {
+        msgEl.style.color = '#FF4444';
+        msgEl.textContent = 'Something went wrong. Try again.';
+        btn.textContent = 'JOIN EARLY ACCESS →';
+        btn.disabled = false;
+    }
+}
+
+// Upgrade modal close on backdrop click
+document.getElementById('upgrade-modal')?.addEventListener('click', e => {
+    if (e.target.id === 'upgrade-modal') hideUpgradeModal();
 });
 
 </script>
@@ -16606,6 +17249,34 @@ document.addEventListener('keydown', e => {
 
 
 <!-- ══ History Full-Screen Reader ════════════════════════════════════════ -->
+<!-- ── Toast container ────────────────────────────────────────────────── -->
+<div id="rdt-toasts"></div>
+
+<!-- ── Upgrade Modal ──────────────────────────────────────────────────── -->
+<div id="upgrade-modal">
+    <div id="upgrade-modal-inner">
+        <button id="upgrade-close" onclick="hideUpgradeModal()">✕</button>
+        <div class="upgr-tag">EARLY ACCESS — LIMITED SPOTS</div>
+        <div class="upgr-h1">Red Dragon <span>Premium</span></div>
+        <div class="upgr-price">$5 <span>/month</span></div>
+        <div class="upgr-tagline">Intelligence advantage. Not just information.</div>
+        <div class="upgr-features">
+            <div class="upgr-feat-row">Unlimited alerts — Military, Cyber, Economic, Taiwan</div>
+            <div class="upgr-feat-row">Predictive Analysis — scenario modeling & 30–90 day outlook</div>
+            <div class="upgr-feat-row">Real-time browser notifications</div>
+            <div class="upgr-feat-row">Full Intelligence Archive — all 21 files unlocked</div>
+            <div class="upgr-feat-row">Weekly premium intelligence brief by email</div>
+            <div class="upgr-feat-row">Advanced geospatial filters & data export</div>
+        </div>
+        <div class="upgr-form">
+            <input type="email" id="upgr-email" placeholder="your@email.com" maxlength="254">
+            <button onclick="submitUpgrade()">JOIN EARLY ACCESS →</button>
+        </div>
+        <div id="upgr-msg"></div>
+        <div class="upgr-disclaimer">Early access pricing — $5/mo. No ads, no tracking. Cancel anytime.</div>
+    </div>
+</div>
+
 <div id="hist-reader">
     <div id="hist-reader-topbar">
         <div id="hist-reader-title">Intelligence Archive</div>
