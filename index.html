@@ -62,7 +62,31 @@
     <!-- Permissions Policy: disable browser APIs this site never uses -->
     <meta http-equiv="Permissions-Policy"
           content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()">
-    <title>RedDragonTracker</title>
+    <title>Red Dragon Tracker — China Military, Economic &amp; Geopolitical Intelligence</title>
+
+    <!-- ── SEO ──────────────────────────────────────────────────────────── -->
+    <meta name="description" content="Real-time tracking of China's military movements, Taiwan tensions, cyber operations, and economic data. Live 3D globe, live alerts, and open-source intelligence analysis.">
+    <meta name="keywords" content="China military tracker, PLA activity, Taiwan strait, China cyber, China economy, OSINT, geopolitical intelligence, Red Dragon Tracker">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://reddragontracker.pages.dev/">
+
+    <!-- ── Open Graph (Facebook, LinkedIn, Discord, iMessage, etc.) ─────── -->
+    <meta property="og:type"        content="website">
+    <meta property="og:url"         content="https://reddragontracker.pages.dev/">
+    <meta property="og:title"       content="Red Dragon Tracker — China Intelligence Dashboard">
+    <meta property="og:description" content="Real-time tracking of China's military, Taiwan, cyber &amp; economic activity. Live globe, alerts, and OSINT analysis.">
+    <meta property="og:image"       content="https://reddragontracker.pages.dev/og-image.png">
+    <meta property="og:image:width"  content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name"   content="Red Dragon Tracker">
+    <meta property="og:locale"      content="en_US">
+
+    <!-- ── Twitter / X Card ─────────────────────────────────────────────── -->
+    <meta name="twitter:card"        content="summary_large_image">
+    <meta name="twitter:title"       content="Red Dragon Tracker — China Intelligence Dashboard">
+    <meta name="twitter:description" content="Real-time tracking of China's military, Taiwan, cyber &amp; economic activity. Live globe, alerts, and OSINT analysis.">
+    <meta name="twitter:image"       content="https://reddragontracker.pages.dev/og-image.png">
+    <meta name="twitter:site"        content="@RedDragonTrackr">
     <script type="importmap">
     {
       "imports": {
@@ -704,7 +728,7 @@
         .nav-btn { display: none; }
 
         #globe-container { width: 100vw; height: 100vh; }
-        #chat-toggle { top: 50% !important; transform: translateY(-50%) !important; }
+        #chat-toggle { top: 50% !important; right: 88px !important; left: auto !important; transform: translateY(-50%) !important; }
 
         #panel {
             position: fixed; top: 102px; right: 88px; width: 360px; height: calc(100vh - 102px);
@@ -1076,9 +1100,9 @@
 
         /* ── Chat panel (left side) ────────────────────── */
         #chat-panel {
-            position: fixed; top: 102px; left: 0; width: 290px; height: calc(100vh - 102px);
-            background: rgba(4,4,8,0.97); border-right: 1px solid rgba(180,0,0,0.2);
-            transform: translateX(-110%);
+            position: fixed; top: 102px; right: 88px; left: auto; width: 290px; height: calc(100vh - 102px);
+            background: rgba(4,4,8,0.97); border-left: 1px solid rgba(180,0,0,0.2); border-right: none;
+            transform: translateX(calc(100% + 90px));
             opacity: 0; visibility: hidden;
             transition: transform 0.35s cubic-bezier(.4,0,.2,1),
                         opacity   0.30s cubic-bezier(.4,0,.2,1),
@@ -1229,17 +1253,17 @@
 
         /* Chat toggle tab (left edge) */
         #chat-toggle {
-            position: fixed; top: 50%; left: 0; transform: translateY(-50%);
+            position: fixed; top: 50%; right: 88px; left: auto; transform: translateY(-50%);
             z-index: 94; writing-mode: vertical-rl; text-orientation: mixed;
             padding: 14px 8px; background: rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.06); border-left: none;
-            border-radius: 0 6px 6px 0; color: #3a3a3a; font-size: 9px;
+            border: 1px solid rgba(255,255,255,0.06); border-right: none;
+            border-radius: 6px 0 0 6px; color: #3a3a3a; font-size: 9px;
             font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
             cursor: pointer; transition: all 0.2s; backdrop-filter: blur(8px);
             display: flex; align-items: center; gap: 7px;
         }
         #chat-toggle:hover { color: #fff; border-color: rgba(255,255,255,0.25); background: rgba(30,30,30,0.9); }
-        #chat-toggle.panel-open { left: 290px; border-radius: 0 6px 6px 0; border-color: rgba(255,255,255,0.15); }
+        #chat-toggle.panel-open { right: calc(88px + 290px); left: auto; border-radius: 6px 0 0 6px; border-color: rgba(255,255,255,0.15); }
         #chat-toggle .chat-icon { font-size: 13px; writing-mode: horizontal-tb; }
         #chat-unread {
             display: none; width: 16px; height: 16px; border-radius: 50%;
@@ -1592,28 +1616,34 @@
             }
             #panel-content { padding-bottom: 24px; -webkit-overflow-scrolling: touch; }
 
-            /* ── Chat panel — full width, slide from left ── */
+            /* ── Chat panel — full width, slide from bottom on mobile ── */
             #chat-panel {
-                top: 88px;
-                width: 100%;
-                height: calc(100vh - 88px - 48px);
+                top: auto; bottom: 52px;
+                right: 0; left: 0; width: 100%;
+                height: 65vh;
+                transform: translateY(calc(100% + 60px));
+                border-left: none; border-top: 1px solid rgba(180,0,0,0.2);
+                z-index: 96;
             }
-            #chat-toggle.panel-open { left: 0; border-radius: 0 0 6px 0; }
+            #chat-panel.open { transform: translateY(0); }
 
-            /* ── Chat toggle — horizontal, top-left ── */
+            /* ── Chat toggle — horizontal tab, bottom-right on mobile ── */
             #chat-toggle {
-                top: 88px !important;
+                top: auto !important; bottom: 52px;
+                right: 0 !important; left: auto !important;
                 transform: none !important;
                 writing-mode: horizontal-tb !important;
                 text-orientation: mixed !important;
                 padding: 7px 10px;
-                border-radius: 0 0 6px 0;
-                font-size: 9px;
-                letter-spacing: 1.5px;
-                flex-direction: row;
-                gap: 5px;
-                min-height: 32px;
+                border-radius: 6px 0 0 0;
+                border-right: none; border-bottom: none; border-left: 1px solid rgba(255,255,255,0.06);
+                font-size: 9px; letter-spacing: 1.5px;
+                flex-direction: row; gap: 5px; min-height: 32px;
+                z-index: 95;
             }
+            /* Hide toggle when panel is open (panel has close button) */
+            body:has(#chat-panel.open) #chat-toggle { opacity: 0; pointer-events: none; }
+            #chat-toggle.panel-open { right: 0 !important; }
             #chat-toggle .chat-icon { writing-mode: horizontal-tb; font-size: 12px; }
 
             /* ── Intel panel hidden on mobile ── */
