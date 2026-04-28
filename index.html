@@ -2729,7 +2729,7 @@
             <span class="hdr-stat-label" id="hdr-tz-label">UTC</span>
             <span class="hdr-stat-val" id="hdr-clock">00:00:00</span>
         </div>
-        <button id="alert-btn" onclick="activePanel==='alerts'?closePanel():openPanel('alerts')">
+        <button id="alert-btn">
             <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
                 <path d="M5.5 1 C3.5 1 2 2.8 2 5 L2 7.5 L1 8.5 L10 8.5 L9 7.5 L9 5 C9 2.8 7.5 1 5.5 1Z" stroke="currentColor" stroke-width="1" fill="none"/>
                 <path d="M4 8.5 C4 9.3 4.7 10 5.5 10 C6.3 10 7 9.3 7 8.5" stroke="currentColor" stroke-width="1" fill="none"/>
@@ -2737,7 +2737,7 @@
             ALERTS
             <span id="alert-badge">0</span>
         </button>
-        <button id="upgrade-btn" onclick="showUpgradeModal()">✦ UPGRADE</button>
+        <button id="upgrade-btn">✦ UPGRADE</button>
         <button id="nl-trigger" onclick="document.getElementById('nl-overlay').classList.add('show')">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
                 <rect x="1" y="3" width="11" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/>
@@ -17075,6 +17075,19 @@ async function submitUpgrade() {
 document.getElementById('upgrade-modal')?.addEventListener('click', e => {
     if (e.target.id === 'upgrade-modal') hideUpgradeModal();
 });
+
+// ── Alert/Upgrade header button wiring (use addEventListener, not onclick,
+//    because this is a module script and inline handlers can't reach module scope)
+document.getElementById('alert-btn')?.addEventListener('click', () => {
+    activePanel === 'alerts' ? closePanel() : openPanel('alerts');
+});
+document.getElementById('upgrade-btn')?.addEventListener('click', showUpgradeModal);
+
+// ── Expose functions called from innerHTML onclick attributes to window ────
+window.showUpgradeModal = showUpgradeModal;
+window.hideUpgradeModal = hideUpgradeModal;
+window.submitUpgrade    = submitUpgrade;
+window.toggleAlert      = toggleAlert;
 
 </script>
 
