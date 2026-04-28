@@ -1909,6 +1909,18 @@
             opacity: 1; visibility: visible;
             transition: opacity 0.5s ease, visibility 0s linear 0s;
         }
+        /* ── Transition veil — holds screen black between CC close + panel open ── */
+        #transition-veil {
+            position: fixed; inset: 0; z-index: 9998;
+            background: #000;
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+        }
+        #transition-veil.show {
+            opacity: 1; visibility: visible; pointer-events: auto;
+            transition: opacity 0.1s ease, visibility 0s linear 0s;
+        }
+
         /* ── Terminal boot animation ──────────────────────────────────── */
         #terminal-boot {
             position: fixed; inset: 0; z-index: 19999;
@@ -6648,7 +6660,6 @@ renderer.domElement.addEventListener('click', e => {
     rc.setFromCamera(new THREE.Vector2(mx, my), camera);
     const hits = rc.intersectObject(globeSphere, false);
     if (!hits.length) return;
-    SFX.globePing();
 
     // Convert hit point from world space → globe local space → lat/lon
     const localPt = globeGroup.worldToLocal(hits[0].point.clone());
@@ -14915,7 +14926,6 @@ const BADGE_HTML = {
 };
 
 function openPanel(id) {
-    SFX.panelOpen();
     const p = PANELS[id];
     document.getElementById('panel-title').textContent    = p.title;
     document.getElementById('panel-subtitle').textContent = p.subtitle;
@@ -15062,7 +15072,6 @@ function openPanel(id) {
 }
 
 function closePanel() {
-    SFX.panelClose();
     document.getElementById('panel').classList.remove('open', 'wide');
     document.querySelectorAll('.dock-btn:not(#dock-all-btn), .nav-btn, .hdr-nav-btn').forEach(b => b.classList.remove('active'));
     // Only turn off layers if ALL mode is not active
@@ -16793,7 +16802,6 @@ window.submitNewsletter = async function() {
 };
 
 function showNLSuccess() {
-    SFX.nlSuccess();
     document.getElementById('nl-form').style.display = 'none';
     document.getElementById('nl-success').style.display = 'block';
     // Auto-close after 4 seconds
@@ -16836,129 +16844,6 @@ const SFX = (() => {
         return ctx;
     }
     return {
-        ccOpen() {
-            try {
-                const c = ac(), t = c.currentTime;
-                // Noise sweep
-                const len = c.sampleRate * 0.7;
-                const buf = c.createBuffer(1, len, c.sampleRate);
-                const d = buf.getChannelData(0);
-                for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
-                const ns = c.createBufferSource(); ns.buffer = buf;
-                const bpf = c.createBiquadFilter(); bpf.type = 'bandpass'; bpf.Q.value = 1.5;
-                bpf.frequency.setValueAtTime(100, t);
-                bpf.frequency.exponentialRampToValueAtTime(3000, t + 0.6);
-                const g1 = c.createGain();
-                g1.gain.setValueAtTime(0, t);
-                g1.gain.linearRampToValueAtTime(0.35, t + 0.08);
-                g1.gain.linearRampToValueAtTime(0.15, t + 0.5);
-                g1.gain.linearRampToValueAtTime(0, t + 0.7);
-                ns.connect(bpf); bpf.connect(g1); g1.connect(c.destination); ns.start(t);
-                // Low rumble
-                const osc = c.createOscillator(); osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(55, t);
-                osc.frequency.exponentialRampToValueAtTime(110, t + 0.4);
-                const g2 = c.createGain();
-                g2.gain.setValueAtTime(0.12, t);
-                g2.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
-                osc.connect(g2); g2.connect(c.destination);
-                osc.start(t); osc.stop(t + 0.5);
-            } catch(e) {}
-        },
-        ccClose() {
-            try {
-                const c = ac(), t = c.currentTime;
-                const osc = c.createOscillator(); osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, t);
-                osc.frequency.exponentialRampToValueAtTime(80, t + 0.3);
-                const g = c.createGain();
-                g.gain.setValueAtTime(0.2, t);
-                g.gain.exponentialRampToValueAtTime(0.001, t + 0.3);
-                osc.connect(g); g.connect(c.destination);
-                osc.start(t); osc.stop(t + 0.35);
-            } catch(e) {}
-        },
-        ccTick() {
-            try {
-                const c = ac(), t = c.currentTime;
-                const osc = c.createOscillator(); osc.type = 'square';
-                osc.frequency.setValueAtTime(800, t);
-                osc.frequency.exponentialRampToValueAtTime(200, t + 0.05);
-                const g = c.createGain();
-                g.gain.setValueAtTime(0.12, t);
-                g.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
-                osc.connect(g); g.connect(c.destination);
-                osc.start(t); osc.stop(t + 0.07);
-            } catch(e) {}
-        },
-        ccBtn() {
-            try {
-                const c = ac(), t = c.currentTime;
-                [0, 0.09].forEach((delay, i) => {
-                    const osc = c.createOscillator(); osc.type = 'sine';
-                    osc.frequency.value = i === 0 ? 880 : 1100;
-                    const g = c.createGain();
-                    g.gain.setValueAtTime(0.2, t + delay);
-                    g.gain.exponentialRampToValueAtTime(0.001, t + delay + 0.08);
-                    osc.connect(g); g.connect(c.destination);
-                    osc.start(t + delay); osc.stop(t + delay + 0.1);
-                });
-            } catch(e) {}
-        },
-        panelOpen() {
-            try {
-                const c = ac(), t = c.currentTime;
-                const osc = c.createOscillator(); osc.type = 'sine';
-                osc.frequency.setValueAtTime(400, t);
-                osc.frequency.exponentialRampToValueAtTime(900, t + 0.12);
-                const g = c.createGain();
-                g.gain.setValueAtTime(0.15, t);
-                g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
-                osc.connect(g); g.connect(c.destination);
-                osc.start(t); osc.stop(t + 0.2);
-            } catch(e) {}
-        },
-        panelClose() {
-            try {
-                const c = ac(), t = c.currentTime;
-                const osc = c.createOscillator(); osc.type = 'sine';
-                osc.frequency.setValueAtTime(600, t);
-                osc.frequency.exponentialRampToValueAtTime(200, t + 0.1);
-                const g = c.createGain();
-                g.gain.setValueAtTime(0.1, t);
-                g.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
-                osc.connect(g); g.connect(c.destination);
-                osc.start(t); osc.stop(t + 0.15);
-            } catch(e) {}
-        },
-        globePing() {
-            try {
-                const c = ac(), t = c.currentTime;
-                const osc = c.createOscillator(); osc.type = 'sine';
-                osc.frequency.setValueAtTime(1200, t);
-                osc.frequency.exponentialRampToValueAtTime(600, t + 0.45);
-                const g = c.createGain();
-                g.gain.setValueAtTime(0.25, t);
-                g.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
-                osc.connect(g); g.connect(c.destination);
-                osc.start(t); osc.stop(t + 0.55);
-            } catch(e) {}
-        },
-        histOpen() {
-            try {
-                const c = ac(), t = c.currentTime;
-                [440, 554, 659].forEach((freq, i) => {
-                    const osc = c.createOscillator(); osc.type = 'sine';
-                    osc.frequency.value = freq;
-                    const g = c.createGain(), d = i * 0.09;
-                    g.gain.setValueAtTime(0, t + d);
-                    g.gain.linearRampToValueAtTime(0.15, t + d + 0.02);
-                    g.gain.exponentialRampToValueAtTime(0.001, t + d + 0.14);
-                    osc.connect(g); g.connect(c.destination);
-                    osc.start(t + d); osc.stop(t + d + 0.16);
-                });
-            } catch(e) {}
-        },
         chatSend() {
             try {
                 const c = ac(), t = c.currentTime;
@@ -16971,17 +16856,19 @@ const SFX = (() => {
                 osc.start(t); osc.stop(t + 0.07);
             } catch(e) {}
         },
-        nlSuccess() {
+        notify() {
+            // Two-tone alert ping — distinct from chat send
             try {
                 const c = ac(), t = c.currentTime;
-                [523, 784].forEach((freq, i) => {
+                [0, 0.13].forEach((delay, i) => {
                     const osc = c.createOscillator(); osc.type = 'sine';
-                    osc.frequency.value = freq;
-                    const g = c.createGain(), d = i * 0.16;
-                    g.gain.setValueAtTime(0.2, t + d);
-                    g.gain.exponentialRampToValueAtTime(0.001, t + d + 0.4);
+                    osc.frequency.value = i === 0 ? 880 : 1320;
+                    const g = c.createGain();
+                    g.gain.setValueAtTime(0, t + delay);
+                    g.gain.linearRampToValueAtTime(0.22, t + delay + 0.015);
+                    g.gain.exponentialRampToValueAtTime(0.001, t + delay + 0.22);
                     osc.connect(g); g.connect(c.destination);
-                    osc.start(t + d); osc.stop(t + d + 0.45);
+                    osc.start(t + delay); osc.stop(t + delay + 0.25);
                 });
             } catch(e) {}
         }
@@ -17004,7 +16891,6 @@ const SFX = (() => {
     const TOTAL = sections.length;
 
     function openCC() {
-        SFX.ccOpen();
         overlay.classList.add('open');
         // Scroll back to top when reopened
         if (scrollEl) scrollEl.scrollTop = 0;
@@ -17013,7 +16899,6 @@ const SFX = (() => {
         sessionStorage.setItem('cc_state', 'open');
     }
     function closeCC() {
-        SFX.ccClose();
         overlay.classList.remove('open');
         sessionStorage.setItem('cc_state', 'closed');
     }
@@ -17021,7 +16906,6 @@ const SFX = (() => {
     // ── Activate a section ──────────────────────────────────────────────
     function activateSection(idx) {
         // Play tick only when user scrolls to a new section (not on initial open)
-        if (Date.now() - ccOpenTime > 300 && idx !== currentIdx) SFX.ccTick();
         currentIdx = idx;
         sections.forEach((s, i) => s.classList.toggle('active', i === idx));
         dots.forEach((d, i) => d.classList.toggle('active', i === idx));
@@ -17048,29 +16932,39 @@ const SFX = (() => {
         });
     });
 
+    // ── Transition veil helpers ──────────────────────────────────────────
+    const veil = document.getElementById('transition-veil');
+    function showVeil() { veil?.classList.add('show'); }
+    function hideVeil() { veil?.classList.remove('show'); }
+
     // ── Card / button actions ────────────────────────────────────────────
     overlay.addEventListener('click', e => {
         const btn = e.target.closest('[data-cc]');
         if (!btn || btn.classList.contains('locked')) return;
-        SFX.ccBtn();
         const action = btn.dataset.cc;
         switch (action) {
             case 'enter':
-                closeCC();
-                setTimeout(() => runTerminalBoot(() => {}), 300);
+                // Boot animation (z:19999) starts immediately and covers everything —
+                // no flash of the main app. Close CC underneath after a short delay.
+                runTerminalBoot(() => {});
+                setTimeout(() => closeCC(), 80);
                 break;
             case 'history':
-                closeCC();
-                setTimeout(() => openHistReader(), 400); break;
+                showVeil(); closeCC();
+                setTimeout(() => { openHistReader(); hideVeil(); }, 280);
+                break;
             case 'newsletter':
-                closeCC();
-                setTimeout(() => openPanel('briefing'), 400); break;
+                showVeil(); closeCC();
+                setTimeout(() => { openPanel('briefing'); hideVeil(); }, 280);
+                break;
             case 'methodology':
-                closeCC();
-                setTimeout(() => openMethReader(), 550); break;
+                showVeil(); closeCC();
+                setTimeout(() => { openMethReader(); hideVeil(); }, 280);
+                break;
             case 'account':
-                closeCC();
-                setTimeout(() => openAuthScreen(), 550); break;
+                showVeil(); closeCC();
+                setTimeout(() => { openAuthScreen(); hideVeil(); }, 280);
+                break;
         }
     });
 
@@ -17117,7 +17011,6 @@ const SFX = (() => {
 
 // ══ History Full-Screen Reader ════════════════════════════════════════════
 function openHistReader() {
-    SFX.histOpen();
     const overlay = document.getElementById('hist-reader');
     const inner   = document.getElementById('hist-reader-inner');
     if (!overlay || !inner) { openPanel('history'); return; }
@@ -17145,7 +17038,6 @@ document.getElementById('hist-reader-close')?.addEventListener('click', () => {
 
 // ══ Methodology Full-Screen Reader ═══════════════════════════════════════
 function openMethReader() {
-    SFX.histOpen();
     const overlay = document.getElementById('meth-reader');
     if (!overlay) return;
     document.getElementById('meth-reader-body').scrollTop = 0;
@@ -17238,6 +17130,7 @@ function showToast(title, body, color = '#CC0000', link = null) {
 // ── Alert firing ──────────────────────────────────────────────────────────
 function fireAlert(type, title, body, color = '#CC0000', link = null) {
     RDT.addHistory({ type, title, body, color, link });
+    SFX.notify();
     showToast(`🔔 ${title}`, body, color, link);
     if (Notification?.permission === 'granted') {
         try { new Notification(`Red Dragon · ${title}`, { body, icon: 'dragon.png' }); } catch(_) {}
@@ -18165,6 +18058,9 @@ window.closePanel       = closePanel;
         </div><!-- /meth-reader-inner -->
     </div>
 </div>
+
+<!-- ── Transition veil (between CC close and panel/reader open) ───────── -->
+<div id="transition-veil"></div>
 
 <!-- ── Terminal Boot Animation ───────────────────────────────────────── -->
 <div id="terminal-boot">
