@@ -1814,7 +1814,183 @@
                 float: none; width: 100%; margin: 8px 0;
             }
         }
-            </style>
+        
+        /* ══ Command Center Overlay ══════════════════════════════════════ */
+        #cc-overlay {
+            position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(18px) saturate(0.4);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+        }
+        #cc-overlay.open {
+            opacity: 1; visibility: visible;
+            transition: opacity 0.4s ease, visibility 0s linear 0s;
+        }
+        /* scanline overlay on top */
+        #cc-overlay::before {
+            content: '';
+            position: absolute; inset: 0; z-index: 0; pointer-events: none;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0,0,0,0) 0px, rgba(0,0,0,0) 2px,
+                rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px
+            );
+        }
+        #cc-modal {
+            position: relative; z-index: 1;
+            width: min(780px, 96vw);
+            max-height: 92vh;
+            overflow-y: auto;
+            border: 1px solid rgba(204,0,0,0.35);
+            border-top: 2px solid #CC0000;
+            background: rgba(6,2,2,0.98);
+            box-shadow: 0 0 60px rgba(204,0,0,0.2), 0 0 120px rgba(204,0,0,0.08);
+            padding: 0 0 28px 0;
+        }
+        /* top accent line */
+        #cc-modal::before {
+            content: '';
+            display: block; width: 100%; height: 1px;
+            background: linear-gradient(90deg, #CC0000 0%, rgba(204,0,0,0.3) 60%, transparent 100%);
+            margin-bottom: 0;
+        }
+        #cc-header {
+            padding: 28px 32px 20px 32px;
+            border-bottom: 1px solid rgba(204,0,0,0.15);
+            display: flex; align-items: center; gap: 18px;
+        }
+        #cc-logo {
+            width: 52px; height: 52px; flex-shrink: 0;
+            filter: drop-shadow(0 0 12px rgba(255,160,0,0.8)) drop-shadow(0 0 24px rgba(200,0,0,0.5));
+            animation: dragonFloat 4s ease-in-out infinite, dragonGlow 3s ease-in-out infinite alternate;
+        }
+        #cc-logo img { width: 100%; height: 100%; object-fit: contain; }
+        #cc-title-block { flex: 1; }
+        #cc-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 18px; font-weight: 900; letter-spacing: 4px;
+            color: #CC0000; text-transform: uppercase; line-height: 1;
+            text-shadow: 0 0 20px rgba(204,0,0,0.5);
+        }
+        #cc-title span { color: #FF4444; }
+        #cc-subtitle {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; color: #444; letter-spacing: 3px;
+            text-transform: uppercase; margin-top: 5px;
+        }
+        #cc-close {
+            background: none; border: 1px solid rgba(204,0,0,0.25);
+            color: #555; font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; letter-spacing: 2px; padding: 5px 10px;
+            cursor: pointer; transition: all 0.18s;
+        }
+        #cc-close:hover { border-color: #CC0000; color: #CC0000; }
+
+        #cc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: rgba(204,0,0,0.1);
+            margin: 24px 32px 0 32px;
+            border: 1px solid rgba(204,0,0,0.12);
+        }
+        .cc-card {
+            background: rgba(8,2,2,0.95);
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: background 0.18s, border-left-color 0.18s;
+            border-left: 2px solid transparent;
+            display: flex; flex-direction: column; gap: 7px;
+            position: relative;
+        }
+        .cc-card:hover { background: rgba(204,0,0,0.07); border-left-color: #CC0000; }
+        .cc-card.locked { cursor: default; opacity: 0.6; }
+        .cc-card.locked:hover { background: rgba(8,2,2,0.95); border-left-color: transparent; }
+        .cc-card-top {
+            display: flex; align-items: center; gap: 10px;
+        }
+        .cc-card-icon {
+            width: 32px; height: 32px; flex-shrink: 0;
+            border: 1px solid rgba(204,0,0,0.25);
+            background: rgba(204,0,0,0.06);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; line-height: 1;
+        }
+        .cc-card-name {
+            font-family: 'Orbitron', monospace;
+            font-size: 9.5px; font-weight: 700; letter-spacing: 2px;
+            color: #ddd; text-transform: uppercase;
+        }
+        .cc-card-desc {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9.5px; color: #555; letter-spacing: 0.5px;
+            line-height: 1.5;
+        }
+        .cc-card-status {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+            padding: 2px 7px; border: 1px solid;
+            display: inline-flex; align-items: center; gap: 5px;
+            align-self: flex-start; margin-top: 2px;
+        }
+        .cc-status-online  { color: #44FF88; border-color: rgba(68,255,136,0.35); background: rgba(68,255,136,0.05); }
+        .cc-status-free    { color: #88AAFF; border-color: rgba(136,170,255,0.35); background: rgba(136,170,255,0.05); }
+        .cc-status-files   { color: #FFD700; border-color: rgba(255,215,0,0.35); background: rgba(255,215,0,0.05); }
+        .cc-status-premium { color: #FF8800; border-color: rgba(255,136,0,0.35); background: rgba(255,136,0,0.05); }
+        .cc-status-locked  { color: #555;    border-color: rgba(85,85,85,0.35); }
+        .cc-status-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: currentColor; flex-shrink: 0;
+        }
+        #cc-enter-btn {
+            display: block;
+            margin: 22px 32px 0 32px;
+            width: calc(100% - 64px);
+            padding: 13px;
+            background: rgba(204,0,0,0.12);
+            border: 1px solid rgba(204,0,0,0.4);
+            border-left: 3px solid #CC0000;
+            color: #CC0000;
+            font-family: 'Orbitron', monospace;
+            font-size: 11px; font-weight: 700; letter-spacing: 4px;
+            text-transform: uppercase; cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        #cc-enter-btn:hover {
+            background: rgba(204,0,0,0.2);
+            border-color: #FF4444; border-left-color: #FF4444;
+            color: #FF4444;
+            box-shadow: 0 0 20px rgba(204,0,0,0.15);
+        }
+        #cc-footer {
+            padding: 12px 32px 0 32px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; color: #2a2a2a; letter-spacing: 1.5px;
+            text-align: center; text-transform: uppercase;
+        }
+        /* open button in header */
+        #cc-open-btn {
+            background: rgba(204,0,0,0.08);
+            border: 1px solid rgba(204,0,0,0.35);
+            border-left: 2px solid #CC0000;
+            color: #CC0000; font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 2.5px; text-transform: uppercase;
+            padding: 5px 12px; cursor: pointer; transition: all 0.18s;
+            display: flex; align-items: center; gap: 6px;
+            flex-shrink: 0;
+        }
+        #cc-open-btn:hover { background: rgba(204,0,0,0.16); color: #FF4444; border-left-color: #FF4444; }
+        @media (max-width: 640px) {
+            #cc-grid { grid-template-columns: 1fr; margin: 16px 16px 0 16px; }
+            #cc-header { padding: 18px 16px 14px 16px; }
+            #cc-enter-btn { margin: 16px 16px 0 16px; width: calc(100% - 32px); }
+            #cc-footer { padding: 10px 16px 0 16px; }
+            #cc-title { font-size: 13px; letter-spacing: 2.5px; }
+        }
+    </style>
 </head>
 <body>
 
@@ -1832,6 +2008,10 @@
         </button>
         <button class="hdr-nav-btn" id="history-btn" data-panel="history">
             <span class="hdr-nav-icon" style="font-size:11px;line-height:1;margin-right:1px">☭</span>HISTORY INTEL
+        </button>
+        <button id="cc-open-btn" title="Open Command Center">
+            <svg width="9" height="9" viewBox="0 0 9 9" fill="none"><rect x="0.5" y="0.5" width="3.2" height="3.2" stroke="currentColor" stroke-width="0.9"/><rect x="5.3" y="0.5" width="3.2" height="3.2" stroke="currentColor" stroke-width="0.9"/><rect x="0.5" y="5.3" width="3.2" height="3.2" stroke="currentColor" stroke-width="0.9"/><rect x="5.3" y="5.3" width="3.2" height="3.2" stroke="#CC0000" stroke-width="0.9" fill="rgba(204,0,0,0.2)"/></svg>
+            CMD CENTER
         </button>
     </div>
     <div id="header-right">
@@ -15432,6 +15612,163 @@ if (!_nlShown) {
         }
     }, 90000);
 }
+
+// ══ Command Center ════════════════════════════════════════════════════════
+(function() {
+    const overlay = document.getElementById('cc-overlay');
+    if (!overlay) return;
+
+    function openCC() { overlay.classList.add('open'); }
+    function closeCC() { overlay.classList.remove('open'); }
+
+    // Show on first visit each session
+    if (!sessionStorage.getItem('cc_dismissed')) openCC();
+
+    // Open button in header
+    document.getElementById('cc-open-btn')?.addEventListener('click', openCC);
+
+    // Close button
+    document.getElementById('cc-close')?.addEventListener('click', () => {
+        sessionStorage.setItem('cc_dismissed', '1');
+        closeCC();
+    });
+
+    // Click outside modal closes it
+    overlay.addEventListener('click', e => {
+        if (e.target === overlay) {
+            sessionStorage.setItem('cc_dismissed', '1');
+            closeCC();
+        }
+    });
+
+    // Card actions
+    overlay.querySelectorAll('[data-cc-action]').forEach(el => {
+        el.addEventListener('click', () => {
+            const action = el.dataset.ccAction;
+            sessionStorage.setItem('cc_dismissed', '1');
+            switch(action) {
+                case 'enter':
+                    closeCC();
+                    break;
+                case 'history':
+                    closeCC();
+                    setTimeout(() => openPanel('history'), 350);
+                    break;
+                case 'newsletter':
+                    closeCC();
+                    // Scroll newsletter section into view if it exists, else open briefing
+                    setTimeout(() => {
+                        const nl = document.getElementById('newsletter-section') ||
+                                   document.querySelector('.newsletter-wrap');
+                        if (nl) nl.scrollIntoView({ behavior: 'smooth' });
+                        else openPanel('briefing');
+                    }, 350);
+                    break;
+                case 'premium':
+                case 'account':
+                    // Coming soon — no action for locked cards
+                    break;
+                case 'methodology':
+                    closeCC();
+                    setTimeout(() => openPanel('briefing'), 350);
+                    break;
+            }
+        });
+    });
+
+    // Escape key closes
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && overlay.classList.contains('open')) {
+            sessionStorage.setItem('cc_dismissed', '1');
+            closeCC();
+        }
+    });
+})();
+
 </script>
+
+<!-- ══ Red Dragon Command Center Overlay ══════════════════════════════ -->
+<div id="cc-overlay">
+    <div id="cc-modal" role="dialog" aria-modal="true" aria-label="Red Dragon Command Center">
+        <div id="cc-header">
+            <div id="cc-logo"><img src="dragon.png" alt="Dragon"></div>
+            <div id="cc-title-block">
+                <div id="cc-title">Red <span>Dragon</span> Command Center</div>
+                <div id="cc-subtitle">Global Intelligence Platform · v2.0 · Classified Access</div>
+            </div>
+            <button id="cc-close" aria-label="Close">✕ CLOSE</button>
+        </div>
+
+        <div id="cc-grid">
+            <!-- Intel Terminal -->
+            <div class="cc-card" data-cc-action="enter">
+                <div class="cc-card-top">
+                    <div class="cc-card-icon">🌐</div>
+                    <div class="cc-card-name">Intel Terminal</div>
+                </div>
+                <div class="cc-card-desc">Access live China geopolitical tracking — globe, aircraft, navy, missiles, economy, and 30+ intelligence layers.</div>
+                <div class="cc-card-status cc-status-online"><span class="cc-status-dot"></span>ONLINE</div>
+            </div>
+
+            <!-- History Archive -->
+            <div class="cc-card" data-cc-action="history">
+                <div class="cc-card-top">
+                    <div class="cc-card-icon">☭</div>
+                    <div class="cc-card-name">Intelligence Archive</div>
+                </div>
+                <div class="cc-card-desc">Read strategic analysis on Communist China's history, power structure, and military doctrine from 1911 to present.</div>
+                <div class="cc-card-status cc-status-files"><span class="cc-status-dot"></span>21 FILES</div>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="cc-card" data-cc-action="newsletter">
+                <div class="cc-card-top">
+                    <div class="cc-card-icon">📡</div>
+                    <div class="cc-card-name">Red Dragon Brief</div>
+                </div>
+                <div class="cc-card-desc">Weekly intelligence digest — PLA updates, BRI developments, Taiwan Strait, and geopolitical shifts. Delivered to your inbox.</div>
+                <div class="cc-card-status cc-status-free"><span class="cc-status-dot"></span>FREE</div>
+            </div>
+
+            <!-- Premium -->
+            <div class="cc-card locked" data-cc-action="premium">
+                <div class="cc-card-top">
+                    <div class="cc-card-icon">⚡</div>
+                    <div class="cc-card-name">Premium Access</div>
+                </div>
+                <div class="cc-card-desc">Unlock real-time alerts, deep analysis reports, advanced filters, and early access to new intelligence modules.</div>
+                <div class="cc-card-status cc-status-premium"><span class="cc-status-dot"></span>$5 / MONTH · COMING SOON</div>
+            </div>
+
+            <!-- Create Account -->
+            <div class="cc-card locked" data-cc-action="account">
+                <div class="cc-card-top">
+                    <div class="cc-card-icon">🔐</div>
+                    <div class="cc-card-name">Create Account</div>
+                </div>
+                <div class="cc-card-desc">Save your preferences, receive personalized briefings, and access member-only intelligence reports.</div>
+                <div class="cc-card-status cc-status-locked"><span class="cc-status-dot"></span>COMING SOON</div>
+            </div>
+
+            <!-- Methodology -->
+            <div class="cc-card" data-cc-action="methodology">
+                <div class="cc-card-top">
+                    <div class="cc-card-icon">📋</div>
+                    <div class="cc-card-name">About & Methodology</div>
+                </div>
+                <div class="cc-card-desc">How RedDragonTracker works — data sources, OSINT methodology, update frequency, and platform philosophy.</div>
+                <div class="cc-card-status cc-status-free"><span class="cc-status-dot"></span>OPEN SOURCE</div>
+            </div>
+        </div>
+
+        <button id="cc-enter-btn" data-cc-action="enter">
+            ▶ &nbsp; ENTER INTEL TERMINAL
+        </button>
+        <div id="cc-footer">
+            RedDragonTracker · Unclassified OSINT · All data from public sources · Not affiliated with any government
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
