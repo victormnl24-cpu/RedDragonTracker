@@ -556,6 +556,11 @@
             padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
         }
         .news-item:last-child { border-bottom: none; }
+        .news-item-clickable {
+            cursor: pointer; transition: background 0.15s, padding-left 0.15s;
+            border-radius: 2px; padding-left: 4px; margin-left: -4px;
+        }
+        .news-item-clickable:hover { background: rgba(204,0,0,0.06); padding-left: 8px; }
         .news-badge {
             display: inline-block; font-family: 'Share Tech Mono', monospace;
             font-size: 7px; letter-spacing: 1.5px; text-transform: uppercase;
@@ -564,9 +569,9 @@
         }
         .news-title {
             font-size: 11px; color: #CC0000; line-height: 1.55;
-            cursor: pointer; transition: color 0.15s; font-weight: 600;
+            font-weight: 600; transition: color 0.15s;
         }
-        .news-title:hover { color: #FF4444; }
+        .news-item-clickable:hover .news-title { color: #FF4444; }
         .news-desc {
             font-size: 9px; color: #e0e0e0; line-height: 1.6;
             margin-top: 4px; font-family: 'Share Tech Mono', monospace;
@@ -1280,6 +1285,36 @@
             font-family: 'Share Tech Mono', monospace;
             font-size: 7px; color: #CC0000; margin-top: 3px;
         }
+        .intel-footer {
+            display: flex; align-items: center; gap: 8px; margin-top: 4px;
+        }
+        .intel-source {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; letter-spacing: 1px; font-weight: 700;
+            opacity: 0.9;
+        }
+        .intel-item { cursor: pointer; transition: border-left-color 0.2s; }
+        .intel-item:hover { border-left-color: rgba(204,0,0,0.7); }
+        /* ── Panel context-sources footer ───────────────────── */
+        .ctx-sources {
+            margin-top: 16px; padding-top: 10px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .ctx-sources-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 7px; letter-spacing: 2px; color: #444;
+            margin-bottom: 6px;
+        }
+        .ctx-source-row {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px;
+        }
+        .ctx-source-link {
+            font-family: 'Share Tech Mono', monospace; font-size: 8px;
+            color: #555; text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 2px 7px; transition: color 0.2s, border-color 0.2s;
+        }
+        .ctx-source-link:hover { color: #CC0000; border-color: rgba(204,0,0,0.3); }
 
         /* ── All-layers panel override (wider) ─────────── */
         #panel.wide { width: 480px; }
@@ -2278,6 +2313,120 @@
             #hist-reader-body { padding: 24px 0; }
             #hist-reader-title { font-size: 8px; letter-spacing: 2px; }
             #hist-reader-meta { display: none; }
+        }
+
+        /* ── Methodology Reader ──────────────────────────────── */
+        #meth-reader {
+            position: fixed; inset: 0; z-index: 10000;
+            background: #050101;
+            display: flex; flex-direction: column;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+        }
+        #meth-reader.open {
+            opacity: 1; visibility: visible;
+            transition: opacity 0.35s ease, visibility 0s linear 0s;
+        }
+        #meth-reader-topbar {
+            position: relative; flex-shrink: 0;
+            display: flex; align-items: center; gap: 16px;
+            padding: 0 32px; height: 52px;
+            border-bottom: 1px solid rgba(204,0,0,0.18);
+            background: rgba(5,0,0,0.95);
+        }
+        #meth-reader-topbar::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, #CC0000, rgba(204,0,0,0.2) 60%, transparent);
+        }
+        #meth-reader-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 10px; font-weight: 700;
+            letter-spacing: 3px; color: #CC0000;
+            text-transform: uppercase; flex: 1;
+        }
+        #meth-reader-meta {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; color: #333; letter-spacing: 2px; text-transform: uppercase;
+        }
+        #meth-reader-close {
+            background: none; border: 1px solid rgba(204,0,0,0.22);
+            color: #444; font-family: 'Share Tech Mono', monospace;
+            font-size: 8px; letter-spacing: 2px; padding: 5px 12px;
+            cursor: pointer; transition: all 0.18s; flex-shrink: 0;
+        }
+        #meth-reader-close:hover { border-color: #CC0000; color: #CC0000; }
+        #meth-reader-body {
+            flex: 1; overflow-y: auto; padding: 48px 0;
+            display: flex; justify-content: center;
+        }
+        #meth-reader-body::-webkit-scrollbar { width: 4px; }
+        #meth-reader-body::-webkit-scrollbar-track { background: transparent; }
+        #meth-reader-body::-webkit-scrollbar-thumb { background: rgba(204,0,0,0.25); border-radius: 2px; }
+        #meth-reader-inner {
+            width: min(820px, 92vw); padding: 0 24px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        .meth-h1 {
+            font-family: 'Orbitron', monospace; font-size: 22px; font-weight: 700;
+            color: #ffffff; letter-spacing: 2px; margin-bottom: 6px; line-height: 1.2;
+        }
+        .meth-h1 span { color: #CC0000; }
+        .meth-tagline {
+            font-size: 10px; color: #555; letter-spacing: 2px; margin-bottom: 32px;
+        }
+        .meth-section {
+            margin-bottom: 36px; padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .meth-section:last-child { border-bottom: none; }
+        .meth-h2 {
+            font-family: 'Orbitron', monospace; font-size: 9px; font-weight: 700;
+            letter-spacing: 3px; color: #CC0000; text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+        .meth-p {
+            font-size: 12px; color: #999; line-height: 1.75; margin-bottom: 12px;
+        }
+        .meth-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;
+        }
+        @media (max-width: 560px) { .meth-grid { grid-template-columns: 1fr; } }
+        .meth-card {
+            background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.06);
+            padding: 12px 14px;
+        }
+        .meth-card-label {
+            font-size: 8px; letter-spacing: 2px; color: #CC0000; margin-bottom: 4px;
+        }
+        .meth-card-title {
+            font-size: 11px; color: #ddd; margin-bottom: 4px; font-weight: 700;
+        }
+        .meth-card-desc { font-size: 10px; color: #555; line-height: 1.55; }
+        .meth-source-row {
+            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px;
+        }
+        .meth-source-chip {
+            font-size: 9px; color: #666; border: 1px solid rgba(255,255,255,0.07);
+            padding: 3px 10px; text-decoration: none; transition: color 0.2s, border-color 0.2s;
+        }
+        .meth-source-chip:hover { color: #CC0000; border-color: rgba(204,0,0,0.35); }
+        .meth-badge {
+            display: inline-block; font-size: 7px; letter-spacing: 1.5px;
+            padding: 2px 7px; margin-right: 4px; vertical-align: middle;
+        }
+        .meth-badge.osint { background: rgba(255,180,0,0.08); border: 1px solid rgba(255,180,0,0.2); color: #FFB400; }
+        .meth-badge.live  { background: rgba(0,204,68,0.08);  border: 1px solid rgba(0,204,68,0.2);  color: #00CC44; }
+        .meth-badge.static{ background: rgba(100,100,100,0.1); border: 1px solid rgba(100,100,100,0.2); color: #555; }
+        .meth-disclaimer {
+            font-size: 10px; color: #333; line-height: 1.65; font-style: italic;
+        }
+        @media (max-width: 600px) {
+            #meth-reader-topbar { padding: 0 16px; }
+            #meth-reader-body { padding: 24px 0; }
+            #meth-reader-title { font-size: 8px; letter-spacing: 2px; }
+            #meth-reader-meta { display: none; }
+            .meth-h1 { font-size: 18px; }
         }
     </style>
 </head>
@@ -6660,6 +6809,16 @@ const PANELS = {
                     <div class="incident-text">Target: ${e.target}</div>
                 </div>`;
             }).join('')}
+            <div class="ctx-sources">
+                <div class="ctx-sources-label">PRIMARY SOURCES</div>
+                <div class="ctx-source-row">
+                    <a class="ctx-source-link" href="https://www.cisa.gov/topics/cyber-threats-and-advisories/advanced-persistent-threats/china" target="_blank" rel="noopener">CISA · China Threats</a>
+                    <a class="ctx-source-link" href="https://www.nsa.gov/Press-Room/Cybersecurity-Advisories-Guidance/" target="_blank" rel="noopener">NSA Advisories</a>
+                    <a class="ctx-source-link" href="https://attack.mitre.org/groups/" target="_blank" rel="noopener">MITRE ATT&CK</a>
+                    <a class="ctx-source-link" href="https://www.mandiant.com/resources/insights/apt-groups" target="_blank" rel="noopener">Mandiant APT</a>
+                    <a class="ctx-source-link" href="https://www.recordedfuture.com/research/china" target="_blank" rel="noopener">Recorded Future</a>
+                </div>
+            </div>
         `; }
     },
 
@@ -6852,6 +7011,16 @@ const PANELS = {
                 { date:'2024', text:'ICC members call for investigation · China vetoes UNSC discussion' },
                 { date:'2025', text:'G7 joint statement demands unfettered access · China denies all allegations' },
             ].map(e=>`<div class="space-milestone"><span class="space-milestone-year">${e.date}</span><span class="space-milestone-text">${e.text}</span></div>`).join('')}
+            <div class="ctx-sources">
+                <div class="ctx-sources-label">PRIMARY SOURCES</div>
+                <div class="ctx-source-row">
+                    <a class="ctx-source-link" href="https://www.aspi.org.au/program/xinjiang-data-project" target="_blank" rel="noopener">ASPI · Xinjiang</a>
+                    <a class="ctx-source-link" href="https://citizenlab.ca/tag/china/" target="_blank" rel="noopener">Citizen Lab</a>
+                    <a class="ctx-source-link" href="https://www.hrw.org/tag/xinjiang" target="_blank" rel="noopener">HRW · Xinjiang</a>
+                    <a class="ctx-source-link" href="https://www.ohchr.org/en/documents/thematic-reports/ohchrass221-xinjiang" target="_blank" rel="noopener">UN OHCHR Report</a>
+                    <a class="ctx-source-link" href="https://freedomhouse.org/country/china" target="_blank" rel="noopener">Freedom House</a>
+                </div>
+            </div>
         `; }
     },
 
@@ -7263,8 +7432,18 @@ const PANELS = {
                     </div>`;
                 }).join('')}
             </div>
-            <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#2a2a2a;margin-top:14px;letter-spacing:1px">
-                SCORES UPDATE FROM LIVE FEEDS · BASELINE FROM HISTORICAL ANALYSIS
+            <div class="ctx-sources">
+                <div class="ctx-sources-label">SOURCES &amp; METHODOLOGY</div>
+                <div class="ctx-source-row">
+                    <a class="ctx-source-link" href="https://www.sipri.org/databases" target="_blank" rel="noopener">SIPRI</a>
+                    <a class="ctx-source-link" href="https://www.cfr.org/global-conflict-tracker" target="_blank" rel="noopener">CFR Conflict Tracker</a>
+                    <a class="ctx-source-link" href="https://www.crisisgroup.org/asia/east-asia/china" target="_blank" rel="noopener">ICG · China</a>
+                    <a class="ctx-source-link" href="https://acleddata.com/" target="_blank" rel="noopener">ACLED</a>
+                    <a class="ctx-source-link" href="https://thediplomat.com/" target="_blank" rel="noopener">The Diplomat</a>
+                </div>
+                <div style="font-family:'Share Tech Mono',monospace;font-size:7px;color:#333;margin-top:6px;letter-spacing:1px">
+                    Score = live news signal + historical baseline · Updates with each feed refresh
+                </div>
             </div>`;
         }
     },
@@ -14312,10 +14491,13 @@ function renderIntelPanel() {
         const words = safeTitle.split(' ');
         const headline = words.slice(0, 4).join(' ').toUpperCase();
         const body = safeTitle.length > 40 ? safeTitle.substring(0, 70) + '…' : safeTitle;
-        return `<div class="intel-item">
+        return `<div class="intel-item" onclick="window.open(${JSON.stringify(safeUrl(a.link))},'_blank','noopener,noreferrer')">
             <div class="intel-headline">${headline}</div>
             <div class="intel-body">${body}</div>
-            <div class="intel-time">${escapeHtml(newsTimeAgo(a.date))} ago</div>
+            <div class="intel-footer">
+                <span class="intel-source" style="color:${a.color}">${escapeHtml(a.source)}</span>
+                <span class="intel-time">${escapeHtml(newsTimeAgo(a.date))} ago</span>
+            </div>
         </div>`;
     }).join('');
 }
@@ -15369,11 +15551,11 @@ async function renderNewsPanel() {
 
     const updated = new Date(newsLastFetch);
     const items = articles.slice(0, 40).map(a => `
-        <div class="news-item">
+        <div class="news-item news-item-clickable" onclick="window.open(${JSON.stringify(safeUrl(a.link))},'_blank','noopener,noreferrer')">
             <span class="news-badge" style="color:${a.color}">${a.source}</span>
-            <div class="news-title" onclick="window.open(${JSON.stringify(a.link)},'_blank')">${a.title}</div>
+            <div class="news-title">${a.title}</div>
             ${a.desc ? `<div class="news-desc">${a.desc}…</div>` : ''}
-            <div class="news-time">◷ ${newsTimeAgo(a.date)}</div>
+            <div class="news-time">◷ ${newsTimeAgo(a.date)} &nbsp;·&nbsp; tap to read →</div>
         </div>`).join('');
 
     content.innerHTML = `
@@ -15382,8 +15564,18 @@ async function renderNewsPanel() {
             <span>LIVE · ${updated.toUTCString().slice(17,25)} UTC · ${articles.length} stories</span>
             <button class="news-refresh-btn" onclick="newsCache=[];renderNewsPanel()">↺ REFRESH</button>
         </div>
-        <div class="news-source-legend">BBC · Guardian · Global Times · NPR · Al Jazeera</div>
-        ${items}`;
+        <div class="news-source-legend">BBC · Guardian · Global Times · NPR · Al Jazeera · AP · Reuters · SCMP · Nikkei · FT</div>
+        ${items}
+        <div class="ctx-sources" style="margin-bottom:10px">
+            <div class="ctx-sources-label">GEOPOLITICAL CONTEXT</div>
+            <div class="ctx-source-row">
+                <a class="ctx-source-link" href="https://freedomhouse.org/country/china" target="_blank" rel="noopener">Freedom House · China</a>
+                <a class="ctx-source-link" href="https://citizenlab.ca/tag/china/" target="_blank" rel="noopener">Citizen Lab</a>
+                <a class="ctx-source-link" href="https://cpj.org/asia/china/" target="_blank" rel="noopener">CPJ · Press Freedom</a>
+                <a class="ctx-source-link" href="https://www.crisisgroup.org/asia/east-asia/china" target="_blank" rel="noopener">ICG · China</a>
+                <a class="ctx-source-link" href="https://www.cfr.org/global-conflict-tracker" target="_blank" rel="noopener">CFR Tracker</a>
+            </div>
+        </div>`;
 }
 
 // Auto-refresh news every 5 min when panel is open
@@ -16146,7 +16338,7 @@ const SFX = (() => {
                 setTimeout(() => openPanel('briefing'), 400); break;
             case 'methodology':
                 closeCC();
-                setTimeout(() => openPanel('briefing'), 400); break;
+                setTimeout(() => openMethReader(), 550); break;
         }
     });
 
@@ -16220,9 +16412,23 @@ function openHistReader() {
 document.getElementById('hist-reader-close')?.addEventListener('click', () => {
     document.getElementById('hist-reader').classList.remove('open');
 });
+
+// ══ Methodology Full-Screen Reader ═══════════════════════════════════════
+function openMethReader() {
+    SFX.histOpen();
+    const overlay = document.getElementById('meth-reader');
+    if (!overlay) return;
+    document.getElementById('meth-reader-body').scrollTop = 0;
+    overlay.classList.add('open');
+}
+document.getElementById('meth-reader-close')?.addEventListener('click', () => {
+    document.getElementById('meth-reader').classList.remove('open');
+});
+
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
         document.getElementById('hist-reader')?.classList.remove('open');
+        document.getElementById('meth-reader')?.classList.remove('open');
     }
 });
 
@@ -16409,5 +16615,178 @@ document.addEventListener('keydown', e => {
         <div id="hist-reader-inner"></div>
     </div>
 </div>
+
+<!-- ── Methodology Reader ──────────────────────────────────────────────── -->
+<div id="meth-reader">
+    <div id="meth-reader-topbar">
+        <div id="meth-reader-title">Data Sources &amp; Methodology</div>
+        <div id="meth-reader-meta">OSINT Only &nbsp;·&nbsp; No Gov. Affiliation &nbsp;·&nbsp; Fully Transparent</div>
+        <button id="meth-reader-close">✕ Close</button>
+    </div>
+    <div id="meth-reader-body">
+        <div id="meth-reader-inner">
+
+            <div class="meth-h1">Red <span>Dragon</span> Tracker</div>
+            <div class="meth-tagline">DATA SOURCES · METHODOLOGY · TRANSPARENCY NOTICE</div>
+
+            <!-- What is this -->
+            <div class="meth-section">
+                <div class="meth-h2">What Is This Platform?</div>
+                <p class="meth-p">Red Dragon Tracker is an open-source intelligence (OSINT) dashboard that aggregates and visualises publicly available data about China's military posture, geopolitical activity, economic indicators, and human rights situation. It is built for researchers, journalists, policy professionals, and informed citizens.</p>
+                <p class="meth-p">It has no government affiliation, does not use classified information, and makes no claim to represent official intelligence assessments. Every data point is traceable to a named public source.</p>
+            </div>
+
+            <!-- Live data -->
+            <div class="meth-section">
+                <div class="meth-h2">Live &amp; Real-Time Data Sources <span class="meth-badge live">LIVE</span></div>
+                <div class="meth-grid">
+                    <div class="meth-card">
+                        <div class="meth-card-label">Aircraft Tracking</div>
+                        <div class="meth-card-title">ADS-B Exchange / airplanes.live</div>
+                        <div class="meth-card-desc">Civilian Mode-S transponder data (ADS-B). Military aircraft without transponders are not shown. Positions update every 5–10 seconds via airplanes.live API.</div>
+                    </div>
+                    <div class="meth-card">
+                        <div class="meth-card-label">Seismic Activity</div>
+                        <div class="meth-card-title">USGS Earthquake Hazards Program</div>
+                        <div class="meth-card-desc">Magnitude 2.5+ earthquakes globally, updated in near real time from the USGS GeoJSON feed. Data reflects seismic events only — not nuclear tests.</div>
+                    </div>
+                    <div class="meth-card">
+                        <div class="meth-card-label">Space Station</div>
+                        <div class="meth-card-title">TLE · ivanstanojevic.me · SGP4</div>
+                        <div class="meth-card-desc">Tiangong CSS position calculated from Two-Line Element sets (NORAD 48274) using SGP4 orbital propagation. Updated every 10 seconds.</div>
+                    </div>
+                    <div class="meth-card">
+                        <div class="meth-card-label">Air Quality</div>
+                        <div class="meth-card-title">World Air Quality Index (WAQI)</div>
+                        <div class="meth-card-desc">AQI readings for major Chinese cities via the WAQI API, sourced from EPA monitoring stations. Cached for 30 minutes. Scale: US EPA AQI standard.</div>
+                    </div>
+                </div>
+                <div class="meth-source-row">
+                    <a class="meth-source-chip" href="https://airplanes.live" target="_blank" rel="noopener">airplanes.live</a>
+                    <a class="meth-source-chip" href="https://earthquake.usgs.gov/earthquakes/feed/" target="_blank" rel="noopener">USGS Earthquakes</a>
+                    <a class="meth-source-chip" href="https://tle.ivanstanojevic.me" target="_blank" rel="noopener">TLE API</a>
+                    <a class="meth-source-chip" href="https://waqi.info" target="_blank" rel="noopener">WAQI</a>
+                </div>
+            </div>
+
+            <!-- News feeds -->
+            <div class="meth-section">
+                <div class="meth-h2">News Intelligence Feeds <span class="meth-badge live">LIVE</span></div>
+                <p class="meth-p">All news content is fetched from RSS feeds of established media organisations. China-specific feeds are used in full; general world news feeds are filtered to articles containing relevant keywords (China, Taiwan, Hong Kong, Xi Jinping, Xinjiang, etc.). Articles are deduplicated and sorted by publication time.</p>
+                <div class="meth-grid">
+                    <div class="meth-card">
+                        <div class="meth-card-label">China-Dedicated Feeds</div>
+                        <div class="meth-card-title">BBC · The Guardian · SCMP · Global Times</div>
+                        <div class="meth-card-desc">All articles from China-focused RSS feeds are included. Note: Global Times is a CPC-affiliated outlet; its inclusion is for monitoring state media framing, not as an authoritative source.</div>
+                    </div>
+                    <div class="meth-card">
+                        <div class="meth-card-label">Keyword-Filtered Feeds</div>
+                        <div class="meth-card-title">Reuters · AP · NPR · Al Jazeera · Nikkei · FT</div>
+                        <div class="meth-card-desc">Broad world-news RSS feeds filtered to China-related articles. Cached for 5 minutes; auto-refreshed when the News panel is open.</div>
+                    </div>
+                </div>
+                <div class="meth-source-row">
+                    <a class="meth-source-chip" href="https://feeds.bbci.co.uk/news/world/asia/china/rss.xml" target="_blank" rel="noopener">BBC China RSS</a>
+                    <a class="meth-source-chip" href="https://www.scmp.com/rss/91/feed" target="_blank" rel="noopener">SCMP RSS</a>
+                    <a class="meth-source-chip" href="https://feeds.reuters.com/reuters/worldNews" target="_blank" rel="noopener">Reuters RSS</a>
+                    <a class="meth-source-chip" href="https://feeds.apnews.com/apnews/worldnews" target="_blank" rel="noopener">AP RSS</a>
+                </div>
+            </div>
+
+            <!-- Economic data -->
+            <div class="meth-section">
+                <div class="meth-h2">Economic &amp; Statistical Data <span class="meth-badge osint">OSINT</span></div>
+                <div class="meth-grid">
+                    <div class="meth-card">
+                        <div class="meth-card-label">GDP, Trade, Debt</div>
+                        <div class="meth-card-title">World Bank Open Data API</div>
+                        <div class="meth-card-desc">GDP, trade balance, and external debt figures sourced live from the World Bank API (api.worldbank.org). Data typically reflects the most recently published annual figures.</div>
+                    </div>
+                    <div class="meth-card">
+                        <div class="meth-card-label">Official Statistics</div>
+                        <div class="meth-card-title">NBS China (National Bureau of Statistics)</div>
+                        <div class="meth-card-desc">Selected figures from stats.gov.cn English edition, proxied server-side. Chinese official statistics should be interpreted with awareness of known methodological debates (e.g. GDP deflator controversies).</div>
+                    </div>
+                    <div class="meth-card">
+                        <div class="meth-card-label">Stock Markets</div>
+                        <div class="meth-card-title">TradingView Widget</div>
+                        <div class="meth-card-desc">Live price charts for HSI, CSI 300, SHCOMP, and related instruments. Data and execution provided by TradingView; this platform offers no financial advice.</div>
+                    </div>
+                    <div class="meth-card">
+                        <div class="meth-card-label">BRI / Debt Diplomacy</div>
+                        <div class="meth-card-title">AidData · Rhodium Group · IMF</div>
+                        <div class="meth-card-desc">Chinese overseas lending and BRI investment figures drawn from AidData's Global Chinese Development Finance Dataset, Rhodium Group research, and IMF Article IV consultations.</div>
+                    </div>
+                </div>
+                <div class="meth-source-row">
+                    <a class="meth-source-chip" href="https://api.worldbank.org/v2/" target="_blank" rel="noopener">World Bank API</a>
+                    <a class="meth-source-chip" href="https://www.stats.gov.cn/english/" target="_blank" rel="noopener">NBS China</a>
+                    <a class="meth-source-chip" href="https://www.aiddata.org/data/aiddatas-global-chinese-development-finance-dataset-version-3-0" target="_blank" rel="noopener">AidData</a>
+                    <a class="meth-source-chip" href="https://rhg.com/" target="_blank" rel="noopener">Rhodium Group</a>
+                </div>
+            </div>
+
+            <!-- Geopolitical / OSINT -->
+            <div class="meth-section">
+                <div class="meth-h2">Geopolitical Intelligence <span class="meth-badge osint">OSINT</span></div>
+                <p class="meth-p">Military order-of-battle data, base locations, weapons systems, and force structure estimates are drawn from open-source analyses by recognised research organisations and declassified government documents.</p>
+                <div class="meth-grid">
+                    <div class="meth-card">
+                        <div class="meth-card-label">Cyber Threats</div>
+                        <div class="meth-card-title">CISA · NSA · Mandiant · MITRE ATT&amp;CK</div>
+                        <div class="meth-card-desc">APT group profiles and incident data sourced from public CISA advisories, NSA cybersecurity guidance, Mandiant threat intelligence reports, and MITRE ATT&amp;CK group entries.</div>
+                    </div>
+                    <div class="meth-card">
+                        <div class="meth-card-label">Surveillance &amp; Detention</div>
+                        <div class="meth-card-title">ASPI · Citizen Lab · HRW · UN OHCHR</div>
+                        <div class="meth-card-desc">Xinjiang facility data from ASPI's Xinjiang Data Project (satellite verified). Internet censorship research from Citizen Lab. Detention and rights-violation documentation from Human Rights Watch and the UN OHCHR 2022 Xinjiang report.</div>
+                    </div>
+                    <div class="meth-card">
+                        <div class="meth-card-label">Military &amp; Arms</div>
+                        <div class="meth-card-title">SIPRI · DoD China Report · IISS</div>
+                        <div class="meth-card-desc">Military expenditure and arms transfer data from SIPRI. Order-of-battle estimates cross-referenced with annual DoD "Military and Security Developments Involving the PRC" report and IISS Military Balance.</div>
+                    </div>
+                    <div class="meth-card">
+                        <div class="meth-card-label">Tension Meter</div>
+                        <div class="meth-card-title">Live news signal + historical baseline</div>
+                        <div class="meth-card-desc">The geopolitical tension meter scores keyword frequency across live news articles against a set of compound-phrase signals (each phrase has a calibrated weight). Score = weighted sum normalised to 0–10. Not a predictive model — reflects current news coverage intensity.</div>
+                    </div>
+                </div>
+                <div class="meth-source-row">
+                    <a class="meth-source-chip" href="https://www.cisa.gov/topics/cyber-threats-and-advisories/advanced-persistent-threats/china" target="_blank" rel="noopener">CISA China</a>
+                    <a class="meth-source-chip" href="https://www.aspi.org.au/program/xinjiang-data-project" target="_blank" rel="noopener">ASPI Xinjiang</a>
+                    <a class="meth-source-chip" href="https://citizenlab.ca/tag/china/" target="_blank" rel="noopener">Citizen Lab</a>
+                    <a class="meth-source-chip" href="https://www.sipri.org/databases" target="_blank" rel="noopener">SIPRI</a>
+                    <a class="meth-source-chip" href="https://www.defense.gov/News/Releases/Release/Article/3553282/" target="_blank" rel="noopener">DoD PRC Report</a>
+                    <a class="meth-source-chip" href="https://freedomhouse.org/country/china" target="_blank" rel="noopener">Freedom House</a>
+                </div>
+            </div>
+
+            <!-- Censorship & Internet freedom -->
+            <div class="meth-section">
+                <div class="meth-h2">Internet Freedom &amp; Censorship Context <span class="meth-badge osint">OSINT</span></div>
+                <p class="meth-p">China operates the world's most extensive internet censorship system, commonly known as the "Great Firewall." The following organisations publish ongoing, peer-reviewed research on China's censorship apparatus, surveillance technology exports, and press freedom.</p>
+                <div class="meth-source-row">
+                    <a class="meth-source-chip" href="https://citizenlab.ca/tag/china/" target="_blank" rel="noopener">Citizen Lab · China Research</a>
+                    <a class="meth-source-chip" href="https://freedomhouse.org/country/china/freedom-net/2024" target="_blank" rel="noopener">Freedom on the Net 2024</a>
+                    <a class="meth-source-chip" href="https://cpj.org/asia/china/" target="_blank" rel="noopener">CPJ · Press Freedom</a>
+                    <a class="meth-source-chip" href="https://rsf.org/en/china" target="_blank" rel="noopener">RSF · China</a>
+                    <a class="meth-source-chip" href="https://www.hrw.org/tag/free-speech" target="_blank" rel="noopener">HRW · Free Speech</a>
+                    <a class="meth-source-chip" href="https://www.chinafile.com/" target="_blank" rel="noopener">ChinaFile</a>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="meth-section">
+                <div class="meth-h2">Disclaimer</div>
+                <p class="meth-disclaimer">Red Dragon Tracker is an independent OSINT project. It is not affiliated with any government, intelligence agency, political party, or advocacy organisation. Data is presented for informational purposes only. Nothing on this platform constitutes investment advice, legal advice, or an official threat assessment.</p>
+                <p class="meth-disclaimer">Simulated visualisations (cyberattack animations, military exercise patterns) are illustrative of documented patterns — they are not live operational data. ADS-B aircraft data excludes transponder-off flights. Tension scores reflect news volume, not classified intelligence.</p>
+                <p class="meth-disclaimer">All trademarks, media logos, and source names belong to their respective owners. Source links are provided for reference and do not imply endorsement by those organisations of this platform.</p>
+            </div>
+
+        </div><!-- /meth-reader-inner -->
+    </div>
+</div>
+
 </body>
 </html>
