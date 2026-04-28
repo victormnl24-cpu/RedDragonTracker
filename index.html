@@ -2790,6 +2790,31 @@
             font-family: 'Share Tech Mono', monospace; font-size: 8px;
             color: #2a2a2a; letter-spacing: 1px;
         }
+        .upgr-coming-soon {
+            text-align: center; padding: 20px 0 14px;
+            border-top: 1px solid rgba(255,180,0,0.12);
+            margin-top: 4px;
+        }
+        .upgr-cs-icon {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 28px; color: #FFB400;
+            margin-bottom: 10px; opacity: 0.85;
+            animation: upgr-pulse 2s ease-in-out infinite;
+        }
+        @keyframes upgr-pulse {
+            0%,100% { opacity: 0.6; }
+            50%      { opacity: 1; }
+        }
+        .upgr-cs-title {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px; letter-spacing: 3px;
+            color: #FFB400; margin-bottom: 8px;
+        }
+        .upgr-cs-sub {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px; color: #555; letter-spacing: 1px;
+            line-height: 1.6;
+        }
 
         /* ══ AUTH SCREEN ═════════════════════════════════════════ */
         #auth-screen {
@@ -3060,7 +3085,7 @@
             ALERTS
             <span id="alert-badge">0</span>
         </button>
-        <button id="upgrade-btn">✦ UPGRADE</button>
+        <button id="upgrade-btn">✦ COMING SOON</button>
         <div id="hdr-user-badge" title="Signed in — click to manage account">
             <span id="hdr-user-dot"></span>
             <span id="hdr-user-label">MEMBER</span>
@@ -14753,8 +14778,8 @@ corrections welcome.
         html() {
             if (!RDT.isPremium()) {
                 return `<div class="premium-lock">
-                    <div class="premium-lock-icon">🔒</div>
-                    <div class="premium-lock-title">PREMIUM FEATURE</div>
+                    <div class="premium-lock-icon" style="font-family:'Share Tech Mono',monospace;font-size:22px;letter-spacing:2px">⧖</div>
+                    <div class="premium-lock-title">PREMIUM — COMING SOON</div>
                     <div class="premium-lock-desc">
                         Predictive analysis models likely next-move scenarios based on live news, tension scores, and historical PRC behavior patterns.
                     </div>
@@ -14764,7 +14789,7 @@ corrections welcome.
                         <div class="premium-unlock-row">Historical pattern matching</div>
                         <div class="premium-unlock-row">Early warning indicators</div>
                     </div>
-                    <button class="premium-lock-btn" onclick="showUpgradeModal()">UNLOCK — $5/MO EARLY ACCESS</button>
+                    <button class="premium-lock-btn" onclick="showUpgradeModal()">COMING SOON — NOTIFY ME</button>
                 </div>`;
             }
             return renderPredictive();
@@ -17298,7 +17323,7 @@ function renderAlertsPanel() {
     return `
     <p class="intro-text">Subscribe to signals. Get notified the moment something changes.
     ${!premium
-        ? `<span style="color:#FFB400;font-size:8px;letter-spacing:1px;cursor:pointer;margin-left:4px" onclick="showUpgradeModal()">↑ UPGRADE FOR UNLIMITED</span>`
+        ? `<span style="color:#FFB400;font-size:8px;letter-spacing:1px;cursor:pointer;margin-left:4px" onclick="showUpgradeModal()">⧖ COMING SOON</span>`
         : `<span style="color:#FFB400;font-size:8px;letter-spacing:1.5px">✦ PREMIUM ACTIVE</span>`}
     </p>
 
@@ -17323,7 +17348,7 @@ function renderAlertsPanel() {
 
     ${!premium ? `
     <div onclick="showUpgradeModal()" style="margin:14px 0 4px;padding:12px 14px;background:rgba(255,180,0,0.05);border:1px solid rgba(255,180,0,0.18);cursor:pointer;transition:background 0.2s" onmouseover="this.style.background='rgba(255,180,0,0.1)'" onmouseout="this.style.background='rgba(255,180,0,0.05)'">
-        <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#FFB400;letter-spacing:2px;margin-bottom:4px">↑ UNLOCK ALL ALERTS — $5/MO EARLY ACCESS</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:8px;color:#FFB400;letter-spacing:2px;margin-bottom:4px">⧖ PREMIUM COMING SOON — ALL ALERTS UNLOCKED AT LAUNCH</div>
         <div style="font-size:9px;color:#555;line-height:1.5">Military · Cyber · Economic · Unlimited filters · Real-time browser notifications</div>
     </div>` : ''}
 
@@ -17433,42 +17458,6 @@ function showUpgradeModal() {
 }
 function hideUpgradeModal() {
     document.getElementById('upgrade-modal')?.classList.remove('show');
-    document.getElementById('upgr-msg').textContent = '';
-}
-
-async function submitUpgrade() {
-    const emailEl = document.getElementById('upgr-email');
-    const msgEl   = document.getElementById('upgr-msg');
-    const btn     = document.querySelector('#upgrade-modal .upgr-form button');
-    const email   = emailEl?.value.trim().toLowerCase();
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        msgEl.style.color = '#FF4444';
-        msgEl.textContent = 'Please enter a valid email address.';
-        return;
-    }
-    btn.textContent = 'SENDING…';
-    btn.disabled = true;
-    try {
-        const res = await fetch('https://jcwmkpwcbfszsxbylnbf.supabase.co/functions/v1/subscribe', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, source: 'RedDragonTracker-Premium' }),
-        });
-        const data = await res.json();
-        if (data.ok || data.error === '23505') {
-            msgEl.style.color = '#FFB400';
-            msgEl.textContent = '✓ You\'re on the early access list. We\'ll be in touch soon.';
-            btn.textContent = '✓ JOINED';
-            emailEl.value = '';
-        } else {
-            throw new Error(data.error || 'Server error');
-        }
-    } catch(e) {
-        msgEl.style.color = '#FF4444';
-        msgEl.textContent = 'Something went wrong. Try again.';
-        btn.textContent = 'JOIN EARLY ACCESS →';
-        btn.disabled = false;
-    }
 }
 
 // Upgrade modal close on backdrop click
@@ -17578,7 +17567,6 @@ document.getElementById('upgrade-btn')?.addEventListener('click', showUpgradeMod
 // ── Expose functions called from innerHTML onclick attributes to window ────
 window.showUpgradeModal = showUpgradeModal;
 window.hideUpgradeModal = hideUpgradeModal;
-window.submitUpgrade    = submitUpgrade;
 window.toggleAlert      = toggleAlert;
 window.openPanel        = openPanel;
 window.closePanel       = closePanel;
@@ -17974,7 +17962,7 @@ window.closePanel       = closePanel;
 <div id="upgrade-modal">
     <div id="upgrade-modal-inner">
         <button id="upgrade-close" onclick="hideUpgradeModal()">✕</button>
-        <div class="upgr-tag">EARLY ACCESS — LIMITED SPOTS</div>
+        <div class="upgr-tag">COMING SOON</div>
         <div class="upgr-h1">Red Dragon <span>Premium</span></div>
         <div class="upgr-price">$5 <span>/month</span></div>
         <div class="upgr-tagline">Intelligence advantage. Not just information.</div>
@@ -17986,12 +17974,12 @@ window.closePanel       = closePanel;
             <div class="upgr-feat-row">Weekly premium intelligence brief by email</div>
             <div class="upgr-feat-row">Advanced geospatial filters & data export</div>
         </div>
-        <div class="upgr-form">
-            <input type="email" id="upgr-email" placeholder="your@email.com" maxlength="254">
-            <button onclick="submitUpgrade()">JOIN EARLY ACCESS →</button>
+        <div class="upgr-coming-soon">
+            <div class="upgr-cs-icon">⧖</div>
+            <div class="upgr-cs-title">PREMIUM LAUNCHING SOON</div>
+            <div class="upgr-cs-sub">We're finalizing the premium experience. Check back shortly.</div>
         </div>
-        <div id="upgr-msg"></div>
-        <div class="upgr-disclaimer">Early access pricing — $5/mo. No ads, no tracking. Cancel anytime.</div>
+        <div class="upgr-disclaimer">No ads, no tracking. Early supporters get founding member pricing.</div>
     </div>
 </div>
 
