@@ -1901,6 +1901,7 @@
         /* ══ Command Center — Scroll Edition ════════════════════════════════ */
         #cc-overlay {
             position: fixed; inset: 0; z-index: 9999;
+            background: #000;
             opacity: 0; visibility: hidden;
             transition: opacity 0.5s ease, visibility 0s linear 0.5s;
         }
@@ -1908,6 +1909,84 @@
             opacity: 1; visibility: visible;
             transition: opacity 0.5s ease, visibility 0s linear 0s;
         }
+        /* ── Terminal boot animation ──────────────────────────────────── */
+        #terminal-boot {
+            position: fixed; inset: 0; z-index: 19999;
+            background: #000;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+        }
+        #terminal-boot.active {
+            opacity: 1; visibility: visible;
+            transition: opacity 0.2s ease, visibility 0s linear 0s;
+        }
+        #terminal-boot.fade-out {
+            opacity: 0;
+            transition: opacity 0.5s ease 0.1s;
+        }
+        #boot-inner {
+            width: min(560px, 90vw);
+            font-family: 'Share Tech Mono', monospace;
+        }
+        #boot-header {
+            font-size: 10px; letter-spacing: 3px; color: #CC0000;
+            margin-bottom: 6px; text-transform: uppercase;
+            display: flex; align-items: center; gap: 8px;
+        }
+        #boot-header::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(90deg, rgba(204,0,0,0.5), transparent);
+        }
+        #boot-title {
+            font-family: 'Orbitron', monospace; font-size: 22px;
+            font-weight: 900; color: #CC0000; letter-spacing: 4px;
+            margin-bottom: 4px;
+            text-shadow: 0 0 30px rgba(204,0,0,0.6);
+        }
+        #boot-title span { color: #fff; }
+        #boot-subtitle {
+            font-size: 8px; color: #333; letter-spacing: 3px;
+            margin-bottom: 28px;
+        }
+        #boot-log {
+            font-size: 10px; line-height: 2;
+            color: #444; min-height: 160px;
+            margin-bottom: 24px;
+        }
+        .boot-line { display: flex; gap: 10px; }
+        .boot-line.ok   .boot-tag { color: #00cc44; }
+        .boot-line.warn .boot-tag { color: #FFB400; }
+        .boot-line.info .boot-tag { color: #CC0000; }
+        .boot-tag { flex-shrink: 0; min-width: 42px; }
+        .boot-text { color: #666; }
+        .boot-line.active .boot-text { color: #aaa; }
+        .boot-line.active .boot-tag  { text-shadow: 0 0 6px currentColor; }
+        #boot-bar-wrap {
+            width: 100%; height: 2px;
+            background: rgba(255,255,255,0.06);
+            margin-bottom: 10px; position: relative;
+        }
+        #boot-bar-fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #660000, #CC0000);
+            transition: width 0.06s linear;
+            box-shadow: 0 0 8px rgba(204,0,0,0.7);
+        }
+        #boot-pct {
+            font-size: 9px; color: #CC0000; letter-spacing: 2px;
+            text-align: right; display: flex;
+            justify-content: space-between;
+        }
+        #boot-pct span { color: #333; }
+        #boot-cursor {
+            display: inline-block; width: 7px; height: 13px;
+            background: #CC0000; vertical-align: middle;
+            animation: bootBlink 0.6s step-end infinite;
+            margin-left: 4px;
+        }
+        @keyframes bootBlink { 0%,100%{opacity:1} 50%{opacity:0} }
         /* ── Scroll container ─────────────────────────────────────────── */
         #cc-scroll {
             width: 100%; height: 100%;
@@ -16952,7 +17031,9 @@ const SFX = (() => {
         const action = btn.dataset.cc;
         switch (action) {
             case 'enter':
-                closeCC(); break;
+                closeCC();
+                setTimeout(() => runTerminalBoot(() => {}), 300);
+                break;
             case 'history':
                 closeCC();
                 setTimeout(() => openHistReader(), 400); break;
@@ -17401,6 +17482,98 @@ document.getElementById('alert-btn')?.addEventListener('click', () => {
     activePanel === 'alerts' ? closePanel() : openPanel('alerts');
 });
 document.getElementById('upgrade-btn')?.addEventListener('click', showUpgradeModal);
+
+// ══════════════════════════════════════════════════════════════════════════
+//  TERMINAL BOOT ANIMATION
+// ══════════════════════════════════════════════════════════════════════════
+(function() {
+    const BOOT_LINES = [
+        { tag: 'INIT',  cls: 'info', text: 'RED DRAGON TRACKER v2.0 — SECURE BOOT SEQUENCE' },
+        { tag: 'OK',    cls: 'ok',   text: 'Memory integrity check passed' },
+        { tag: 'OK',    cls: 'ok',   text: 'Cryptographic modules loaded' },
+        { tag: 'INIT',  cls: 'info', text: 'Connecting to satellite telemetry feeds...' },
+        { tag: 'OK',    cls: 'ok',   text: 'ADS-B transponder link established' },
+        { tag: 'INIT',  cls: 'info', text: 'Loading geospatial intelligence layer...' },
+        { tag: 'OK',    cls: 'ok',   text: 'PLA order-of-battle database indexed' },
+        { tag: 'WARN',  cls: 'warn', text: 'Unverified SIGINT — corroboration required' },
+        { tag: 'OK',    cls: 'ok',   text: 'OSINT aggregator: 14 sources nominal' },
+        { tag: 'INIT',  cls: 'info', text: 'Establishing realtime intelligence channels...' },
+        { tag: 'OK',    cls: 'ok',   text: 'Taiwan Strait sensor array online' },
+        { tag: 'OK',    cls: 'ok',   text: 'South China Sea maritime feeds active' },
+        { tag: 'OK',    cls: 'ok',   text: 'Secure session authenticated' },
+        { tag: 'READY', cls: 'ok',   text: 'ALL SYSTEMS NOMINAL — ENTERING TERMINAL' },
+    ];
+
+    // Timing: total ~1.8 seconds
+    const TOTAL_MS    = 1800;
+    const LINE_DELAY  = TOTAL_MS / (BOOT_LINES.length + 2);
+    const FADE_OUT_MS = 400;
+
+    const bootEl   = document.getElementById('terminal-boot');
+    const logEl    = document.getElementById('boot-log');
+    const fillEl   = document.getElementById('boot-bar-fill');
+    const pctEl    = document.getElementById('boot-pct-num');
+    const statusEl = bootEl?.querySelector('#boot-pct span');
+
+    let _bootOnComplete = null;
+
+    window.runTerminalBoot = function(onComplete) {
+        if (!bootEl) { onComplete?.(); return; }
+        _bootOnComplete = onComplete;
+        logEl.innerHTML = '';
+        fillEl.style.transition = 'none';
+        fillEl.style.width = '0%';
+        pctEl.textContent = '0%';
+
+        bootEl.classList.remove('fade-out');
+        bootEl.classList.add('active');
+
+        // Animate progress bar 0→100 over TOTAL_MS
+        const startTime = performance.now();
+        function animBar(now) {
+            const elapsed = now - startTime;
+            const pct     = Math.min(100, Math.round((elapsed / TOTAL_MS) * 100));
+            // Slight ease: slow at end
+            const visual  = Math.round(100 * (1 - Math.pow(1 - pct/100, 1.3)));
+            fillEl.style.transition = 'none';
+            fillEl.style.width      = visual + '%';
+            pctEl.textContent       = visual + '%';
+            if (pct < 100) requestAnimationFrame(animBar);
+        }
+        requestAnimationFrame(animBar);
+
+        // Stagger log lines
+        BOOT_LINES.forEach((line, i) => {
+            setTimeout(() => {
+                // Deactivate previous
+                logEl.querySelectorAll('.boot-line.active').forEach(el => el.classList.remove('active'));
+                const row = document.createElement('div');
+                row.className = `boot-line ${line.cls} active`;
+                row.innerHTML = `<span class="boot-tag">[${line.tag}]</span><span class="boot-text">${line.text}</span>`;
+                // Keep last line with cursor
+                if (i === BOOT_LINES.length - 1) {
+                    row.innerHTML += '<span id="boot-cursor"></span>';
+                    if (statusEl) statusEl.textContent = 'ACCESS GRANTED';
+                }
+                logEl.appendChild(row);
+                // Keep only last 7 lines visible (smooth scroll feel)
+                const rows = logEl.querySelectorAll('.boot-line');
+                if (rows.length > 7) rows[0].remove();
+            }, i * LINE_DELAY);
+        });
+
+        // Finish → fade out → call onComplete
+        setTimeout(() => {
+            bootEl.classList.add('fade-out');
+            setTimeout(() => {
+                bootEl.classList.remove('active', 'fade-out');
+                logEl.innerHTML = '';
+                _bootOnComplete?.();
+                _bootOnComplete = null;
+            }, FADE_OUT_MS);
+        }, TOTAL_MS + 80);
+    };
+})();
 
 // ── Expose functions called from innerHTML onclick attributes to window ────
 window.showUpgradeModal = showUpgradeModal;
@@ -18002,6 +18175,21 @@ window.closePanel       = closePanel;
             </div>
 
         </div><!-- /meth-reader-inner -->
+    </div>
+</div>
+
+<!-- ── Terminal Boot Animation ───────────────────────────────────────── -->
+<div id="terminal-boot">
+    <div id="boot-inner">
+        <div id="boot-header">SYS://RDT-v2.0 · SECURE BOOT</div>
+        <div id="boot-title">Red <span>Dragon</span> Tracker</div>
+        <div id="boot-subtitle">CLASSIFIED OSINT INTELLIGENCE PLATFORM · UNCLASSIFIED</div>
+        <div id="boot-log"></div>
+        <div id="boot-bar-wrap"><div id="boot-bar-fill"></div></div>
+        <div id="boot-pct">
+            <span>INITIALIZING SECURE CHANNEL</span>
+            <span id="boot-pct-num">0%</span>
+        </div>
     </div>
 </div>
 
