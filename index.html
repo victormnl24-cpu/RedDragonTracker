@@ -1665,8 +1665,8 @@
             <input id="globe-search" type="text" placeholder="Search…" autocomplete="off" spellcheck="false" maxlength="100">
             <div id="globe-search-results"></div>
         </div>
-        <div class="hdr-stat">
-            <span class="hdr-stat-label">UTC</span>
+        <div class="hdr-stat" id="hdr-clock-wrap" title="Click to change timezone" style="cursor:pointer;user-select:none">
+            <span class="hdr-stat-label" id="hdr-tz-label">UTC</span>
             <span class="hdr-stat-val" id="hdr-clock">00:00:00</span>
         </div>
         <button id="nl-trigger" onclick="document.getElementById('nl-overlay').classList.add('show')">
@@ -6945,13 +6945,33 @@ document.querySelectorAll('.dock-btn:not(#dock-all-btn), .nav-btn, .hdr-nav-btn'
 document.getElementById('panel-close').addEventListener('click', closePanel);
 
 // ── Header live clock ──────────────────────────────────────────────────
+const TZ_OPTIONS = [
+    { label: 'UTC',     tz: 'UTC' },
+    { label: 'BJT',     tz: 'Asia/Shanghai' },       // Beijing Time
+    { label: 'EST',     tz: 'America/New_York' },
+    { label: 'GST',     tz: 'Asia/Dubai' },           // Gulf Standard Time
+    { label: 'LOCAL',   tz: null },                   // user's local time
+];
+let tzIndex = 0;
+
 function tickClock() {
     const el = document.getElementById('hdr-clock');
-    if (el) {
-        const n = new Date();
-        el.textContent = n.toUTCString().slice(17, 25);
-    }
+    const lb = document.getElementById('hdr-tz-label');
+    if (!el) return;
+    const n = new Date();
+    const opt = TZ_OPTIONS[tzIndex];
+    const time = opt.tz
+        ? n.toLocaleTimeString('en-GB', { timeZone: opt.tz, hour12: false })
+        : n.toLocaleTimeString('en-GB', { hour12: false });
+    el.textContent = time;
+    if (lb) lb.textContent = opt.label;
 }
+
+document.getElementById('hdr-clock-wrap')?.addEventListener('click', () => {
+    tzIndex = (tzIndex + 1) % TZ_OPTIONS.length;
+    tickClock();
+});
+
 tickClock();
 setInterval(tickClock, 1000);
 
