@@ -13735,25 +13735,24 @@ function openPanel(id) {
                 </div>`;
             }).join('');
         });
-    }
-}
-
     if (id === 'history') {
-        // Make panel wider for the article
         document.getElementById('panel').classList.add('wide');
-        // Intercept internal TOC anchor links to scroll within panel-content
         requestAnimationFrame(() => {
             const pc = document.getElementById('panel-content');
             if (!pc) return;
-            pc.addEventListener('click', function histAnchorClick(e) {
+            pc.addEventListener('click', function histAnchorHandler(e) {
                 const a = e.target.closest('[data-hist-anchor]');
                 if (!a) return;
                 e.preventDefault();
-                const target = pc.querySelector('#' + CSS.escape(a.dataset.histAnchor));
+                const anchorId = a.dataset.histAnchor;
+                const target = pc.querySelector('#' + anchorId) || pc.querySelector('[id="' + anchorId + '"]');
                 if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
     }
+    }
+}
+
 function closePanel() {
     document.getElementById('panel').classList.remove('open', 'wide');
     document.querySelectorAll('.dock-btn:not(#dock-all-btn), .nav-btn, .hdr-nav-btn').forEach(b => b.classList.remove('active'));
