@@ -1,7 +1,11 @@
 // Cloudflare Pages Function — CORS proxy (stats.gov.cn only)
 // Security: strict CORS, domain allowlist, IP rate limiting, no internal errors exposed.
 
-const ALLOWED_ORIGIN  = 'https://reddragontracker.pages.dev';
+const ALLOWED_ORIGINS = new Set([
+    'https://reddragontracker.com',
+    'https://www.reddragontracker.com',
+    'https://reddragontracker.pages.dev',
+]);
 const ALLOWED_DOMAINS = ['www.stats.gov.cn'];
 
 // Ephemeral per-isolate rate limiter (best-effort; not a substitute for WAF rules)
@@ -34,7 +38,7 @@ export async function onRequest(context) {
 
     const origin = request.headers.get('origin') || '';
     const CORS = {
-        'Access-Control-Allow-Origin':  origin === ALLOWED_ORIGIN ? ALLOWED_ORIGIN : '',
+        'Access-Control-Allow-Origin':  ALLOWED_ORIGINS.has(origin) ? origin : '',
         'Access-Control-Allow-Methods': 'GET, OPTIONS',
         'Vary': 'Origin',
     };

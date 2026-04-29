@@ -4,12 +4,16 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
-// ── Single production origin — no dev/staging bleed ────────────────────
-const ALLOWED_ORIGIN = 'https://reddragontracker.pages.dev';
+// ── Allowed origins — custom domain + pages.dev fallback ───────────────
+const ALLOWED_ORIGINS = new Set([
+    'https://reddragontracker.com',
+    'https://www.reddragontracker.com',
+    'https://reddragontracker.pages.dev',
+]);
 
 function getCORS(req: Request) {
     const origin = req.headers.get('origin') || '';
-    const allowed = origin === ALLOWED_ORIGIN ? ALLOWED_ORIGIN : '';
+    const allowed = ALLOWED_ORIGINS.has(origin) ? origin : '';
     return {
         'Access-Control-Allow-Origin':  allowed,
         'Access-Control-Allow-Headers': 'content-type',
@@ -33,7 +37,7 @@ Deno.serve(async (req: Request) => {
 
     // ── Reject if origin not allowed ────────────────────────────────────
     const origin = req.headers.get('origin') || '';
-    if (origin !== ALLOWED_ORIGIN) {
+    if (!ALLOWED_ORIGINS.has(origin)) {
         return json({ error: 'Forbidden' }, 403, CORS);
     }
 
