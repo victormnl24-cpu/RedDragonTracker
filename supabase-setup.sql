@@ -4,61 +4,7 @@
 
 
 -- ══════════════════════════════════════════════════════════════════════
--- 1. SUBSCRIBERS — newsletter signups
--- ══════════════════════════════════════════════════════════════════════
-CREATE TABLE IF NOT EXISTS subscribers (
-    id          UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-    email       TEXT        NOT NULL,
-    source      TEXT        DEFAULT 'RedDragonTracker',
-    created_at  TIMESTAMPTZ DEFAULT NOW(),
-    CONSTRAINT subscribers_email_unique UNIQUE (email),
-    CONSTRAINT subscribers_email_format CHECK (email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$'),
-    CONSTRAINT subscribers_email_length CHECK (char_length(email) <= 254)
-);
-
-ALTER TABLE subscribers ENABLE ROW LEVEL SECURITY;
-
--- Anon can only INSERT — never read, update, or delete
-CREATE POLICY IF NOT EXISTS "subscribers_public_insert" ON subscribers
-    FOR INSERT TO anon
-    WITH CHECK (
-        char_length(email) <= 254 AND
-        email ~* '^[^@\s]+@[^@\s]+\.[^@\s]+$'
-    );
-
--- Service role (Edge Functions + dashboard) full access
-CREATE POLICY IF NOT EXISTS "subscribers_service_full" ON subscribers
-    FOR ALL TO service_role
-    USING (true) WITH CHECK (true);
-
-
--- ══════════════════════════════════════════════════════════════════════
--- 2. SUBSCRIBE_ATTEMPTS — IP rate limiting for newsletter
--- ══════════════════════════════════════════════════════════════════════
-CREATE TABLE IF NOT EXISTS subscribe_attempts (
-    id         UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
-    ip         TEXT        NOT NULL,
-    email      TEXT,
-    created_at TIMESTAMPTZ DEFAULT NOW()
-);
-
-ALTER TABLE subscribe_attempts ENABLE ROW LEVEL SECURITY;
-
--- Only the service role (Edge Function) may touch this table
-CREATE POLICY IF NOT EXISTS "subscribe_attempts_service_only" ON subscribe_attempts
-    FOR ALL TO service_role
-    USING (true) WITH CHECK (true);
-
-CREATE INDEX IF NOT EXISTS idx_subscribe_attempts_ip_time
-    ON subscribe_attempts (ip, created_at);
-
--- Auto-cleanup (enable pg_cron extension first):
--- SELECT cron.schedule('cleanup-attempts', '30 * * * *',
---   $$DELETE FROM subscribe_attempts WHERE created_at < NOW() - INTERVAL '2 hours'$$);
-
-
--- ══════════════════════════════════════════════════════════════════════
--- 3. PROFILES — one row per auth user, stores public username
+-- 1. PROFILES — one row per auth user, stores public username
 -- ══════════════════════════════════════════════════════════════════════
 CREATE TABLE IF NOT EXISTS profiles (
     id          UUID        PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
@@ -91,7 +37,7 @@ CREATE POLICY IF NOT EXISTS "profiles_service_full" ON profiles
 
 
 -- ══════════════════════════════════════════════════════════════════════
--- 4. CHAT MESSAGES
+-- 2. CHAT MESSAGES
 -- ══════════════════════════════════════════════════════════════════════
 CREATE TABLE IF NOT EXISTS chat_messages (
     id          UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -163,7 +109,7 @@ ALTER PUBLICATION supabase_realtime ADD TABLE chat_messages;
 
 
 -- ══════════════════════════════════════════════════════════════════════
--- 5. AUTH RATE LIMITING (Supabase built-in)
+-- 3. AUTH RATE LIMITING (Supabase built-in)
 -- ══════════════════════════════════════════════════════════════════════
 -- Supabase enforces its own auth rate limits:
 --   • Max 3 signup emails / hour / IP (default)
@@ -177,11 +123,9 @@ ALTER PUBLICATION supabase_realtime ADD TABLE chat_messages;
 
 
 -- ══════════════════════════════════════════════════════════════════════
--- 6. SECURITY CHECKLIST
+-- 4. SECURITY CHECKLIST
 -- ══════════════════════════════════════════════════════════════════════
 -- [x] RLS enabled on all tables
--- [x] Anon cannot read subscribers
--- [x] Anon cannot read subscribe_attempts
 -- [x] Anon cannot set user_id on chat_messages (claim verified status)
 -- [x] Profiles are readable by all but writable only by owner
 -- [x] channel constrained to known values (no freeform injection)

@@ -378,132 +378,9 @@
         }
         #nl-trigger svg { flex-shrink: 0; }
 
-        #nl-overlay {
-            display: none; position: fixed; inset: 0; z-index: 9000;
-            background: rgba(0,0,0,0.88);
-            backdrop-filter: blur(8px);
-            align-items: center; justify-content: center;
-        }
-        #nl-overlay.show { display: flex; }
-
-        #nl-modal {
-            position: relative;
-            width: min(520px, calc(100vw - 32px));
-            background: rgba(6,4,8,0.97);
-            border: 1px solid rgba(200,0,0,0.4);
-            box-shadow: 0 0 60px rgba(180,0,0,0.3), 0 24px 80px rgba(0,0,0,0.8);
-            padding: 40px 36px 36px;
-            overflow: hidden;
-        }
-        /* corner accent lines */
-        #nl-modal::before, #nl-modal::after {
-            content: ''; position: absolute; background: #CC0000;
-        }
-        #nl-modal::before { top:0;left:0; width:60px; height:1px; }
-        #nl-modal::after  { top:0;left:0; width:1px;  height:60px; }
-
-        #nl-close {
-            position: absolute; top: 14px; right: 16px;
-            background: none; border: none; color: #333;
-            font-size: 18px; cursor: pointer; line-height: 1;
-            transition: color 0.15s;
-        }
-        #nl-close:hover { color: #CC0000; }
-
-        #nl-eyebrow {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 8px; color: #CC0000; letter-spacing: 4px;
-            text-transform: uppercase; margin-bottom: 10px;
-            display: flex; align-items: center; gap: 8px;
-        }
-        #nl-eyebrow::before {
-            content: ''; display: inline-block;
-            width: 6px; height: 6px; border-radius: 50%;
-            background: #CC0000; animation: blink 1.5s step-end infinite;
-        }
-
-        #nl-headline {
-            font-family: 'Orbitron', monospace;
-            font-size: 26px; font-weight: 900; color: #fff;
-            letter-spacing: 3px; line-height: 1.15; margin-bottom: 6px;
-            text-shadow: 0 0 30px rgba(204,0,0,0.4);
-        }
-        #nl-headline span { color: #CC0000; }
-
-        #nl-sub {
-            font-size: 13px; color: #777; line-height: 1.6; margin-bottom: 22px;
-        }
-
-        .nl-bullet {
-            display: flex; align-items: flex-start; gap: 10px;
-            margin-bottom: 10px;
-        }
-        .nl-bullet-icon {
-            width: 20px; height: 20px; flex-shrink: 0;
-            border: 1px solid rgba(204,0,0,0.3); color: #CC0000;
-            font-size: 10px; display: flex; align-items: center; justify-content: center;
-        }
-        .nl-bullet-text { font-size: 11px; color: #666; line-height: 1.5; }
-        .nl-bullet-text strong { color: #aaa; font-weight: 500; }
-
-        #nl-form { margin-top: 24px; }
-        #nl-form-row {
-            display: flex; gap: 0;
-            border: 1px solid rgba(200,0,0,0.35);
-        }
-        #nl-email {
-            flex: 1; background: rgba(255,255,255,0.03);
-            border: none; outline: none;
-            color: #ddd; font-family: 'Share Tech Mono', monospace;
-            font-size: 12px; padding: 12px 16px; letter-spacing: 1px;
-        }
-        #nl-email::placeholder { color: #2a2a2a; }
-        #nl-email:focus { background: rgba(255,255,255,0.05); }
-        #nl-submit {
-            background: #CC0000; border: none; cursor: pointer;
-            color: #fff; font-family: 'Orbitron', monospace;
-            font-size: 9px; font-weight: 700; letter-spacing: 2px;
-            padding: 12px 20px; text-transform: uppercase;
-            transition: background 0.15s; flex-shrink: 0;
-        }
-        #nl-submit:hover { background: #FF2222; }
-        #nl-submit:disabled { background: #333; cursor: default; }
-
-        #nl-legal {
-            font-size: 9px; color: #2a2a2a;
-            font-family: 'Share Tech Mono', monospace;
-            letter-spacing: 0.5px; margin-top: 10px; line-height: 1.5;
-        }
-        #nl-legal a { color: #333; text-decoration: none; }
-        #nl-legal a:hover { color: #666; }
-
-        #nl-success {
-            display: none; text-align: center; padding: 20px 0;
-        }
-        #nl-success .nl-check {
-            width: 52px; height: 52px; border: 2px solid #00cc44;
-            border-radius: 50%; margin: 0 auto 16px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 22px; color: #00cc44;
-        }
-        #nl-success h3 {
-            font-family: 'Orbitron', monospace; font-size: 16px;
-            color: #fff; letter-spacing: 3px; margin-bottom: 8px;
-        }
-        #nl-success p { font-size: 11px; color: #555; line-height: 1.7; }
-
-        #nl-error {
-            display: none; margin-top: 8px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; color: #FF4444; letter-spacing: 1px;
-        }
 
         @media (max-width: 600px) {
             #nl-trigger { font-size: 7px; padding: 5px 9px; }
-            #nl-modal { padding: 28px 20px 24px; }
-            #nl-headline { font-size: 20px; }
-            #nl-form-row { flex-direction: column; }
-            #nl-submit { padding: 11px; }
         }
 
         /* ── Data source badges ─────────────────────────── */
@@ -3135,13 +3012,13 @@
             <span id="hdr-user-dot"></span>
             <span id="hdr-user-label">MEMBER</span>
         </div>
-        <button id="nl-trigger" onclick="document.getElementById('nl-overlay').classList.add('show')">
+        <a id="nl-trigger" href="https://victormnl.substack.com/" target="_blank" rel="noopener noreferrer">
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
                 <rect x="1" y="3" width="11" height="8" rx="1" stroke="currentColor" stroke-width="1.1"/>
                 <path d="M1 4 L6.5 7.5 L12 4" stroke="currentColor" stroke-width="1.1" fill="none"/>
             </svg>
             GET THE BRIEF
-        </button>
+        </a>
     </div>
     <nav id="nav"></nav>
 </header>
@@ -3475,56 +3352,6 @@
 
 <div id="legend" class="legend" style="display:none"></div>
 
-<!-- Newsletter modal -->
-<div id="nl-overlay" onclick="if(event.target===this)this.classList.remove('show')">
-<div id="nl-modal">
-    <button id="nl-close" onclick="document.getElementById('nl-overlay').classList.remove('show')">✕</button>
-
-    <div id="nl-eyebrow">RED DRAGON BRIEF · WEEKLY INTELLIGENCE</div>
-
-    <h2 id="nl-headline">STAY AHEAD OF<br><span>THE DRAGON</span></h2>
-    <p id="nl-sub">Free weekly analysis of China's military moves, economic pressure, and geopolitical strategy — straight to your inbox.</p>
-
-    <div class="nl-bullet">
-        <div class="nl-bullet-icon">01</div>
-        <div class="nl-bullet-text"><strong>Weekly intelligence digest</strong> — the 5 most significant China developments you need to know</div>
-    </div>
-    <div class="nl-bullet">
-        <div class="nl-bullet-icon">02</div>
-        <div class="nl-bullet-text"><strong>Live dashboard alerts</strong> — when tension scores spike or new satellite imagery drops</div>
-    </div>
-    <div class="nl-bullet">
-        <div class="nl-bullet-icon">03</div>
-        <div class="nl-bullet-text"><strong>OSINT deep dives</strong> — APT groups, silo fields, debt traps, and influence operations decoded</div>
-    </div>
-    <div class="nl-bullet">
-        <div class="nl-bullet-icon">04</div>
-        <div class="nl-bullet-text"><strong>Data before the news cycle</strong> — we track what the mainstream media misses</div>
-    </div>
-
-    <div id="nl-success">
-        <div class="nl-check" style="font-family:'Share Tech Mono',monospace;font-size:16px;letter-spacing:0">OK</div>
-        <h3>ONE MORE STEP</h3>
-        <p>A Substack tab just opened — click <strong>Subscribe</strong> there to confirm.<br><br>
-        <span style="color:#CC0000">Takes 5 seconds. Check your inbox after.</span></p>
-    </div>
-
-    <div id="nl-form">
-        <!-- Honeypot: invisible to humans, filled by bots → silent rejection -->
-        <input id="nl-honeypot" type="text" name="_gotcha" tabindex="-1" autocomplete="off"
-               style="position:absolute;opacity:0;height:0;width:0;pointer-events:none;" aria-hidden="true">
-        <div id="nl-form-row">
-            <input id="nl-email" type="email" placeholder="your@email.com" autocomplete="email" required maxlength="254">
-            <button id="nl-submit" type="button" onclick="submitNewsletter()">SUBSCRIBE →</button>
-        </div>
-        <div id="nl-error"></div>
-        <div id="nl-legal">
-            No spam. Unsubscribe any time. By subscribing you agree to receive the Red Dragon Brief newsletter.
-            &nbsp;·&nbsp; <a href="https://victormnl24-cpu.github.io/RedDragonTracker/" target="_blank">reddragontracker.com</a>
-        </div>
-    </div>
-</div>
-</div>
 
 
 <script type="module">
@@ -16763,109 +16590,6 @@ async function generateBriefing() {
     if (genEl) genEl.style.display = 'none';
 }
 
-// ── Newsletter signup ────────────────────────────────────────────────────
-
-/**
- * Rate-limit newsletter submissions: max 3 per hour per browser.
- * Uses localStorage so it persists across page reloads.
- */
-function nlCheckRateLimit() {
-    try {
-        const now = Date.now();
-        const stored = JSON.parse(localStorage.getItem('rdt_nl_attempts') || '[]');
-        const recent = stored.filter(t => now - t < 3_600_000);
-        return recent.length < 3;
-    } catch { return true; }
-}
-function nlRecordAttempt() {
-    try {
-        const now = Date.now();
-        const stored = JSON.parse(localStorage.getItem('rdt_nl_attempts') || '[]');
-        const recent = stored.filter(t => now - t < 3_600_000);
-        recent.push(now);
-        localStorage.setItem('rdt_nl_attempts', JSON.stringify(recent));
-    } catch {}
-}
-
-window.submitNewsletter = async function() {
-    const emailEl   = document.getElementById('nl-email');
-    const submitEl  = document.getElementById('nl-submit');
-    const errorEl   = document.getElementById('nl-error');
-    const honeypot  = document.getElementById('nl-honeypot');
-    const email     = emailEl.value.trim();
-
-    errorEl.style.display = 'none';
-
-    // Honeypot check — bots fill hidden fields, humans don't
-    if (honeypot && honeypot.value.length > 0) {
-        // Silently pretend success so bots don't know they were caught
-        showNLSuccess();
-        return;
-    }
-
-    // Email validation — length cap + format check
-    if (!email || email.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        errorEl.textContent = '⚠ Please enter a valid email address.';
-        errorEl.style.display = 'block';
-        emailEl.focus();
-        return;
-    }
-
-    submitEl.disabled = true;
-    submitEl.textContent = 'SENDING…';
-
-    try {
-        // Save to Supabase backup list (silent fail is fine)
-        if (_sb) {
-            await _sb.from('subscribers').insert({ email, source: 'RedDragonTracker' })
-                .then(() => {}).catch(() => {});
-        }
-        // Open Substack subscribe page in new tab with email pre-filled
-        window.open(
-            `https://victormnl.substack.com/subscribe?email=${encodeURIComponent(email)}`,
-            '_blank', 'noopener,noreferrer'
-        );
-        showNLSuccess();
-    } catch(e) {
-        submitEl.disabled = false;
-        submitEl.textContent = 'SUBSCRIBE →';
-        errorEl.textContent = '⚠ ' + (e.message || 'Something went wrong. Please try again.');
-        errorEl.style.display = 'block';
-    }
-};
-
-function showNLSuccess() {
-    document.getElementById('nl-form').style.display = 'none';
-    document.getElementById('nl-success').style.display = 'block';
-    // Auto-close after 4 seconds
-    setTimeout(() => {
-        document.getElementById('nl-overlay').classList.remove('show');
-        // Reset for next time
-        setTimeout(() => {
-            document.getElementById('nl-form').style.display = 'block';
-            document.getElementById('nl-success').style.display = 'none';
-            document.getElementById('nl-email').value = '';
-            const sb = document.getElementById('nl-submit');
-            if (sb) { sb.disabled = false; sb.textContent = 'SUBSCRIBE →'; }
-        }, 500);
-    }, 4000);
-}
-
-// Allow Enter key to submit
-document.getElementById('nl-email')?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') window.submitNewsletter();
-});
-
-// Auto-show the modal after 90 seconds if user hasn't subscribed
-const _nlShown = sessionStorage.getItem('nl_shown');
-if (!_nlShown) {
-    setTimeout(() => {
-        if (!document.getElementById('nl-overlay').classList.contains('show')) {
-            document.getElementById('nl-overlay').classList.add('show');
-            sessionStorage.setItem('nl_shown', '1');
-        }
-    }, 90000);
-}
 
 
 // ══ Sound Effects ════════════════════════════════════════════════════════
@@ -16985,10 +16709,6 @@ const SFX = (() => {
             case 'history':
                 showVeil(); closeCC();
                 setTimeout(() => { openHistReader(); hideVeil(); }, 280);
-                break;
-            case 'newsletter':
-                showVeil(); closeCC();
-                setTimeout(() => { openPanel('briefing'); hideVeil(); }, 280);
                 break;
             case 'methodology':
                 showVeil(); closeCC();
@@ -17773,29 +17493,12 @@ window.closePanel       = closePanel;
             </div>
         </section>
 
-        <!-- 3  Red Dragon Brief -->
-        <section class="cc-sec" data-idx="3">
-            <div class="cc-sec-bg" style="background-image:url('bg3.jpg')"></div>
-            <div class="cc-sec-content">
-                <div class="cc-sec-num">03</div>
-                <div class="cc-sec-label">Weekly Intelligence Digest</div>
-                <div class="cc-sec-title">Red Dragon<br>Brief</div>
-                <div class="cc-sec-status free"><span class="cc-sec-status-dot"></span>Free &nbsp;&middot;&nbsp; Weekly &nbsp;&middot;&nbsp; Secure Delivery</div>
-                <div class="cc-sec-desc">Weekly intelligence digest covering PLA force structure shifts, Taiwan Strait incursions, BRI expansion, Indo-Pacific power dynamics, and economic warfare &mdash; straight to your inbox.</div>
-                <button class="cc-sec-btn" data-cc="newsletter">Subscribe Free &nbsp;&rarr;</button>
-                <div class="cc-sec-meta">
-                    <span>Every Monday</span>
-                    <span>No Spam</span>
-                    <span>Unsubscribe Anytime</span>
-                </div>
-            </div>
-        </section>
 
-        <!-- 4  Premium -->
-        <section class="cc-sec" data-idx="4">
+        <!-- 3  Premium -->
+        <section class="cc-sec" data-idx="3">
             <div class="cc-sec-bg" style="background-image:url('bg4.jpg')"></div>
             <div class="cc-sec-content">
-                <div class="cc-sec-num">04</div>
+                <div class="cc-sec-num">03</div>
                 <div class="cc-sec-label">Restricted Access</div>
                 <div class="cc-sec-title">Premium<br>Intelligence</div>
                 <div class="cc-sec-status premium"><span class="cc-sec-status-dot"></span>Restricted &nbsp;&middot;&nbsp; $5/Month &nbsp;&middot;&nbsp; Q3 2026</div>
@@ -17816,11 +17519,11 @@ window.closePanel       = closePanel;
             </div>
         </section>
 
-        <!-- 5  Create Account -->
-        <section class="cc-sec" data-idx="5">
+        <!-- 4  Create Account -->
+        <section class="cc-sec" data-idx="4">
             <div class="cc-sec-bg" style="background-image:url('bg5.jpg')"></div>
             <div class="cc-sec-content">
-                <div class="cc-sec-num">05</div>
+                <div class="cc-sec-num">04</div>
                 <div class="cc-sec-label">Member Access</div>
                 <div class="cc-sec-title">Secure<br>Account</div>
                 <div class="cc-sec-status free"><span class="cc-sec-status-dot"></span>Free &nbsp;&middot;&nbsp; Secure &nbsp;&middot;&nbsp; No Tracking</div>
@@ -17833,11 +17536,11 @@ window.closePanel       = closePanel;
             </div>
         </section>
 
-        <!-- 6  About -->
-        <section class="cc-sec" data-idx="6">
+        <!-- 5  About -->
+        <section class="cc-sec" data-idx="5">
             <div class="cc-sec-bg" style="background-image:url('bg6.jpg')"></div>
             <div class="cc-sec-content">
-                <div class="cc-sec-num">06</div>
+                <div class="cc-sec-num">05</div>
                 <div class="cc-sec-label">Transparency</div>
                 <div class="cc-sec-title">About and<br>Methodology</div>
                 <div class="cc-sec-status free"><span class="cc-sec-status-dot"></span>Open Source &nbsp;&middot;&nbsp; OSINT &nbsp;&middot;&nbsp; No Gov. Affiliation</div>
