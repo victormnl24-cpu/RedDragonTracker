@@ -11,7 +11,7 @@
     <meta http-equiv="Content-Security-Policy"
           content="
             default-src 'none';
-            script-src  'self' 'unsafe-inline' 'unsafe-eval'
+            script-src  'self' 'unsafe-inline'
                         https://cdn.jsdelivr.net
                         https://*.tradingview.com;
             style-src   'self' 'unsafe-inline'
@@ -27,7 +27,9 @@
                         https://*.tradingview.com;
             frame-src   https://www.youtube.com
                         https://www.vesselfinder.com
-                        https://*.tradingview.com;
+                        https://*.tradingview.com
+                        https://tradingview-widget.com
+                        https://*.tradingview-widget.com;
             worker-src  blob: 'self';
             connect-src 'self'
                         https://api.worldbank.org
