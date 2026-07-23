@@ -1,42 +1,26 @@
 // Cloudflare Pages Function — AQI proxy
 // Keeps WAQI token server-side. Security: strict CORS, input validation, IP rate limiting.
 
+import { rateLimit, getIP } from './_ratelimit.js';
+
 const ALLOWED_ORIGINS = new Set([
     'https://reddragontracker.com',
     'https://www.reddragontracker.com',
     'https://reddragontracker.pages.dev',
 ]);
 
-// Ephemeral per-isolate rate limiter
-const _rl = new Map();
 const RL_WINDOW = 60_000;   // 1 minute
 const RL_MAX    = 20;       // 20 requests / IP / minute
 
-function rateLimit(ip) {
-    const now = Date.now();
-    let e = _rl.get(ip) || { n: 0, until: now + RL_WINDOW };
-    if (now > e.until) { e.n = 0; e.until = now + RL_WINDOW; }
-    e.n++;
-    _rl.set(ip, e);
-    if (_rl.size > 5000) {
-        for (const [k, v] of _rl) { if (now > v.until) _rl.delete(k); }
-    }
-    return e.n <= RL_MAX;
-}
-
-function getIP(req) {
-    return (
-        req.headers.get('cf-connecting-ip') ||
-        req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-        'unknown'
-    );
-}
-
-// Allowlist of valid city slugs / station tokens the frontend actually uses
+// Allowlist of valid city slugs / station tokens the frontend actually uses.
+// MUST stay in sync with AQI_CITIES in index.html — any city missing here is
+// rejected with 400 and its marker silently never updates.
 const ALLOWED_CITIES = new Set([
     'beijing', 'shanghai', 'guangzhou', 'shenzhen', 'chengdu',
     'wuhan', 'xian', "xi'an", 'tianjin', 'chongqing', 'nanjing',
-    'hangzhou', 'shenyang', 'harbin', 'taipei', 'hong-kong',
+    'hangzhou', 'shenyang', 'harbin',
+    'zhengzhou', 'jinan', 'kunming', 'urumqi', 'lhasa',
+    'taipei', 'hong-kong',
 ]);
 
 export async function onRequest(context) {
@@ -58,7 +42,7 @@ export async function onRequest(context) {
 
     // ── Rate limit ──────────────────────────────────────────────────────
     const ip = getIP(request);
-    if (!rateLimit(ip)) {
+    if (!await rateLimit(env, ip, { prefix: 'aqi', windowMs: RL_WINDOW, max: RL_MAX })) {
         return json({ status: 'error', data: 'Too many requests' }, 429, {
             ...CORS, 'Retry-After': '60',
         });
