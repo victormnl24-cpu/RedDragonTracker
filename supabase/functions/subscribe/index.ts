@@ -5,19 +5,32 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 // ── Allowed origins — custom domain + pages.dev fallback ───────────────
+// Mirrors functions/api/_cors.js; kept inline because a Deno Edge Function
+// cannot import from the Cloudflare Pages bundle.
 const ALLOWED_ORIGINS = new Set([
     'https://reddragontracker.com',
     'https://www.reddragontracker.com',
     'https://reddragontracker.pages.dev',
 ]);
 
+// Cloudflare Pages preview deployments: https://<hash>.reddragontracker.pages.dev
+// Only the repo owner can create these, so allowing the pattern does not open
+// the endpoint to third parties.
+const PREVIEW_ORIGIN_RE = /^https:\/\/[a-z0-9-]+\.reddragontracker\.pages\.dev$/;
+
+function isAllowedOrigin(origin: string): boolean {
+    if (!origin) return false;
+    return ALLOWED_ORIGINS.has(origin) || PREVIEW_ORIGIN_RE.test(origin);
+}
+
 function getCORS(req: Request) {
     const origin = req.headers.get('origin') || '';
-    const allowed = ALLOWED_ORIGINS.has(origin) ? origin : '';
     return {
-        'Access-Control-Allow-Origin':  allowed,
+        'Access-Control-Allow-Origin':  isAllowedOrigin(origin) ? origin : '',
         'Access-Control-Allow-Headers': 'content-type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        // Without Vary, a shared cache could serve one origin's ACAO to another.
+        'Vary': 'Origin',
     };
 }
 
@@ -37,7 +50,7 @@ Deno.serve(async (req: Request) => {
 
     // ── Reject if origin not allowed ────────────────────────────────────
     const origin = req.headers.get('origin') || '';
-    if (!ALLOWED_ORIGINS.has(origin)) {
+    if (!isAllowedOrigin(origin)) {
         return json({ error: 'Forbidden' }, 403, CORS);
     }
 

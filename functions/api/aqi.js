@@ -2,12 +2,7 @@
 // Keeps WAQI token server-side. Security: strict CORS, input validation, IP rate limiting.
 
 import { rateLimit, getIP } from './_ratelimit.js';
-
-const ALLOWED_ORIGINS = new Set([
-    'https://reddragontracker.com',
-    'https://www.reddragontracker.com',
-    'https://reddragontracker.pages.dev',
-]);
+import { corsHeaders } from './_cors.js';
 
 const RL_WINDOW = 60_000;   // 1 minute
 const RL_MAX    = 20;       // 20 requests / IP / minute
@@ -27,11 +22,7 @@ export async function onRequest(context) {
     const { request, env } = context;
 
     const origin = request.headers.get('origin') || '';
-    const CORS = {
-        'Access-Control-Allow-Origin':  ALLOWED_ORIGINS.has(origin) ? origin : '',
-        'Access-Control-Allow-Methods': 'GET, OPTIONS',
-        'Vary': 'Origin',
-    };
+    const CORS = corsHeaders(origin);
 
     if (request.method === 'OPTIONS') {
         return new Response(null, { status: 204, headers: CORS });
